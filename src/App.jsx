@@ -1,5 +1,11 @@
+import { Login } from "./components/auth/Login";
+import { Register } from "./components/auth/Register";
+
 function App() {
-  return <h1>Proyecto Intecap</h1>;
+  return <>
+    <Login></Login>
+    <Register></Register>
+  </>;
 }
 
 export default App;
