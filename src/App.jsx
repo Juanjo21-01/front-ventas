@@ -1,10 +1,10 @@
-import { Login } from "./components/auth/login";
-import { Register } from "./components/auth/register";
+import { LoginForm } from "./components/auth/login";
+import { RegisterForm } from "./components/auth/register";
 
 function App() {
   return <>
-    <Login></Login>
-    <Register></Register>
+    <LoginForm></LoginForm>
+    <RegisterForm></RegisterForm>
   </>;
 }
 
