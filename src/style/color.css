@@ -1,0 +1,189 @@
+:root {
+  /* Paleta - (Modo Oscuro) */
+  --background-dark: #1F1B24;
+  --background-secondary-dark:#2C2A3B;
+  --primary-dark: #00f187;
+  --secondary-dark: #00E5FF;
+  --accent-dark: #FF00E5;
+  --text-dark: #FFFFFF;
+  --error-dark: #ee4444;
+
+  --background-dark-hover: #3c3b4c;
+  --primary-dark-hover: #00C16D;
+  --secondary-dark-hover: #00C0E0;
+  --accent-dark-hover: #CC00B5;
+  --text-dark-hover: #E0E0E0;
+  --error-dark-hover: #de2222;
+
+  /* Paleta - (Modo Claro) */
+  --background-light: #dce4e8;
+  --background-secondary-light:#ccd0d7;
+  --primary-light: #5009b2;
+  --secondary-light: #00897b;
+  --accent-light: #d3b104;
+  --text-light: #333333;
+  --error-light: #c30404;
+
+  --background-light-hover: #dddddd;
+  --primary-light-hover: #7926ff;
+  --secondary-light-hover: #009c8d;
+  --accent-light-hover: #dec001;
+  --text-light-hover: #272727;
+  --error-light-hover: #ee3333;
+}
+
+/* Modo Claro */
+[data-theme="light"] {
+  --background: var(--background-light);
+  --background-secondary: var(--background-secondary-light);
+  --background-hover: var(--background-light-hover);
+  --text-color: var(--text-light);
+  --primary-color: var(--primary-light);
+  --primary-color-hover: var(--primary-light-hover);
+  --secondary-color: var(--secondary-light);
+  --secondary-color-hover: var(--secondary-light-hover);
+  --accent-color: var(--accent-light);
+  --accent-color-hover: var(--accent-light-hover);
+  --error-color: var(--error-light);
+  --error-color-hover: var(--error-light-hover);
+}
+
+/* Modo Oscuro */
+[data-theme="dark"] {
+  --background: var(--background-dark);
+  --background-secondary: var(--background-secondary-dark);
+  --background-hover: var(--background-dark-hover);
+  --text-color: var(--text-dark);
+  --primary-color: var(--primary-dark);
+  --primary-color-hover: var(--primary-dark-hover);
+  --secondary-color: var(--secondary-dark);
+  --secondary-color-hover: var(--secondary-dark-hover);
+  --accent-color: var(--accent-dark);
+  --accent-color-hover: var(--accent-dark-hover);
+  --error-color: var(--error-dark);
+  --error-color-hover: var(--error-dark-hover);
+}
+
+/* Reset Básico de Color */
+body{
+  background-color: var(--background);
+  color: var(--text);
+}
+a{
+  color: var(--accent-color);
+}
+a:hover{
+  color: var(--accent-color-hover)
+}
+
+button{
+  background-color: var(--primary-color);
+}
+button:hover{
+  background-color: var(--primary-color-hover);
+}
+
+/* Clases de Estilos Globales Basados en Variables */
+.bg-theme {
+  background-color: var(--background);
+}
+
+.bg-theme-hover:hover {
+  background-color: var(--background-hover);
+}
+
+.bg-theme-secondary {
+  background-color: var(--background-secondary);
+}
+
+.bg-theme-secondary[placeholder]:focus{
+  box-shadow: 0 0 0 0.2rem var(--background-secondary);
+}
+
+.text-theme {
+  color: var(--text-color);
+  border-color: var(--text-color);
+}
+
+.text-theme-hover:hover {
+  color: var(--text-color-hover);
+}
+
+.primary-theme {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.primary-theme.btn{
+  background-color: var(--primary-color);
+  color: var(--background);
+  border-color: var(--background);
+}
+
+.primary-theme.btn:hover{
+  background-color: var(--primary-color-hover);
+}
+
+.primary-theme-hover:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.primary-theme-secondary {
+  background-color: var(--primary-color-hover);
+}
+
+.primary-theme[placeholder]:focus{
+  box-shadow: 0 0 0 0.2rem var(--primary-color);
+}
+
+.secondary-theme {
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.secondary-theme[placeholder]:focus{
+  box-shadow: 0 0 0 0.2rem var(--secondary-color);
+}
+
+.secondary-theme-hover:hover {
+  background-color: var(--secondary-color-hover);
+}
+
+.secondary-theme.btn{
+  background-color: var(--secondary-color);
+  color: var(--background);
+  border-color: var(--background);
+}
+
+.secondary-theme.btn:hover{
+  background-color: var(--secondary-color-hover);
+}
+
+.secondary-theme-secondary {
+  background-color: var(--secondary-color-hover);
+}
+
+.accent-theme {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.accent-theme-hover:hover {
+  background-color: var(--accent-color-hover);
+}
+
+.accent-theme-secondary {
+  background-color: var(--accent-color-hover);
+}
+
+.error-theme {
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
+
+.error-theme-hover:hover {
+  background-color: var(--error-color-hover);
+}
+.error-theme-secondary {
+  background-color: var(--error-color-hover);
+}
