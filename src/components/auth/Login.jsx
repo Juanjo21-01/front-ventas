@@ -1,9 +1,17 @@
 import { useState } from "react";
 
+const styleInput = "input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme";
+
+const styleLabel = "label-text text-theme";
+
+const styleBtn = "btn btn-primary w-full mt-4";
+
+const styleCard = "card bg-theme-secondary w-96 shadow-xl p-6  border primary-theme";
+
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    emailLog: "",
+    passwordLog: "",
   });
 
   const handleChange = (e) => {
@@ -16,50 +24,54 @@ export const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // validación
     console.log("Datos del formulario de login:", formData);
+
+    setFormData({
+        emailLog: "",
+        passwordLog: ""
+      })
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="card bg-gray-700 w-96 shadow-xl p-6">
-        <h2 className="text-2xl text-gray-100 font-bold text-center mb-4 border-b-2 pb-2">
+      <div className={styleCard}>
+        <h2 className="text-2xl primary-theme font-bold text-center mb-4 border-b-2 pb-2">
           Iniciar Sesión
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="form-control">
-            <label className="label" htmlFor="email">
-              <span className="label-text text-gray-300">Email</span>
+            <label className="label" htmlFor="emailLog">
+              <span className={styleLabel}>Email</span>
             </label>
             <input
-              id="email"
-              type="email"
-              name="email"
+              id="emailLog"
+              type="emailLog"
+              name="emailLog"
               placeholder="Email"
-              className="input input-bordered w-full"
+              className={styleInput}
               required
-              value={formData.email}
+              value={formData.emailLog}
               onChange={handleChange}
             />
           </div>
 
           <div className="form-control">
-            <label className="label" htmlFor="password">
-              <span className="label-text text-gray-300">Contraseña</span>
+            <label className="label" htmlFor="passwordLog">
+              <span className={styleLabel}>Contraseña</span>
             </label>
             <input
-              id="password"
-              type="password"
-              name="password"
+              id="passwordLog"
+              type="passwordLog"
+              name="passwordLog"
               placeholder="Contraseña"
-              className="input input-bordered w-full"
+              className={styleInput}
               required
-              value={formData.password}
+              value={formData.passwordLog}
               onChange={handleChange}
             />
           </div>
 
-          <button className="btn btn-primary w-full mt-4">Iniciar Sesión</button>
+          <button className={styleBtn+" primary-theme"}>Iniciar Sesión</button>
         </form>
       </div>
     </div>
