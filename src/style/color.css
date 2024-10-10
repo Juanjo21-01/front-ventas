@@ -125,7 +125,7 @@ button:hover{
 }
 
 .primary-theme-hover:hover {
-  background-color: var(--primary-color-hover);
+  color: var(--primary-color-hover);
 }
 
 .primary-theme-secondary {
@@ -146,7 +146,7 @@ button:hover{
 }
 
 .secondary-theme-hover:hover {
-  background-color: var(--secondary-color-hover);
+  color: var(--secondary-color-hover);
 }
 
 .secondary-theme.btn{
@@ -182,8 +182,5 @@ button:hover{
 }
 
 .error-theme-hover:hover {
-  background-color: var(--error-color-hover);
-}
-.error-theme-secondary {
-  background-color: var(--error-color-hover);
+  color: var(--error-color-hover);
 }
