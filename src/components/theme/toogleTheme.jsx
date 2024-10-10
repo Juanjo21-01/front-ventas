@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
-export const BtnModeTheme = () => {
+export const useModeTheme = () => {
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
@@ -11,9 +11,8 @@ export const BtnModeTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  return (
-    <div className='text-center p-5'>
-      <button onClick={toggleTheme} className='btn primary-theme'>Mode</button>
-    </div>
-  );
-}
+  const setDarkTheme = () => setTheme('dark');
+  const setLightTheme = () => setTheme('light');
+
+  return { toggleTheme, setDarkTheme, setLightTheme, theme };
+};

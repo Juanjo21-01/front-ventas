@@ -1,11 +1,12 @@
 import { LoginForm } from "./components/auth/login";
 import { RegisterForm } from "./components/auth/register";
+import { HeaderAndAside } from "./components/headerAndAside";
 import { ListaProductos } from "./components/readData/listaProductos";
-import { BtnModeTheme } from "./components/theme/btnMode";
 
 function App() {
   return <>
-    <BtnModeTheme></BtnModeTheme>
+    <HeaderAndAside></HeaderAndAside>
+    <hr className="mb-[4rem]"/>
     <ListaProductos></ListaProductos>
     <LoginForm></LoginForm>
     <RegisterForm></RegisterForm>

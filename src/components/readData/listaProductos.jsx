@@ -71,7 +71,7 @@ export const ListaProductos = () => {
             onClick={() => handleProductClick(product)}
           >
             <div className="w-4/5 pl-4">
-              <img src="https://picsum.photos/id/237/400/400" alt="IMG Random" />
+              <img src="https://picsum.photos/400" alt="IMG Random" />
             </div>
             <div className="pr-4">
               <h2 className="text-2xl font-bold text-center mb-3 primary-theme border-b pb-1">{product.nombre}</h2>
