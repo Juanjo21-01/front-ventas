@@ -74,7 +74,7 @@ export const HeaderAndAside = () => {
   const [openMenu, setOpenMenu] = useState(null);
   const [openSubmenu, setOpenSubmenu] = useState({ productos: null, ajustes: null });
 
-  const { setDarkTheme, setLightTheme, toggleTheme } = useModeTheme();
+  const { setDarkTheme, setLightTheme } = useModeTheme();
   // El toggle funciona, esta por si después se  necesita en lugar de ambos modos
 
 
@@ -142,8 +142,8 @@ export const HeaderAndAside = () => {
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
               <div className="indicator">
-                <MdOutlineShoppingCart className="h-5 w-5 fill-tran"/>
-                <span className="badge badge-sm indicator-item">
+                <MdOutlineShoppingCart className={colorIcon+" h-5 w-5 fill-tran"}/>
+                <span className="badge badge-sm indicator-item secondary-theme">
                   2
                 </span>
               </div>
@@ -151,9 +151,12 @@ export const HeaderAndAside = () => {
             <div
               tabIndex={0}
               className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
-              <div className="card-body">
-                <span className="text-lg font-bold primary-theme">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+              <div className="card-body rounded-xl border primary-theme shadow-sm shadow-white">
+                <span className="text-lg font-bold text-center primary-theme border-b-2">8 Productos</span>
+                <div className="card-body flex flex-row">
+                  <span className="text-theme font-bold flex-1">Subtotal: </span>
+                  <span className="secondary-theme flex-1">$999</span>
+                </div>
                 <div className="card-actions">
                   <button className="btn primary-theme btn-block">View cart</button>
                 </div>
@@ -170,7 +173,7 @@ export const HeaderAndAside = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow-sm shadow-white border primary-theme">
               <li>
                 <a className="justify-between secondary-theme  secondary-theme-hover">
                   Perfil

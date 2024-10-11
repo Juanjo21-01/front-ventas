@@ -83,7 +83,6 @@ button:hover{
   background-color: var(--primary-color-hover);
 }
 
-/* Clases de Estilos Globales Basados en Variables */
 .bg-theme {
   background-color: var(--background);
 }
@@ -128,10 +127,6 @@ button:hover{
   color: var(--primary-color-hover);
 }
 
-.primary-theme-secondary {
-  background-color: var(--primary-color-hover);
-}
-
 .primary-theme[placeholder]:focus{
   box-shadow: 0 0 0 0.2rem var(--primary-color);
 }
@@ -159,20 +154,26 @@ button:hover{
   background-color: var(--secondary-color-hover);
 }
 
-.secondary-theme-secondary {
-  background-color: var(--secondary-color-hover);
-}
-
 .accent-theme {
   color: var(--accent-color);
   border-color: var(--accent-color);
 }
 
-.accent-theme-hover:hover {
-  background-color: var(--accent-color-hover);
+.accent-theme[placeholder]:focus{
+  box-shadow: 0 0 0 0.2rem var(--accent-color);
 }
 
-.accent-theme-secondary {
+.accent-theme-hover:hover {
+  color: var(--accent-color-hover);
+}
+
+.accent-theme.btn{
+  background-color: var(--accent-color);
+  color: var(--background);
+  border-color: var(--background);
+}
+
+.accent-theme.btn:hover{
   background-color: var(--accent-color-hover);
 }
 
@@ -181,6 +182,20 @@ button:hover{
   border-color: var(--error-color);
 }
 
+.error-theme[placeholder]:focus{
+  box-shadow: 0 0 0 0.2rem var(--error-color);
+}
+
 .error-theme-hover:hover {
   color: var(--error-color-hover);
+}
+
+.error-theme.btn{
+  background-color: var(--error-color);
+  color: var(--background);
+  border-color: var(--background);
+}
+
+.error-theme.btn:hover{
+  background-color: var(--error-color-hover);
 }
