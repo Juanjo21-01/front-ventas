@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const styleInput = "input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme";
 
-const styleLabel = "label-text text-theme";
+const styleLabel = "label label-text text-theme";
 
 const styleBtn = "btn btn-primary w-full mt-4";
 
