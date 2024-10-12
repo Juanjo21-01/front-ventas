@@ -1,16 +1,20 @@
 import { Outlet } from 'react-router-dom';
-import { HeaderAndAside } from '../components/headerAndAside';
+import Aside from '../components/Aside';
+import Header from '../components/Header';
 
 const Layout = () => {
   return (
-    <>
-      {/* <HeaderAndAside /> */}
-      
+    <div className="flex h-screen">
+      <Aside />
+
       <hr className=" border border-3 border-primary opacity-50" />
-      <h2>Navegacion</h2>
-      
-      <Outlet />
-    </>
+
+      <div className="container mx-auto">
+        <Header />
+
+        <Outlet />
+      </div>
+    </div>
   );
 };
 
