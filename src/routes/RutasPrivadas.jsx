@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthStore } from '../store/auth';
 
 export const RutasPrivadas = () => {
-  const session = true;
-
-  return session ?  <Outlet /> : <Navigate to='/login' />;
+  const logged = useAuthStore((state) => state.logged);
+  return logged ? <Outlet /> : <Navigate to="/login" />;
 };

@@ -1,23 +1,25 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { register } from '../../helpers/api/auth';
+const styleInput =
+  'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
 
-const styleInput = "input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme";
+const styleLabel = 'label label-text text-theme';
 
-const styleLabel = "label label-text text-theme";
+const styleBtn = 'btn btn-primary w-full mt-4';
 
-const styleBtn = "btn btn-primary w-full mt-4";
-
-const styleCard = "card bg-theme-secondary w-96 shadow-xl p-6  border primary-theme";
+const styleCard =
+  'card bg-theme-secondary w-96 shadow-xl p-6  border primary-theme';
 
 export const RegisterForm = () => {
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    emailReg: "",
-    address: "",
-    phone: "",
-    password: ""
+    nombres: '',
+    apellidos: '',
+    email: '',
+    password: '',
+    direccion: '',
+    telefono: '',
   });
 
   const handleChange = (e) => {
@@ -40,23 +42,27 @@ export const RegisterForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Datos del formulario:", formData);
+    console.log('Datos del formulario:', formData);
+
+    register(formData);
 
     setStep(1);
     setFormData({
-      firstName: "",
-      lastName: "",
-      emailReg: "",
-      address: "",
-      phone: "",
-      password: ""
+      nombres: '',
+      apellidos: '',
+      email: '',
+      direccion: '',
+      telefono: '',
+      password: '',
     });
-};
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className={styleCard}>
-        <h2 className="text-2xl primary-theme font-bold text-center mb-4 border-b-2 pb-2">Registro</h2>
+        <h2 className="text-2xl primary-theme font-bold text-center mb-4 border-b-2 pb-2">
+          Registro
+        </h2>
 
         {step === 1 && (
           <form onSubmit={handleNext} className="space-y-4">
@@ -66,12 +72,12 @@ export const RegisterForm = () => {
               </label>
               <input
                 type="text"
-                name="firstName"
+                name="nombres"
                 placeholder="Nombres"
                 id="nombre"
                 className={styleInput}
                 required
-                value={formData.firstName}
+                value={formData.nombres}
                 onChange={handleChange}
               />
             </div>
@@ -83,11 +89,11 @@ export const RegisterForm = () => {
               <input
                 id="apellidos"
                 type="text"
-                name="lastName"
+                name="apellidos"
                 placeholder="Apellidos"
                 className={styleInput}
                 required
-                value={formData.lastName}
+                value={formData.apellidos}
                 onChange={handleChange}
               />
             </div>
@@ -99,11 +105,11 @@ export const RegisterForm = () => {
               <input
                 id="direction"
                 type="text"
-                name="address"
+                name="direccion"
                 placeholder="Dirección"
                 className={styleInput}
                 required
-                value={formData.address}
+                value={formData.direccion}
                 onChange={handleChange}
               />
             </div>
@@ -115,33 +121,33 @@ export const RegisterForm = () => {
               <input
                 id="numberPhone"
                 type="tel"
-                name="phone"
+                name="telefono"
                 placeholder="Teléfono"
                 className={styleInput}
                 required
-                value={formData.phone}
+                value={formData.telefono}
                 onChange={handleChange}
               />
             </div>
 
-            <button className={styleBtn+" primary-theme"}>Next</button>
+            <button className={styleBtn + ' primary-theme'}>Next</button>
           </form>
         )}
 
         {step === 2 && (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="form-control">
-              <label className="label" htmlFor="emailReg">
+              <label className="label" htmlFor="email">
                 <span className={styleLabel}>Correo</span>
               </label>
               <input
-                id="emailReg"
-                type="emailReg"
-                name="emailReg"
+                id="email"
+                type="email"
+                name="email"
                 placeholder="Correo"
                 className={styleInput}
                 required
-                value={formData.emailReg}
+                value={formData.email}
                 onChange={handleChange}
               />
             </div>
@@ -162,11 +168,14 @@ export const RegisterForm = () => {
               />
             </div>
 
-            <div  className="form-control gap-3">
-              <button onClick={handlePrevious} className={styleBtn+" primary-theme"}>
+            <div className="form-control gap-3">
+              <button
+                onClick={handlePrevious}
+                className={styleBtn + ' primary-theme'}
+              >
                 Back
               </button>
-              <button type="submit" className={styleBtn+" secondary-theme"}>
+              <button type="submit" className={styleBtn + ' secondary-theme'}>
                 Registrar
               </button>
             </div>

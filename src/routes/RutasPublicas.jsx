@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthStore } from '../store/auth';
 
 export const RutasPublicas = () => {
-  const session = true;
-
-  return session ? <Navigate to="/dashboard" /> : <Outlet />;
+  const logged = useAuthStore((state) => state.logged);
+  return logged ? <Navigate to="/dashboard" /> : <Outlet />;
 };
