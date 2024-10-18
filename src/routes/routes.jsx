@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RutasPublicas } from './RutasPublicas';
-import { RutasPrivadas } from './rutasPrivadas';
+import { RutasPrivadas } from './RutasPrivadas';
 import Inicio from '../pages/public/Inicio';
 import Login from '../pages/public/Login';
 import Register from '../pages/public/Register';
@@ -96,7 +96,7 @@ const Rutas = () => {
         </Route>
 
         {/* Ruta de error */}
-        <Route path="*" element={<h1>404</h1>} />
+        <Route path="*" element={<h1 className='text-center text-9xl'>404</h1>} />
       </Routes>
     </Router>
   );

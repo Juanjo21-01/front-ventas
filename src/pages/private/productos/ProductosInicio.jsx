@@ -1,5 +1,9 @@
+import InicioProductos from "../../../components/productos/InicioProductos";
+
 const Productos = () => {
-  return <div>informacion de los Productos</div>;
+  return <>
+    <InicioProductos />
+  </>;
 };
 
 export default Productos;

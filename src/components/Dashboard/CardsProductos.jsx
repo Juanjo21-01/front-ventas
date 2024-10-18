@@ -62,14 +62,14 @@ export const ListaProductos = () => {
 
   return (
     <div className="container mx-auto p-5">
-      <h1 className="text-3xl primary-theme mb-6 text-center font-bold border-b-2 pb-2">
+      <h1 className="title">
         Lista de Productos
       </h1>
       <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-5">
         {products.map((product) => (
           <div
             key={product.id}
-            className="card py-4 primary-theme border bg-theme-secondary text-theme shadow-xl hover:cursor-pointer hover:scale-105 bg-theme-hover grid grid-cols-2 gap-o"
+            className="card py-4 primary-theme border bg-theme-secondary text-theme shadow-xl hover:cursor-pointer hover:scale-105 bg-theme-hover grid grid-cols-2 gap-o items-center"
             onClick={() => handleProductClick(product)}
           >
             <div className="w-4/5 pl-4">

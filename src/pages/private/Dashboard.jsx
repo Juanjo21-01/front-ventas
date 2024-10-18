@@ -1,9 +1,10 @@
 import { ListaProductos } from '../../components/Dashboard/CardsProductos';
+import DashboardProducts from '../../components/Dashboard/DashboardProductos';
 
 const Dashboard = () => {
   return (
     <div>
-      Dashboard
+      <DashboardProducts />
       <ListaProductos />
     </div>
   );
