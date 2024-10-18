@@ -1,18 +1,35 @@
 import { Outlet } from 'react-router-dom';
 import Aside from '../components/Aside';
 import Header from '../components/Header';
+import { MenuContext, MenuProvider } from '../components/context/MenuContext';
+import { useContext } from 'react';
 
 const Layout = () => {
   return (
-    <div className="flex h-screen">
+    <MenuProvider>
+      <LayoutContent />
+    </MenuProvider>
+  );
+};
+
+const LayoutContent = () => {
+  const { isExpanded, isMobileOpen } = useContext(MenuContext);
+
+  return (
+    <div
+      className={`grid grid-cols-none sm:grid-cols-[auto_1fr] ${
+        isMobileOpen ? 'grid-cols-[auto_1fr]' : 'grid-cols-[0_1fr]'
+      } ${isExpanded ? 'grid-cols-[auto_1fr]' : 'grid-cols-[auto_1fr]'}`}
+    >
+
       <Aside />
 
-      <hr className=" border border-3 border-primary opacity-50" />
-
-      <div className="container mx-auto">
+      <div className="flex flex-col">
         <Header />
 
-        <Outlet />
+        <div className="mt-16 sm:mt-0 overflow-auto h-screen primary-theme">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

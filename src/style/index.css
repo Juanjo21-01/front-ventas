@@ -10,3 +10,55 @@
 p{
     font-size: 1.1rem;
 }
+
+a{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.title{
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid;
+    border-radius: 0.25rem;
+    width: fit-content;
+    padding: 0 0.5rem 0.25rem 0.5rem;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+table{
+    border-collapse: collapse;
+}
+
+thead th{
+    background-color: var(--background);
+    border-bottom: 1px solid var(--primary-color);
+}
+
+thead tr{
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+tbody tr:nth-child(odd){
+    background-color: var(--background-secondary);
+}
+
+tbody tr:nth-child(even){
+    background-color: var(--background-color);
+}
+
+tbody tr:hover{
+    background-color: var(--background-hover);
+}
+
+tr td{
+    min-width: 4rem;
+    max-width: 5rem;
+}

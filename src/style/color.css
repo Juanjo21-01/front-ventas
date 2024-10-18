@@ -1,14 +1,14 @@
 :root {
   /* Paleta - (Modo Oscuro) */
   --background-dark: #1F1B24;
-  --background-secondary-dark:#2C2A3B;
+  --background-secondary-dark:#262434;
   --primary-dark: #00f187;
   --secondary-dark: #00E5FF;
   --accent-dark: #FF00E5;
   --text-dark: #FFFFFF;
   --error-dark: #ee4444;
 
-  --background-dark-hover: #3c3b4c;
+  --background-dark-hover: #2d2c3b;
   --primary-dark-hover: #00C16D;
   --secondary-dark-hover: #00C0E0;
   --accent-dark-hover: #CC00B5;
