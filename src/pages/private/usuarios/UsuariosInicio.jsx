@@ -1,8 +1,5 @@
-import PerfilUsuario from "../../../components/usuarios/PerfilUsuario";
 const Usuarios = () => {
-  return <>
-    <PerfilUsuario />
-  </>;
+  return <div>informacion de los usuarios</div>;
 };
 
 export default Usuarios;

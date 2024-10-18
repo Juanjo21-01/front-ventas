@@ -2,20 +2,24 @@ import { useState } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import CommentsSection from '../comentarios/ComentsSection';
 
-const products = [
-  { id: 1, name: 'Laptop', price: 123.99, stock: 10, image: 'https://picsum.photos/200', description: 'Laptop moderna y eficiente' },
-  { id: 2, name: 'Diploma', price: 123.99, stock: 5, image: 'https://picsum.photos/200', description: 'Diploma de alta calidad' },
-  { id: 3, name: 'Dignidad', price: 123.99, stock: 20, image: 'https://picsum.photos/200', description: 'Producto de alto valor sentimental' },
-  { id: 4, name: 'Pizza', price: 123.99, stock: 8, image: 'https://picsum.photos/200', description: 'Pizza deliciosa y fresca' },
-  { id: 5, name: 'Gato', price: 123.99, stock: 3, image: 'https://picsum.photos/200', description: 'Un gato muy adorable' },
-  { id: 6, name: 'Food', price: 123.99, stock: 12, image: 'https://picsum.photos/200', description: 'Comida saludable' },
-];
+import { getProductoById } from '../../helpers/api/productos/productos';
+
+const obtenerProductoId = async (id) => {
+  return await getProductoById(id);
+};
 
 const DetallesProductos = () => {
   const { id } = useParams();
-  const productId = parseInt(id, 10);
-  const product = products.find(p => p.id === productId);
+
+  const [product, setProduct] = useState(null);
+
+  obtenerProductoId(id).then((data) => setProduct(data));
+
+  console.log(product);
   
+
+  const productId = parseInt(id, 10);
+
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState('');
 
@@ -37,7 +41,9 @@ const DetallesProductos = () => {
 
   const handleSubmit = () => {
     if (!error && quantity <= product.stock) {
-      console.log(`Solicitando \nCantidad:${quantity}\nID:${product.id}\nNombre:${product.name}`);
+      console.log(
+        `Solicitando \nCantidad:${quantity}\nID:${product.id}\nNombre:${product.name}`
+      );
     }
   };
 
@@ -45,17 +51,27 @@ const DetallesProductos = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex justify-center">
-          <img src={product.image} alt={product.name} className="w-96 h-96 object-cover rounded shadow-lg" />
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-96 h-96 object-cover rounded shadow-lg"
+          />
         </div>
 
         <div className="flex flex-col justify-center space-y-4">
           <h1 className="text-3xl font-bold">{product.name}</h1>
           <p className="text-lg text-gray-500">{product.description}</p>
-          <p className="text-2xl font-semibold">Q. {product.price.toFixed(2)}</p>
-          <p className="text-sm text-gray-400">Stock disponible: {product.stock}</p>
+          <p className="text-2xl font-semibold">
+            Q. {product.price.toFixed(2)}
+          </p>
+          <p className="text-sm text-gray-400">
+            Stock disponible: {product.stock}
+          </p>
 
           <div className="flex items-center gap-3">
-            <label htmlFor="quantity" className="text-lg">Cantidad:</label>
+            <label htmlFor="quantity" className="text-lg">
+              Cantidad:
+            </label>
             <input
               type="number"
               id="quantity"

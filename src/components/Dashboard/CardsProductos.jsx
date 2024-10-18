@@ -1,56 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductModal from './DatosProductos';
+import { useProductosStore } from '../../store/productos';
 
 export const ListaProductos = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { productos, obtener } = useProductosStore();
 
-  const products = [
-    {
-      id: 1,
-      nombre: 'Manzanita Dorada',
-      precio_unitario: 25.9,
-      stock: 2,
-      estado: true,
-      tipo_producto: 'Fruta',
-      proveedor_id: 2,
-    },
-    {
-      id: 2,
-      nombre: 'PC Chetada',
-      precio_unitario: 105.99,
-      stock: 5,
-      estado: true,
-      tipo_producto: 'Hogar',
-      proveedor_id: 3,
-    },
-    {
-      id: 2,
-      nombre: 'Dignidad',
-      precio_unitario: 9999999.75,
-      stock: 0,
-      estado: false,
-      tipo_producto: 'Vida',
-      proveedor_id: 4,
-    },
-    {
-      id: 2,
-      nombre: 'PC Chetada',
-      precio_unitario: 105.99,
-      stock: 5,
-      estado: true,
-      tipo_producto: 'Hogar',
-      proveedor_id: 3,
-    },
-    {
-      id: 2,
-      nombre: 'Dignidad',
-      precio_unitario: 9999999.75,
-      stock: 0,
-      estado: false,
-      tipo_producto: 'Vida',
-      proveedor_id: 4,
-    },
-  ];
+  useEffect(() => {
+    obtener();
+  }, [obtener]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -62,11 +20,9 @@ export const ListaProductos = () => {
 
   return (
     <div className="container mx-auto p-5">
-      <h1 className="title">
-        Lista de Productos
-      </h1>
+      <h1 className="title">Lista de Productos</h1>
       <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-5">
-        {products.map((product) => (
+        {productos.map((product) => (
           <div
             key={product.id}
             className="card py-4 primary-theme border bg-theme-secondary text-theme shadow-xl hover:cursor-pointer hover:scale-105 bg-theme-hover grid grid-cols-2 gap-o items-center"

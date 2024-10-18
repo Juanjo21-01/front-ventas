@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { MenuContext } from './context/MenuContext';
-import { MdAdminPanelSettings, MdCategory, MdMenu, MdMenuOpen } from 'react-icons/md';
+import {
+  MdAdminPanelSettings,
+  MdCategory,
+  MdMenu,
+  MdMenuOpen,
+} from 'react-icons/md';
 
 import PropTypes from 'prop-types';
 import {
@@ -16,8 +21,9 @@ import {
 } from 'react-icons/fa';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 import { useModeTheme } from './theme/toogleTheme';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { FaBoxesStacked } from 'react-icons/fa6';
+import { useAuthStore } from '../store/auth';
 
 const colorIcon = 'primary-theme text-[1.15rem]';
 const styleAside =
@@ -33,7 +39,13 @@ const SimpleMenuItem = ({ title, icon, isExpanded }) => (
 );
 
 const MenuItem = ({
-  title, icon, isOpen, handleClick, children, isExpanded}) => (
+  title,
+  icon,
+  isOpen,
+  handleClick,
+  children,
+  isExpanded,
+}) => (
   <div className="flex flex-col gap-3">
     <button className={styleAside} onClick={handleClick} aria-expanded={isOpen}>
       {icon}
@@ -94,7 +106,8 @@ SubMenuItem.propTypes = {
   children: PropTypes.node,
 };
 const Aside = () => {
-  const styleBtnExpand = 'btn btn-outline text-theme h-12 flex primary-theme w-full';
+  const styleBtnExpand =
+    'btn btn-outline text-theme h-12 flex primary-theme w-full';
   const { setDarkTheme, setLightTheme } = useModeTheme();
   const { isExpanded, setIsExpanded, isMobileOpen } = useContext(MenuContext);
   const [openMenu, setOpenMenu] = useState(null);
@@ -103,28 +116,39 @@ const Aside = () => {
     ajustes: null,
   });
 
-  const admin = true;
-  
+  // Validacion de rol
+  const { rolId } = useAuthStore().profile;
+  const salir = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
+
+  let admin = true;
+  if (rolId === 3) admin = false;
+
+  const cerrarSesion = () => {
+    salir();
+    navigate('/');
+  };
+
   const handleMenuClick = (menu) => {
     if (!isExpanded) {
       setIsExpanded(true);
     }
-  
+
     setOpenMenu((prevMenu) => (prevMenu === menu ? null : menu));
   };
-  
+
   useEffect(() => {
     if (!isExpanded) {
       setOpenMenu(null);
       setOpenSubmenu({ productos: null, ajustes: null });
     }
   }, [isExpanded]);
-  
+
   const handleSubmenuClick = (menu, submenu) => {
     if (!isExpanded) {
       setIsExpanded(true);
     }
-  
+
     setOpenSubmenu((prevState) => ({
       ...prevState,
       [menu]: prevState[menu] === submenu ? null : submenu,
@@ -143,11 +167,19 @@ const Aside = () => {
 
   return (
     <aside
-    className={`sm:sticky transition-all duration-300 top-0 h-screen p-4 bg-theme primary-theme border-r-2 w-auto min-w-[50%] overflow-y-auto ${isMobileOpen ? 'fixed z-10 translate-x-0' : 'fixed z-10 -translate-x-full'} sm:translate-x-0 sm:${isExpanded ? 'w-52' : 'w-20'} ${isExpanded ? 'max-w-80' : 'max-w-36'}`}
+      className={`sm:sticky transition-all duration-300 top-0 h-screen p-4 bg-theme primary-theme border-r-2 w-auto min-w-[50%] overflow-y-auto ${
+        isMobileOpen
+          ? 'fixed z-10 translate-x-0'
+          : 'fixed z-10 -translate-x-full'
+      } sm:translate-x-0 sm:${isExpanded ? 'w-52' : 'w-20'} ${
+        isExpanded ? 'max-w-80' : 'max-w-36'
+      }`}
     >
       <nav className="flex flex-col gap-3">
         <button
-          className={`${styleBtnExpand} sm:block ${isExpanded ? 'w-40' : 'w-20'}`}
+          className={`${styleBtnExpand} sm:block ${
+            isExpanded ? 'w-40' : 'w-20'
+          }`}
           onClick={toggleExpand}
         >
           <span className="flex justify-center h-full items-center text-xl">
@@ -163,21 +195,63 @@ const Aside = () => {
           />
         </NavLink>
 
-        {
-          !admin && (
-            <>
-              <NavLink to="/roles">
+        {admin && (
+          <>
+            <NavLink to="/roles">
+              <SimpleMenuItem
+                title="Roles"
+                icon={<MdAdminPanelSettings className={colorIcon} />}
+                isExpanded={isExpanded}
+              />
+            </NavLink>
+
+            <NavLink to="usuarios">
+              <SimpleMenuItem
+                title="Usuarios"
+                icon={<FaUser className={colorIcon} />}
+                isExpanded={isExpanded}
+              />
+            </NavLink>
+            <NavLink to="proveedores">
+              <SimpleMenuItem
+                title="Proveedores"
+                icon={<FaUser className={colorIcon} />}
+                isExpanded={isExpanded}
+              />
+            </NavLink>
+            <MenuItem
+              title="Productos"
+              icon={<FaBoxesStacked className={colorIcon} />}
+              isOpen={openMenu === 'productos'}
+              isExpanded={isExpanded}
+              handleClick={() => handleMenuClick('productos')}
+            >
+              <NavLink to="/tipo-productos">
                 <SimpleMenuItem
-                  title="Roles"
-                  icon={<MdAdminPanelSettings className={colorIcon} />}
+                  title="Categorías"
+                  icon={<MdCategory className={colorIcon} />}
                   isExpanded={isExpanded}
                 />
               </NavLink>
-
-              <NavLink to="usuarios">
+              <NavLink to="/productos">
                 <SimpleMenuItem
-                  title="Usuarios"
-                  icon={<FaUser className={colorIcon} />}
+                  title="Inventario"
+                  icon={<FaBoxOpen className={colorIcon} />}
+                  isExpanded={isExpanded}
+                />
+              </NavLink>
+            </MenuItem>
+            <MenuItem
+              title="Compras"
+              icon={<FaCashRegister className={colorIcon} />}
+              isOpen={openMenu === 'compras'}
+              isExpanded={isExpanded}
+              handleClick={() => handleMenuClick('compras')}
+            >
+              <NavLink to="/compras">
+                <SimpleMenuItem
+                  title="Compras"
+                  icon={<FaMoneyBill className={colorIcon} />}
                   isExpanded={isExpanded}
                 />
               </NavLink>
@@ -188,67 +262,65 @@ const Aside = () => {
                   isExpanded={isExpanded}
                 />
               </NavLink>
+            </MenuItem>
 
-              <MenuItem
-                title="Ventas"
-                icon={<FaCashRegister className={colorIcon} />}
-                isOpen={openMenu === 'ventas'}
-                isExpanded={isExpanded}
-                handleClick={() => handleMenuClick('ventas')}
-              >
-                <NavLink to="/ventas/crear">
-                  <SimpleMenuItem
-                    title="Crear Venta"
-                    icon={<FaCashRegister className={colorIcon} />}
-                    isExpanded={isExpanded}
-                  />
-                </NavLink>
-                <NavLink to="/ventas">
-                  <SimpleMenuItem
-                    title="Ventas"
-                    icon={<FaMoneyBill className={colorIcon} />}
-                    isExpanded={isExpanded}
-                  />
-                </NavLink>
-              </MenuItem>
-            </>
-          )
-        }
-        {
-          admin  && (
-            <>
-              <MenuItem
-                title="Productos"
-                icon={<FaBoxesStacked className={colorIcon} />}
-                isOpen={openMenu === 'productos'}
-                isExpanded={isExpanded}
-                handleClick={() => handleMenuClick('productos')}
-              >
-                <NavLink to="/productos">
-                  <SimpleMenuItem
-                    title="Inventario"
-                    icon={<FaBoxOpen className={colorIcon} />}
-                    isExpanded={isExpanded}
-                  />
-                </NavLink>                      
-                <NavLink to="/tipo-productos">
-                  <SimpleMenuItem
-                    title="Categorías"
-                    icon={<MdCategory className={colorIcon} />}
-                    isExpanded={isExpanded}
-                  />
-                </NavLink>
-              </MenuItem>
-              <NavLink to="/compras">
+            <MenuItem
+              title="Ventas"
+              icon={<FaCashRegister className={colorIcon} />}
+              isOpen={openMenu === 'ventas'}
+              isExpanded={isExpanded}
+              handleClick={() => handleMenuClick('ventas')}
+            >
+              <NavLink to="/ventas">
                 <SimpleMenuItem
-                  title="Compras"
-                  icon={<FaShoppingCart className={colorIcon} />}
+                  title="Ventas"
+                  icon={<FaMoneyBill className={colorIcon} />}
                   isExpanded={isExpanded}
                 />
               </NavLink>
-            </>
-          )
-        }
+              <NavLink to="/ventas/crear">
+                <SimpleMenuItem
+                  title="Crear Venta"
+                  icon={<FaCashRegister className={colorIcon} />}
+                  isExpanded={isExpanded}
+                />
+              </NavLink>
+            </MenuItem>
+          </>
+        )}
+        {!admin && (
+          <>
+            <MenuItem
+              title="Productos"
+              icon={<FaBoxesStacked className={colorIcon} />}
+              isOpen={openMenu === 'productos'}
+              isExpanded={isExpanded}
+              handleClick={() => handleMenuClick('productos')}
+            >
+              <NavLink to="/productos">
+                <SimpleMenuItem
+                  title="Inventario"
+                  icon={<FaBoxOpen className={colorIcon} />}
+                  isExpanded={isExpanded}
+                />
+              </NavLink>
+              <NavLink to="/tipo-productos">
+                <SimpleMenuItem
+                  title="Categorías"
+                  icon={<MdCategory className={colorIcon} />}
+                  isExpanded={isExpanded}
+                />
+              </NavLink>
+            </MenuItem>
+            <NavLink to="/compras">
+              <SimpleMenuItem
+                title="Compras"
+                icon={<FaShoppingCart className={colorIcon} />}
+                isExpanded={isExpanded}
+              />
+            </NavLink>
+          </>
+        )}
 
         <MenuItem
           title="Ajustes"
@@ -277,7 +349,7 @@ const Aside = () => {
           </SubMenuItem>
         </MenuItem>
 
-        <NavLink  to="/login">
+        <NavLink onClick={cerrarSesion} to="/">
           <SimpleMenuItem
             title="Cerrar Sesión"
             icon={<FaSignOutAlt className={colorIcon} />}
