@@ -27,7 +27,7 @@ const LayoutContent = () => {
       <div className="flex flex-col">
         <Header />
 
-        <div className="mt-16 sm:mt-0 overflow-auto h-screen primary-theme">
+        <div className="mt-16 sm:mt-0 pb-20 overflow-auto h-screen w-screen primary-theme">
           <Outlet />
         </div>
       </div>
