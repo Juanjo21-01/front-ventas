@@ -1,5 +1,7 @@
+
+
 const TipoProductos = () => {
-  return <div>informacion de los TipoProductos</div>;
+  return <div>informacion de los Tipo Productos</div>;
 };
 
 export default TipoProductos;

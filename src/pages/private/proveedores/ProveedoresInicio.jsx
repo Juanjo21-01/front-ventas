@@ -8,8 +8,10 @@ const Proveedores = () => {
   const [editarProveedor, setEditarProveedor] = useState(null);
   const { eliminar } = useProveedoresStore();
 
+
   const closeModal = () => {
-    setAbrirModal(null);
+    setAbrirModal(false);
+    setEditarProveedor(null); // Resetear el usuario a editar
   };
 
   const editar = (proveedor) => {

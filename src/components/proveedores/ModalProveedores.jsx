@@ -64,7 +64,7 @@ const ModalProveedores = ({ abrir, cerrar, editar }) => {
           ✕
         </button>
         <h3 className="text-lg font-bold ">
-          {editar ? 'Editar Proveedor' : 'Agregar Proveedor'}
+          {form.id ? 'Editar Proveedor' : 'Agregar Proveedor'}
         </h3>
         <form onSubmit={handleSubmit}>
           {/* nombre */}
