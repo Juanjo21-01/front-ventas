@@ -1,19 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRolesStore } from '../../../store/roles';
+import TablaRoles from '../../../components/usuarios/TablaRoles';
 
 const Roles = () => {
   // Obtener los roles y las funciones del store
-  const { roles, obtener, crear, actualizar, eliminar, isLoading } =
-    useRolesStore();
-  console.log(roles);
+  const { crear, actualizar, eliminar } = useRolesStore();
 
   // Estado local para el formulario
   const [newRole, setNewRole] = useState({ nombre: '' });
   const [editingRole, setEditingRole] = useState(null);
-
-  useEffect(() => {
-    obtener(); // Obtener roles al montar el componente
-  }, [obtener]);
 
   // Manejar cambios del formulario
   const handleChange = (e) => {
@@ -45,37 +40,29 @@ const Roles = () => {
 
   return (
     <div>
-      <h1>Gestión de Roles</h1>
+      <h1 className="title">Gestión de Roles</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="nombre"
-          value={newRole.nombre}
-          onChange={handleChange}
-          placeholder="Nombre del rol"
-          required
-        />
-        <button type="submit">
+      {/* FORMULARIO */}
+      <form onSubmit={handleSubmit} className="flex justify-center gap-5">
+        <label className="input input-bordered flex items-center gap-2">
+          Nombre:
+          <input
+            type="text"
+            className="grow"
+            name="nombre"
+            placeholder="ingrese su nombre..."
+            value={newRole.nombre}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <button className="btn btn-success" type="submit">
           {editingRole ? 'Actualizar Rol' : 'Agregar Rol'}
         </button>
       </form>
 
-      {isLoading ? (
-        <p>Cargando...</p>
-      ) : roles === undefined ? (
-        <p>No hay roles</p>
-      ) : (
-        <ul>
-          {roles.map((role) => (
-            <li key={role.id}>
-              {role.nombre}
-              <button className='btn' onClick={() => handleEdit(role)}>Editar</button>
-              <button className='btn' onClick={() => handleDelete(role.id)}>Eliminar</button>
-            </li> 
-          ))}
-        </ul>
-      )}
+      {/* TABLA */}
+      <TablaRoles eliminar={handleDelete} editar={handleEdit} />
     </div>
   );
 };

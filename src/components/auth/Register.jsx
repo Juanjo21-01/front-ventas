@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { register } from '../../helpers/api/auth';
+import { useNavigate } from 'react-router-dom';
 const styleInput =
   'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
 
@@ -12,6 +13,7 @@ const styleCard =
 
 export const RegisterForm = () => {
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nombres: '',
@@ -42,11 +44,9 @@ export const RegisterForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Datos del formulario:', formData);
 
     register(formData);
 
-    setStep(1);
     setFormData({
       nombres: '',
       apellidos: '',
@@ -55,6 +55,8 @@ export const RegisterForm = () => {
       telefono: '',
       password: '',
     });
+
+    navigate('/login');
   };
 
   return (

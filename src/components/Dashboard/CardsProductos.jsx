@@ -38,7 +38,7 @@ export const ListaProductos = () => {
               <p className="text-theme">
                 Precio:{' '}
                 <span className="secondary-theme">
-                  Q{product.precio_unitario}
+                  Q{product.precioUnitario}
                 </span>
               </p>
               <p className="text-theme">
