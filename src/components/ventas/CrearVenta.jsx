@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const FormularioNuevaVenta = ({ agregarVenta }) => {
+const styleInput =
+  'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder:primary-theme';
+
+const styleLabel = 'label label-text text-theme';
+
+const styleBtn = 'btn primary-theme w-full mt-4';
+
+const CrearVenta = ({ agregarVenta }) => {
   
   const [nuevaVenta, setNuevaVenta] = useState({
     fecha_venta: '',
@@ -38,46 +45,46 @@ const FormularioNuevaVenta = ({ agregarVenta }) => {
       <h1 className="text-center text-2xl font-bold mb-4">Crear nueva venta</h1>
       
       {/* Formulario para crear una nueva venta */}
-      <form onSubmit={manejarEnvio}>
+      <form onSubmit={manejarEnvio} className="max-w-lg mx-auto">
         <div className="form-control mb-4">
-          <label className="label">Fecha de venta</label>
+          <label className={styleLabel}>Fecha de venta</label>
           <input
             type="date"
             name="fecha_venta"
             value={nuevaVenta.fecha_venta}
             onChange={manejarCambio}
-            className="input input-bordered w-full"
-            style={{ width: '10%' }}
+            className={styleInput}
+            placeholder='28/05/2024'
             required
           />
         </div>
 
         <div className="form-control mb-4">
-          <label className="label">Observaciones</label>
+          <label className={styleLabel}>Observaciones</label>
           <input
             type="text"
             name="observaciones"
             value={nuevaVenta.observaciones}
             onChange={manejarCambio}
-            className="input input-bordered w-full"
-            style={{ width: '10%' }}
+            className={styleInput}
+            placeholder='Ninguna'
           />
         </div>
 
         <div className="form-control mb-4">
-          <label className="label">Usuario ID</label>
+          <label className={styleLabel}>Usuario ID</label>
           <input
             type="number"
             name="usuario_id"
             value={nuevaVenta.usuario_id}
             onChange={manejarCambio}
-            className="input input-bordered w-full"
-            style={{ width: '10%' }}
+            className={styleInput}
+            placeholder='1'
             required
           />
         </div>
         {/* Botón para crear la venta */}
-        <button type="submit" className="btn btn-primary w-full" style={{ width: '10%' }}>
+        <button type="submit" className={styleBtn}>
           Crear Venta
         </button>
         <br />
@@ -86,41 +93,41 @@ const FormularioNuevaVenta = ({ agregarVenta }) => {
         <h2 className="text-xl font-semibold mb-2">Detalles de ventas</h2>
 
         <div className="form-control mb-4">
-          <label className="label">Cantidad</label>
+          <label className={styleLabel}>Cantidad</label>
           <input
             type="number"
             name="cantidad"
             value={nuevaVenta.cantidad}
             onChange={manejarCambio}
-            className="input input-bordered w-full"
-            style={{ width: '10%' }}
+            className={styleInput}
+            placeholder='23'
             required
           />
         </div>
 
         <div className="form-control mb-4">
-          <label className="label">Precio</label>
+          <label className={styleLabel}>Precio</label>
           <input
             type="number"
             step="0.01"
             name="precio"
             value={nuevaVenta.precio}
             onChange={manejarCambio}
-            className="input input-bordered w-full"
-            style={{ width: '10%' }}
+            className={styleInput}
+            placeholder='22.99'
             required
           />
         </div>
 
         <div className="form-control mb-4">
-          <label className="label">Producto ID</label>
+          <label className={styleLabel}>Producto ID</label>
           <input
             type="number"
             name="producto_id"
             value={nuevaVenta.producto_id}
             onChange={manejarCambio}
-            className="input input-bordered w-full"
-            style={{ width: '10%' }}
+            className={styleInput}
+            placeholder='2'
             required
           />
         </div>
@@ -131,4 +138,4 @@ const FormularioNuevaVenta = ({ agregarVenta }) => {
   );
 };
 
-export default FormularioNuevaVenta;
+export default CrearVenta;

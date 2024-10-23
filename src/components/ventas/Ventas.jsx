@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+// eslint-disable-next-line react/prop-types
 const Ventas = ({ ventas }) => {
     const [detalleVentas, setDetallesVentas] = useState(ventas || []);
 
@@ -9,7 +10,7 @@ const Ventas = ({ ventas }) => {
 
 
  // Función para cambiar el estado de la venta
- const toggleEstado = (id) => {
+const toggleEstado = (id) => {
     setDetallesVentas(detalleVentas.map(detalle => {
         if (detalle.id === id) {
             return { ...detalle, estado: detalle.estado === 'Habilitado' ? 'Anulado' : 'Habilitado' };

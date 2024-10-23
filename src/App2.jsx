@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import ProductModal from "./components/auth/ProductModal";
-import TableCompras from "./components/auth/TableCompras";
-import TablaUsuarios from "./components/auth/TablaUsuarios";
-import TablaProductos from "./components/auth/TablaProductos";
-import TablaDetallesCompras from "./components/auth/TablaDetallesCompras";
-import TablaDetallesVentas from "./components/auth/TablaDetallesVentas";
-import Proveedores from './components/auth/Proveedores';
-import Ventas from './components/auth/Ventas';
-import FormularioNuevaVenta from "./components/auth/FormularioNuevaVenta";
-import FormularioNuevaCompra from "./components/auth/FormularioNuevaCompra";
+import { useState } from 'react';
+import ProductModal from "./components/productos/ProductModal";
+import TableCompras from "./components/compras/TableCompras";
+import TablaUsuarios from "./components/usuarios/TablaUsuarios";
+import TablaProductos from "./components/productos/TablaProductos";
+import TablaDetallesCompras from "./components/compras/TablaDetallesCompras";
+import TablaDetallesVentas from "./components/ventas/TablaDetallesVentas";
+import Proveedores from './components/proveedores/Proveedores';
+import Ventas from './components/ventas/Ventas';
+import FormularioNuevaVenta from "./components/ventas/FormularioNuevaVenta";
+import FormularioNuevaCompra from "./components/compras/FormularioNuevaCompra";
 
 const App = () => {
   // Estado para el modal de producto
@@ -106,13 +106,11 @@ const App = () => {
       <br />
       <br />
 
-      <div className="App">
+      <div className="p-4">
       <FormularioNuevaVenta agregarVenta={agregarVenta} />
       </div>
       <br />
       <br />
-
-     
 
     </div>
   );
