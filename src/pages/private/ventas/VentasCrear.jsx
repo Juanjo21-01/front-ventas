@@ -1,5 +1,7 @@
+import CrearVenta from "../../../components/ventas/CrearVenta";
+
 const VentasCrear = () => {
-  return <div>Crear una nueva venta</div>;
+  return <CrearVenta />;
 };
 
 export default VentasCrear;
