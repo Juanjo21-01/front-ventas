@@ -66,10 +66,12 @@ const Ventas = () => {
 
   return (
     <div>
-      <h2>Lista de Ventas</h2>
+      <h2 className="title">Lista de Ventas</h2>
+
       <NavLink to="/ventas/crear" className="btn">
         Crear Venta
       </NavLink>
+      <br />
 
       {isLoading ? (
         <p>Cargando...</p>
@@ -109,7 +111,7 @@ const Ventas = () => {
         </table>
       )}
 
-      <h2>Crear Nueva Venta</h2>
+      {/* <h2>Crear Nueva Venta</h2>
       <form onSubmit={handleCrearVenta}>
         <div>
           <label>Fecha de Venta:</label>
@@ -178,8 +180,10 @@ const Ventas = () => {
         <button className="btn" type="submit">
           Crear Venta
         </button>
-      </form>
+      </form> */}
+      
     </div>
+    
   );
 };
 
