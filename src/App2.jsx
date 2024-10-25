@@ -37,7 +37,7 @@ const App = () => {
         <h2 className="text-center text-2xl font-bold">Gestión de Productos</h2>
         <br />
         <br />
-        <button className="btn btn-primary" onClick={AbrirModal}>
+        <button className="btn primary-theme" onClick={AbrirModal}>
           Agregar Producto
         </button>
         <ProductModal abrir={ModalAbierto} cerrar={CerrarModal} />

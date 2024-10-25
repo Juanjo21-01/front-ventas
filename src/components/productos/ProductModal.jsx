@@ -80,7 +80,7 @@ const ProductModal = ({ abrir, cerrar }) => {
           </div>
 
           <div className="modal-action">
-            <button type="submit" className="btn btn-primary">Guardar</button>
+            <button type="submit" className="btn primary-theme">Guardar</button>
             <button type="button" onClick={cerrar} className="btn">Cancelar</button>
           </div>
         </form>

@@ -78,7 +78,7 @@ const CompraModal = ({ compra, Cerrar, Guardar }) => {
 
         <div className="modal-action">
           <button className="btn" onClick={Cerrar}>Cancelar</button>
-          <button className="btn btn-primary" onClick={GuardarDatos}>Guardar</button>
+          <button className="btn primary-theme" onClick={GuardarDatos}>Guardar</button>
         </div>
       </div>
     </div>

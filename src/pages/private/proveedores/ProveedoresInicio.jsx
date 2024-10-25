@@ -24,7 +24,7 @@ const Proveedores = () => {
   };
 
   return (
-    <div>
+    <>
       <h1 className="title">Proveedores</h1>
 
       <button
@@ -44,7 +44,7 @@ const Proveedores = () => {
           editar={editarProveedor}
         />
       )}
-    </div>
+    </>
   );
 };
 

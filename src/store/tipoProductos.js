@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import {
-  getTipoProductos,
+  getTipoProducto,
   saveTipoProducto,
   updateTipoProducto,
   deleteTipoProducto,
@@ -15,7 +15,7 @@ export const useTiposProductosStore = create((set) => ({
   obtener: async () => {
     set({ isLoading: true });
     try {
-      const tiposProductos = await getTipoProductos();
+      const tiposProductos = await getTipoProducto();
       set({ tiposProductos, isLoading: false });
     } catch (error) {
       console.error('Error al obtener los tipos de productos', error);

@@ -6,10 +6,10 @@ const styleInput =
 
 const styleLabel = 'label label-text text-theme';
 
-const styleBtn = 'btn btn-primary w-full mt-4';
+const styleBtn = 'btn primary-theme w-full mt-4';
 
 const styleCard =
-  'card bg-theme-secondary w-96 shadow-xl p-6  border primary-theme';
+  'card bg-theme-secondary w-full max-w-md shadow-xl p-6 border primary-theme';
 
 export const RegisterForm = () => {
   const [step, setStep] = useState(1);
@@ -60,7 +60,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center mt-0 sm:mt-12 p-4 h-screen">
       <div className={styleCard}>
         <h2 className="text-2xl primary-theme font-bold text-center mb-4 border-b-2 pb-2">
           Registro
@@ -170,15 +170,15 @@ export const RegisterForm = () => {
               />
             </div>
 
-            <div className="form-control gap-3">
+            <div className="form-control gap-3 grid grid-cols-2"> {/* Usar grid para distribuir mejor los botones */}
+              <button type="submit" className={styleBtn + ' secondary-theme'}>
+                Registrar
+              </button>
               <button
                 onClick={handlePrevious}
                 className={styleBtn + ' primary-theme'}
               >
                 Back
-              </button>
-              <button type="submit" className={styleBtn + ' secondary-theme'}>
-                Registrar
               </button>
             </div>
           </form>

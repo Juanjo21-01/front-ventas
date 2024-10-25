@@ -66,4 +66,6 @@ tbody tr:hover{
 tr td{
     min-width: 4rem;
     max-width: 5rem;
+    overflow-wrap: break-word;
+    white-space: normal;
 }

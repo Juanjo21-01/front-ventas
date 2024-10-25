@@ -31,13 +31,13 @@ const TablaRoles = ({ eliminar, editar }) => {
                   <td>{rol.nombre}</td>
                   <td>
                     <button
-                      className="btn btn-warning mr-2"
+                      className="btn secondary-theme mr-2"
                       onClick={() => editar(rol)}
                     >
                       Editar
                     </button>
                     <button
-                      className="btn btn-error"
+                      className="btn error-theme"
                       onClick={() => eliminar(rol.id)}
                     >
                       Eliminar

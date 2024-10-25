@@ -8,7 +8,7 @@ const ProductModal = ({ product, onClose }) => {
   if (!product) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50 modal-open">
+    <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-20 modal-open">
       <div className="card bg-theme w-96 shadow-xl p-6 relative border-2 primary-theme">
         <button
           onClick={onClose}
@@ -17,28 +17,32 @@ const ProductModal = ({ product, onClose }) => {
           <MdClose />
         </button>
         <h2 className="text-2xl primary-theme font-bold text-center mb-4 border-b-2 pb-2">
-          {product.name}
+          {product.nombre}
         </h2>
         <div className="space-y-4 text-theme">
           <p className="flex">
             <span className={span}>Precio Unitario: </span>
-            <p className="flex-1">Q. {product.price.toFixed(2)}</p>
+            <span className="flex-1">
+              {product.precioUnitario !== undefined && !isNaN(product.precioUnitario)
+                ? `Q. ${product.precioUnitario.toFixed(2)}`
+                : "No disponible"}
+            </span>
           </p>
           <p className="flex">
             <span className={span}>Stock Disponible: </span>
-            <p className="flex-1">{product.stock}</p>
+            <span className="flex-1">{product.stock}</span>
           </p>
           <p className="flex">
             <span className={span}>Estado: </span>
-            <p className="flex-1">{product.estado ? "Activo" : "Inactivo"}</p>
+            <span className="flex-1">{product.estado ? "Activo" : "Inactivo"}</span>
           </p>
           <p className="flex">
             <span className={span}>Tipo de Producto: </span>
-            <p className="flex-1">{product.tipo_producto}</p>
+            <span className="flex-1">{product.tipoProductoId}</span>
           </p>
           <p className="flex">
             <span className={span}>Proveedor ID: </span>
-            <p className="flex-1">{product.proveedor_id}</p>
+            <span className="flex-1">{product.proveedorId}</span>
           </p>
         </div>
         <NavLink to={`/productos/${product.id}`} className="btn btn-block primary-theme mt-4">
@@ -50,7 +54,15 @@ const ProductModal = ({ product, onClose }) => {
 };
 
 ProductModal.propTypes = {
-  product: PropTypes.object,
+  product: PropTypes.shape({
+    nombre: PropTypes.string,
+    precioUnitario: PropTypes.number,
+    stock: PropTypes.number,
+    estado: PropTypes.bool,
+    tipoProductoId: PropTypes.number,
+    proveedorId: PropTypes.number,
+    id: PropTypes.number,
+  }),
   onClose: PropTypes.func.isRequired,
 };
 

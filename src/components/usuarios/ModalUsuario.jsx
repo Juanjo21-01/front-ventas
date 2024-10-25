@@ -129,10 +129,10 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
             className="input input-bordered w-full my-2"
           />
           <div className="modal-action">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn primary-theme">
               Guardar
             </button>
-            <button type="button" className="btn" onClick={handleReset}>
+            <button type="button" className="btn error-theme" onClick={handleReset}>
               Cancelar
             </button>
           </div>

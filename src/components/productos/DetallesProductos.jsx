@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import CommentsSection from '../comentarios/ComentsSection';
-
 import { getProductoById } from '../../helpers/api/productos/productos';
+
+const image = `https://picsum.photos/200`;
 
 const obtenerProductoId = async (id) => {
   return await getProductoById(id);
@@ -10,18 +11,21 @@ const obtenerProductoId = async (id) => {
 
 const DetallesProductos = () => {
   const { id } = useParams();
-
   const [product, setProduct] = useState(null);
-
-  obtenerProductoId(id).then((data) => setProduct(data));
-
-  console.log(product);
-  
-
-  const productId = parseInt(id, 10);
-
-  const [quantity, setQuantity] = useState(1);
+  const [cantidad, setCantidad] = useState(1);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const data = await obtenerProductoId(id);
+        setProduct(data);
+      } catch (error) {
+        console.error("Error al obtener el producto:", error);
+      }
+    };
+    fetchProduct();
+  }, [id]);
 
   if (!product) {
     return <p>Producto no encontrado.</p>;
@@ -36,13 +40,13 @@ const DetallesProductos = () => {
     } else {
       setError('');
     }
-    setQuantity(value);
+    setCantidad(value);
   };
 
   const handleSubmit = () => {
-    if (!error && quantity <= product.stock) {
+    if (!error && cantidad <= product.stock) {
       console.log(
-        `Solicitando \nCantidad:${quantity}\nID:${product.id}\nNombre:${product.name}`
+        `Solicitando \nCantidad: ${cantidad}\nID: ${product.id}\nNombre: ${product.nombre}`
       );
     }
   };
@@ -52,30 +56,32 @@ const DetallesProductos = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex justify-center">
           <img
-            src={product.image}
-            alt={product.name}
+            src={image}
+            alt={product.nombre}
             className="w-96 h-96 object-cover rounded shadow-lg"
           />
         </div>
 
         <div className="flex flex-col justify-center space-y-4">
-          <h1 className="text-3xl font-bold">{product.name}</h1>
-          <p className="text-lg text-gray-500">{product.description}</p>
+          <h1 className="text-3xl font-bold">{product.nombre}</h1>
+          <p className="text-lg text-gray-500">{product.descripcion}</p>
           <p className="text-2xl font-semibold">
-            Q. {product.price.toFixed(2)}
+            {product.precioUnitario !== undefined && !isNaN(product.precioUnitario)
+              ? `Q ${product.precioUnitario.toFixed(2)}`
+              : 'Precio no disponible'}
           </p>
           <p className="text-sm text-gray-400">
             Stock disponible: {product.stock}
           </p>
 
           <div className="flex items-center gap-3">
-            <label htmlFor="quantity" className="text-lg">
+            <label htmlFor="cantidad" className="text-lg">
               Cantidad:
             </label>
             <input
               type="number"
-              id="quantity"
-              value={quantity}
+              id="cantidad"
+              value={cantidad}
               onChange={handleQuantityChange}
               min={1}
               max={product.stock}

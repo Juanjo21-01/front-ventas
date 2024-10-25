@@ -40,9 +40,11 @@ const Header = () => {
           </div>
 
           <div className="flex-1 justify-center">
-            <a className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer hover:border-b-2 rounded-md">
-              TheFullStock
-            </a>
+            <NavLink to="/">
+              <a className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer hover:border-b-2 rounded-md">
+                TheFullStock
+              </a>
+            </NavLink>
           </div>
 
           <div className="flex-1 justify-end">
@@ -79,14 +81,16 @@ const Header = () => {
       {!logged && (
         <>
           <div className="flex-[2] justify-start sm:ml-16 ml-6">
-            <a className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer hover:border-b-2 rounded-md">
-              TheFullStock
-            </a>
+            <NavLink to="/">
+              <a className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer hover:border-b-2 rounded-md">
+                TheFullStock
+              </a>
+            </NavLink>
           </div>
 
           <div className="flex-1 justify-end sm:mr-16 mr-6">
             <div className="dropdown dropdown-end flex items-center justify-end gap-1">
-              <span className='md:flex hidden items-center justify-end gap-1 cursor-default'>Iniciar Sesión<MdArrowRight className='primary-theme text-[2rem]' /></span>
+              <span className='md:flex hidden items-center justify-end gap-1 cursor-default'>Perfil<MdArrowRight className='primary-theme text-[2rem]' /></span>
             <div
               tabIndex={0}
               role="button"
