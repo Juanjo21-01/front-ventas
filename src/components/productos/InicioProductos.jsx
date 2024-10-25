@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
 import ProductModal from '../Dashboard/DatosProductos';
-import { NavLink } from 'react-router-dom';
 import { useProductosStore } from '../../store/productos';
 
 export default function InicioProductos() {
@@ -45,7 +44,7 @@ export default function InicioProductos() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {filteredProducts.map((product) => (
           <div
             key={product.id}
@@ -59,25 +58,19 @@ export default function InicioProductos() {
               />
             </figure>
             <div className="card-body gap-3 p-4">
-              <h2 className="card-title text-lg font-bold primary-theme">
+              <h2 className="card-title font-bold primary-theme border-b-2 pb-1 m-auto px-5 rounded">
                 {product.nombre}
               </h2>
-              <p className="font-semibold text-xl secondary-theme">
-                Q. {product.precioUnitario.toFixed(2)}
+              <p className="font-semibold text-xl flex items-center justify-center secondary-theme pt-2">
+                Q {product.precioUnitario.toFixed(2)}
               </p>
-              <div className="card-actions flex flex-col sm:flex-row gap-2 mt-4 justify-around">
+              <div className="card-actions flex flex-col sm:flex-row gap-2 mt-2 justify-around">
                 <button
                   className="btn primary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-primary-theme focus:outline-none"
                   onClick={() => setSelectedProduct(product)}
                 >
                   Detalles
                 </button>
-                <NavLink
-                  to={`/productos/${product.id}`}
-                  className="btn secondary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-secondary-theme focus:outline-none"
-                >
-                  Comprar
-                </NavLink>
               </div>
             </div>
           </div>

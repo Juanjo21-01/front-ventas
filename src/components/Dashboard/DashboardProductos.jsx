@@ -4,8 +4,6 @@ import { BarChart, ShoppingCart, Package, DollarSign, Edit, Trash2 } from 'lucid
 const stat = "stat bg-theme-secondary shadow rounded-lg primary-theme border";
 
 const allProducts = [
-  { id: 1, name: 'Laptop Super Mamalona que ocupo para comprobar el responsiv de las tablas que hago en el dashboard, con luces Gamer', price: 999.99, stock: 50, category: 'Electronics' },
-  { id: 2, name: 'Smartphone', price: 599.99, stock: 100, category: 'Electronics' },
   { id: 3, name: 'Headphones', price: 149.99, stock: 200, category: 'Audio' },
   { id: 4, name: 'Camera', price: 499.99, stock: 30, category: 'Photography' },
   { id: 5, name: 'Keyboard', price: 79.99, stock: 150, category: 'Accessories' },
@@ -76,7 +74,7 @@ export default function DashboardProducts() {
           </div>
         </div>
 
-        <div className="bg-theme shadow rounded-lg overflow-x-auto border border-[--primary-color] min-h-80 max-h-[21rem]">
+        <div className="bg-theme shadow rounded-lg overflow-x-auto border border-[--primary-color] min-h-80 max-h-[21rem] primary-theme pb-24">
           <table className="table w-full">
             <thead>
               <tr>
@@ -96,14 +94,25 @@ export default function DashboardProducts() {
                   <td>Q. {product.price.toFixed(2)}</td>
                   <td>{product.stock}</td>
                   <td>{product.category}</td>
-                  <td>
-                    <div className="flex justify-around">
-                      <button className="btn btn-sm btn-ghost">
-                        <Edit size={18} />
-                      </button>
-                      <button className="btn btn-sm btn-ghost text-error">
-                        <Trash2 size={18} />
-                      </button>
+                  <td className='min-w-32'>
+                    <div className="dropdown dropdown-left">
+                      <label tabIndex={0} className="btn secondary-theme m-1">Acciones</label>
+                      <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 gap-4 bg-theme border primary-theme">
+                        <li>
+                          <button 
+                            className="btn primary-theme w-full" 
+                          >
+                            <Edit size={18} />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            className="btn error-theme w-full" 
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </li>
+                      </ul>
                     </div>
                   </td>
                 </tr>

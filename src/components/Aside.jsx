@@ -212,6 +212,7 @@ const Aside = () => {
                   isExpanded={isExpanded}
                 />
               </NavLink>
+              
               <NavLink to="usuarios">
                 <SimpleMenuItem
                   title="Usuarios"

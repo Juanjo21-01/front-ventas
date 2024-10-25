@@ -29,7 +29,7 @@ const Usuarios = () => {
     <div>
       <h1 className="title">Informacion de los Usuarios</h1>
       
-      <button className="btn btn-success m-5" onClick={() => setAbrirModal(true)}>
+      <button className="btn primary-theme m-5" onClick={() => setAbrirModal(true)}>
         Agregar Usuario
       </button>
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import {useUsuariosStore} from '../../store/usuarios';
 
+// eslint-disable-next-line react/prop-types
 const TablaUsuarios = ({editar, eliminar}) => {
   const {obtener, usuarios} = useUsuariosStore();
 
@@ -51,13 +52,13 @@ const TablaUsuarios = ({editar, eliminar}) => {
                   </td>
                   <td>
                     <button
-                      className="btn btn-warning mr-2"
+                      className="btn secondary-theme mr-2"
                       onClick={() => editar(usuario)}
                     >
                       Editar
                     </button>
                     <button
-                      className="btn btn-error"
+                      className="btn error-theme"
                       onClick={() => eliminar(usuario.id)}
                     >
                       Eliminar

@@ -138,7 +138,7 @@ const ModalProveedores = ({ abrir, cerrar, editar }) => {
           </div>
 
           <div className="modal-action">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn primary-theme">
               Guardar
             </button>
             <button type="reset" onClick={handleReset} className="btn">

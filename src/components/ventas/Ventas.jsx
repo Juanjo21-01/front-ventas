@@ -46,7 +46,7 @@ const toggleEstado = (id) => {
                             <td>
                                 <button 
                                     onClick={() => toggleEstado(detalle.id)} 
-                                    className="btn btn-secondary"
+                                    className="btn secondary-theme"
                                 >
                                     {detalle.estado === 'Habilitado' ? 'ANULAR' : 'HABILITAR'}
                                 </button>

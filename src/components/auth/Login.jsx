@@ -7,10 +7,10 @@ const styleInput =
 
 const styleLabel = 'label label-text text-theme';
 
-const styleBtn = 'btn btn-primary w-full mt-4';
+const styleBtn = 'btn primary-theme w-full mt-4';
 
 const styleCard =
-  'card bg-theme-secondary w-96 shadow-xl p-6  border primary-theme';
+  'card bg-theme-secondary w-96 shadow-xl p-6 border primary-theme';
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center p-4 h-full">
       <div className={styleCard}>
         <h2 className="text-2xl primary-theme font-bold text-center mb-4 border-b-2 pb-2">
           Iniciar Sesión
