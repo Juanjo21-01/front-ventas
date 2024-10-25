@@ -55,7 +55,7 @@ export const getUsuarioByEstado = async (estado) => {
 // POST - crear un usuario
 export const saveUsuario = async (usuario) => {
   try {
-    const usuarioNuevo = await api.post('usuarios', usuario);
+    const usuarioNuevo = await api.post('usuarios/register', usuario);
     return usuarioNuevo.data;
   } catch (error) {
     console.error('Error al crear el usuario', error);

@@ -1,49 +1,55 @@
 import { useEffect } from 'react';
-import {useUsuariosStore} from '../../store/usuarios';
+import { useUsuariosStore } from '../../store/usuarios';
+import { useRolesStore } from '../../store/roles';
 
 // eslint-disable-next-line react/prop-types
-const TablaUsuarios = ({editar, eliminar}) => {
-  const {obtener, usuarios} = useUsuariosStore();
-
+const TablaUsuarios = ({ editar, eliminar }) => {
+  const { obtener, usuarios } = useUsuariosStore();
+  const { obtener: obtenerRoles, roles } = useRolesStore();
 
   useEffect(() => {
+    obtenerRoles();
     obtener();
-  }, [obtener]);
+  }, [obtener, obtenerRoles]);
 
   return (
     <>
-    {usuarios === undefined ? (
-      <p>No hay Usuarios</p>
-    ): (
-      <div className="overflow-x-auto">
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>nombres</th>
-            <th>apellidos</th>
-            <th>email</th>
-            <th>password</th>
-            <th>dirección</th>
-            <th>teléfono</th>
-            <th>estado</th>
-            <th>rol_id</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usuarios.map((usuario) => (
-            <tr key={usuario.id}>
-              <td>{usuario.id}</td>
-              <td>{usuario.nombres}</td>
-              <td>{usuario.apellidos}</td>
-              <td>{usuario.email}</td>
-              <td>{usuario.password}</td>
-              <td>{usuario.direccion}</td>
-              <td>{usuario.telefono}</td>
-              <td>{usuario.estado}</td>
-              <td>{usuario.rol_id}</td>
-              <td>
+      {usuarios === undefined ? (
+        <p>No hay Usuarios</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nombres</th>
+                <th>Email</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((usuario) => (
+                <tr key={usuario.id}>
+                  <td>{usuario.id}</td>
+                  <td>
+                    {usuario.nombres} {usuario.apellidos}
+                  </td>
+                  <td>{usuario.email}</td>
+                  <td>{usuario.direccion}</td>
+                  <td>{usuario.telefono}</td>
+                  <td>
+                    {roles.map((rol) => {
+                      if (rol.id === usuario.rolId) {
+                        return rol.nombre;
+                      }
+                      return '';
+                    })}
+                  </td>
+                  <td>
                     {usuario.estado ? (
                       <span className="badge badge-success">Activo</span>
                     ) : (
@@ -64,12 +70,12 @@ const TablaUsuarios = ({editar, eliminar}) => {
                       Eliminar
                     </button>
                   </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-    )} 
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </>
   );
 };

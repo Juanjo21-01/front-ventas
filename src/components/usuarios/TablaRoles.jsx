@@ -5,7 +5,6 @@ import { useRolesStore } from '../../store/roles';
 const TablaRoles = ({ eliminar, editar }) => {
   const { roles, obtener } = useRolesStore();
 
-  console.log(roles);
   useEffect(() => {
     obtener(); // Obtener roles al montar el componente
   }, [obtener]);
