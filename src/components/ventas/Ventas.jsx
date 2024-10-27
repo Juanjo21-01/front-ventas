@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
+import { useVentasStore } from '../../store/ventas';
 
 // eslint-disable-next-line react/prop-types
-const Ventas = ({ ventas }) => {
-    const [detalleVentas, setDetallesVentas] = useState(ventas || []);
+const Ventas = () => {
+    const [obtener, ventas] = useVentasStore ();
 
   useEffect(() => {
-    setDetallesVentas(ventas);
-  }, [ventas]);
+    obtener();
+  }, [obtener]);
 
 
  // Función para cambiar el estado de la venta
 const toggleEstado = (id) => {
-    setDetallesVentas(detalleVentas.map(detalle => {
-        if (detalle.id === id) {
-            return { ...detalle, estado: detalle.estado === 'Habilitado' ? 'Anulado' : 'Habilitado' };
+    ventas(ventas.map(venta => {
+        if (venta.id === id) {
+            return { ...venta, estado: venta.estado === 'Habilitado' ? 'Anulado' : 'Habilitado' };
         }
-        return detalle;
+        return ventas;
     }));
 };
 
@@ -23,6 +24,10 @@ const toggleEstado = (id) => {
 
 
     return (
+        <div className='container mx-auto p-4'>
+            {ventas === undefined ? (
+                <p>No hay ventas</p>
+            ) : (
         <div className="overflow-x-auto">
             <table className="table w-full">
                 <thead>
@@ -36,19 +41,19 @@ const toggleEstado = (id) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {detalleVentas.map(detalle => (
-                        <tr key={detalle.id}>
-                            <td>{detalle.id}</td>
-                            <td>{detalle.fecha_venta}</td>
-                            <td>{detalle.estado}</td>
-                            <td>{detalle.observaciones}</td>
-                            <td>{detalle.usuario_id}</td>
+                    {ventas.map((venta) => (
+                        <tr key={venta.id}>
+                            <td>{venta.id}</td>
+                            <td>{venta.fechaVenta}</td>
+                            <td>{venta.estado}</td>
+                            <td>{venta.observaciones}</td>
+                            <td>{venta.usuarioId}</td>
                             <td>
                                 <button 
-                                    onClick={() => toggleEstado(detalle.id)} 
+                                    onClick={() => toggleEstado(venta.estado)} 
                                     className="btn secondary-theme"
                                 >
-                                    {detalle.estado === 'Habilitado' ? 'ANULAR' : 'HABILITAR'}
+                                    {venta.estado === 'Habilitado' ? 'ANULAR' : 'HABILITAR'}
                                 </button>
                             </td>
                         </tr>
@@ -56,6 +61,8 @@ const toggleEstado = (id) => {
                 </tbody>
             </table>
         </div>
+        )}
+    </div>
     );
 };
 
