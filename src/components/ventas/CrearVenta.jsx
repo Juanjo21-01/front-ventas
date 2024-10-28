@@ -11,13 +11,14 @@ const styleBtn = "btn primary-theme w-full mt-4";
 
 const CrearVenta = () => {
   const navigate = useNavigate();
-  const { usuarios, obtener } = useUsuariosStore();
+  const { usuarios, obtener: obtenerUsuarios } = useUsuariosStore();
   const { crear } = useVentasStore();
-  const { productos, obtenerp } = useProductosStore();
+  const { productos, obtener: obtenerProductos } = useProductosStore();
 
   useEffect(() => {
-    obtener();
-    }, [obtener, obtenerp]);
+    obtenerUsuarios();
+    obtenerProductos();
+    }, [obtenerUsuarios, obtenerProductos]);
   
 
   const [nuevaVenta, setNuevaVenta] = useState({
@@ -145,7 +146,7 @@ const CrearVenta = () => {
             {productos.map (
               (producto) =>
                 // quitar el producto administrador
-              producto.rolId === 2 && (
+              producto.rolId !== 2 && (
                 <option key={producto.id} value={producto.id}>
                 {producto.nombre}
                 </option>
