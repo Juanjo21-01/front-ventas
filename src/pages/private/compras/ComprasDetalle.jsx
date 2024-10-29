@@ -3,3 +3,4 @@ const ComprasDetalle = () => {
 };
 
 export default ComprasDetalle;
+
