@@ -1,89 +1,165 @@
 import { useEffect, useState } from 'react';
-import { Search } from 'lucide-react';
-import ProductModal from '../Dashboard/DatosProductos';
+import { Edit, Trash2 } from 'lucide-react';
+import { MdMenu } from 'react-icons/md';
 import { useProductosStore } from '../../store/productos';
+import { useTiposProductosStore } from '../../store/tipoProductos';
+import { useProveedoresStore } from '../../store/proveedores';
+import CrearProducto from './CrearProducto';
+import { useAuthStore } from '../../store/auth';
 
 export default function InicioProductos() {
-  const { productos, obtener } = useProductosStore();
+  const { productos, obtener, isLoading } = useProductosStore();
+  const { obtener: obtenerTipoProductos, tiposProductos} = useTiposProductosStore();
+  const { obtener: obtenerProveedor, proveedores} = useProveedoresStore();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(5);
 
   useEffect(() => {
     obtener();
-  }, [obtener]);
+    obtenerTipoProductos();
+    obtenerProveedor();
+  }, [obtener, obtenerTipoProductos, obtenerProveedor]);
 
-  const products = productos.map((product) => ({
-    ...product,
-    image: `https://picsum.photos/200`,
-  }));
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = productos.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(productos.length / productsPerPage);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const filteredProducts = products.filter((product) =>
-    product.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const [ModalAbierto, ActualizarModal] = useState(false);
 
-  const closeModal = () => {
-    setSelectedProduct(null);
-  };
+  const AbrirModal = () => ActualizarModal(true);
+  const CerrarModal = () => ActualizarModal(false);
+
+  const { rolId } = useAuthStore().profile;
+
+  let admin = true;
+  if (rolId === 2) admin = false;
+
+  if (isLoading) {
+    return <div className='h-full flex flex-col justify-center items-center'>
+      <span className="loading loading-infinity loading-lg"></span>
+      <span className='text-2xl'>Cargando...</span>
+    </div>;
+  }
 
   return (
-    <div className="container mx-auto px-4 pb-8 bg-theme text-theme">
-      <h1 className="title">Catálogo De Productos</h1>
-      <div className="form-control mb-8">
-        <div className=" flex flex-row input-group justify-center gap-3">
-          <input
-            type="text"
-            placeholder="Buscando Productos..."
-            className="input input-bordered w-full bg-theme bg-theme-hover primary-theme placeholder: primary-theme max-w-xs"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="btn btn-square">
-            <Search className="h-6 w-6 primary-theme primary-theme-hover " />
+    <div className="bg-theme text-theme">
+      <div className="container mx-auto px-4">
+        <h1 className="title">Catalogo de Productos</h1>
+        {admin && (
+          <div className="flex justify-center mb-4">
+            <button className="btn btn-sm primary-theme" onClick={AbrirModal}>
+            Nuevo Producto
           </button>
+          <CrearProducto abrir={ModalAbierto} cerrar={CerrarModal} />
+          </div>
+        )}
+
+        <div>
+          <table className="table w-full table-fixed">
+            <thead>
+              <tr>
+                <th className="w-1/12">No.</th>
+                <th className="w-2/12">Nombre</th>
+                <th className="w-1/12">Precio</th>
+                <th className="w-1/12">Stock</th>
+                <th className='w-1/12'>Estado</th>
+                <th className="w-2/12">Categoría</th>
+                <th className='w-1/12'>Proveedor</th>
+                <th className="w-2/12">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentProducts.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.id}</td>
+                  <td>
+                      {product.nombre}
+                  </td>
+                  <td>Q. {product.precioUnitario}</td>
+                  <td>{product.stock}</td>
+                  <td>
+                    {product.estado ? (
+                      <span className="primary-theme px-2 py-1 rounded">
+                        Activo
+                      </span>
+                    ) : (
+                      <span className="error-theme px-2 py-1 rounded">
+                        Inactivo
+                      </span>
+                    )
+                    }</td>
+                  <td>
+                      {tiposProductos.map((tipoProducto) => {
+                        if (product.tipoProductoId === tipoProducto.id){
+                          return tipoProducto.nombre;
+                        }
+                        return '';
+                      })}
+                  </td>
+                  <td>
+                      {proveedores.map((proveedor) => {
+                        if (product.proveedorId === proveedor.id){
+                          return proveedor.nombre;
+                        }
+                        return '';
+                      })}
+                  </td>
+                  <td className="min-w-32 w-full md:w-auto">
+                    <div className="dropdown dropdown-left">
+                      <label tabIndex={0} className="btn btn-square btn-sm secondary-theme m-1">
+                        <MdMenu size={20} />
+                      </label>
+                      <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 gap-4 bg-theme border primary-theme">
+                        <li>
+                          <button className="btn primary-theme w-full btn-sm">
+                            <Edit size={18} />
+                          </button>
+                        </li>
+                        <li>
+                          <button className="btn error-theme w-full btn-sm">
+                            <Trash2 size={18} />
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex justify-around mt-6">
+          <div className="btn-group">
+            <button 
+              className="btn btn-outline"
+              onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+              disabled={currentPage === 1}
+            >
+              Anterior
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button 
+                key={index + 1}
+                className={`btn mx-1 w-14 ${currentPage === index + 1 ? 'btn-active' : 'btn-outline'}`}
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button 
+              className="btn btn-outline"
+              onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              Siguiente
+            </button>
+          </div>
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="card shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-theme-secondary bg-theme-hover border primary-theme gap-3 rounded-lg overflow-hidden"
-          >
-            <figure>
-              <img
-                src={product.image}
-                alt={product.nombre}
-                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-              />
-            </figure>
-            <div className="card-body gap-3 p-4">
-              <h2 className="card-title font-bold primary-theme border-b-2 pb-1 m-auto px-5 rounded">
-                {product.nombre}
-              </h2>
-              <p className="font-semibold text-xl flex items-center justify-center secondary-theme pt-2">
-                Q {product.precioUnitario.toFixed(2)}
-              </p>
-              <div className="card-actions flex flex-col sm:flex-row gap-2 mt-2 justify-around">
-                <button
-                  className="btn primary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-primary-theme focus:outline-none"
-                  onClick={() => setSelectedProduct(product)}
-                >
-                  Detalles
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {filteredProducts.length === 0 && (
-        <p className="text-center text-lg mt-8">Producto no encontrado.</p>
-      )}
-
-      {selectedProduct && (
-        <ProductModal product={selectedProduct} onClose={closeModal} />
-      )}
     </div>
   );
 }

@@ -25,7 +25,7 @@ const Proveedores = () => {
 
   return (
     <>
-      <h1 className="title">Proveedores</h1>
+      <h1 className="title">Información de los Proveedores</h1>
 
       <button
         className="btn btn-success m-5"

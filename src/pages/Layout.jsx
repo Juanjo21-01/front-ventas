@@ -13,13 +13,13 @@ const Layout = () => {
 };
 
 const LayoutContent = () => {
-  const { isExpanded, isMobileOpen } = useContext(MenuContext);
+  const { isMobileOpen } = useContext(MenuContext);
 
   return (
     <div
       className={`grid grid-cols-none sm:grid-cols-[auto_1fr] ${
         isMobileOpen ? 'grid-cols-[auto_1fr]' : 'grid-cols-[0_1fr]'
-      } ${isExpanded ? 'grid-cols-[auto_1fr]' : 'grid-cols-[auto_1fr]'}`}
+      }`}
     >
 
       <Aside />

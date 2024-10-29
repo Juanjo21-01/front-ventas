@@ -1,5 +1,9 @@
+import { DetallesUsuario } from "../../../components/usuarios/DetallesUsuario";
+
 const UsuariosDetalle = () => {
-  return <div>UsuariosDetalle</div>;
+  return <>
+    <DetallesUsuario />
+  </>;
 };
 
 export default UsuariosDetalle;

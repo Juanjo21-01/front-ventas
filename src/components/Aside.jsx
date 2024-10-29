@@ -27,12 +27,12 @@ import { FaBoxesStacked, FaMoneyBills } from 'react-icons/fa6';
 import { useAuthStore } from '../store/auth';
 
 const colorIcon = 'primary-theme text-[1.15rem]';
-const styleAside =
+const styleBtnAside =
   'btn btn-link text-theme w-full justify-start border-0 border-b-2 no-underline hover:no-underline primary-theme-hover bg-theme-secondary';
 
 const SimpleMenuItem = ({ title, icon, isExpanded }) => (
   <div className="flex flex-col gap-3">
-    <button className={styleAside}>
+    <button className={styleBtnAside}>
       {icon}
       {isExpanded && <span className="ml-2">{title}</span>}
     </button>
@@ -48,7 +48,7 @@ const MenuItem = ({
   isExpanded,
 }) => (
   <div className="flex flex-col gap-3">
-    <button className={styleAside} onClick={handleClick} aria-expanded={isOpen}>
+    <button className={styleBtnAside} onClick={handleClick} aria-expanded={isOpen}>
       {icon}
       {isExpanded && <span className="ml-2">{title}</span>}
       {children && (
@@ -69,7 +69,7 @@ const MenuItem = ({
 
 const SubMenuItem = ({ title, icon, isOpen, handleClick, children }) => (
   <div className="flex flex-col gap-3">
-    <button className={styleAside} onClick={handleClick}>
+    <button className={styleBtnAside} onClick={handleClick}>
       {icon}
       <span className="ml-2">{title}</span>
       <span className={colorIcon + ' ml-2'}>{isOpen ? '▲' : '▼'}</span>
@@ -118,7 +118,7 @@ const Aside = () => {
   });
 
   // Validacion de rol
-  const { rolId } = useAuthStore().profile;
+  const { id, rolId } = useAuthStore().profile;
   const salir = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
 
@@ -212,16 +212,23 @@ const Aside = () => {
                   isExpanded={isExpanded}
                 />
               </NavLink>
-              
-              <NavLink to="usuarios">
+
+              <NavLink to="/usuarios">
                 <SimpleMenuItem
-                  title="Usuarios"
+                  title="Gestión Usuarios"
+                  icon={<FaUser className={colorIcon} />}
+                  isExpanded={isExpanded}
+                />
+              </NavLink>
+              <NavLink to={`/usuarios/${id}`}>
+                <SimpleMenuItem
+                  title="Detalles Usuario"
                   icon={<FaUser className={colorIcon} />}
                   isExpanded={isExpanded}
                 />
               </NavLink>
             </MenuItem>
-            <NavLink to="proveedores">
+            <NavLink to="/proveedores">
               <SimpleMenuItem
                 title="Proveedores"
                 icon={<FaUserTie className={colorIcon} />}
@@ -346,12 +353,12 @@ const Aside = () => {
               handleSubmenuClick('ajustes', 'personalizations')
             }
           >
-            <button className={styleAside} onClick={setDarkTheme}>
+            <button className={styleBtnAside} onClick={setDarkTheme}>
               <MdOutlineDarkMode className={colorIcon} />
               <span className="ml-2">Modo Oscuro</span>
             </button>
 
-            <button className={styleAside} onClick={setLightTheme}>
+            <button className={styleBtnAside} onClick={setLightTheme}>
               <MdOutlineLightMode className={colorIcon} />
               <span className="ml-2">Modo Claro</span>
             </button>

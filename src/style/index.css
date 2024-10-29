@@ -64,8 +64,15 @@ tbody tr:hover{
 }
 
 tr td{
-    min-width: 4rem;
-    max-width: 5rem;
     overflow-wrap: break-word;
-    white-space: normal;
+    white-space: nowrap;
+}
+
+tr td:not(:first-child):not(:last-child){
+    overflow-x: auto;
+    padding-right: 1.5rem;
+}
+
+tr th{
+    overflow-x: auto;
 }

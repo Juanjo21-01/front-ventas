@@ -13,7 +13,7 @@ const Usuarios = () => {
 
   const closeModal = () => {
     setAbrirModal(false);
-    setEditarUsuario(null); // Resetear el usuario a editar
+    setEditarUsuario(null);
   };
 
   const editar = (usuario) => {
@@ -27,8 +27,6 @@ const Usuarios = () => {
 
   return (
     <div>
-      <h1 className="title">Informacion de los Usuarios</h1>
-      
       <button className="btn primary-theme m-5" onClick={() => setAbrirModal(true)}>
         Agregar Usuario
       </button>

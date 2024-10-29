@@ -1,9 +1,7 @@
-import { CreateCompra } from "../../../components/compras/CreateCompra";
+import  CreateCompra from "../../../components/compras/CreateCompra";
 
 const ComprasCrear = () => {
-  return(
-    <CreateCompra />
-  );
+  return <CreateCompra />;
 };
 
 export default ComprasCrear;

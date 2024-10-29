@@ -8,7 +8,7 @@ const initialForm = {
   nit: '',
   direccion: '',
   telefono: '',
-  estado: true,
+  estado: null,
 };
 
 const ModalProveedores = ({ abrir, cerrar, editar }) => {
@@ -67,81 +67,79 @@ const ModalProveedores = ({ abrir, cerrar, editar }) => {
           {form.id ? 'Editar Proveedor' : 'Agregar Proveedor'}
         </h3>
         <form onSubmit={handleSubmit}>
-          {/* nombre */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Nombre</span>
-            </label>
-            <input
+
+        <div className="flex gap-3">
+          {/* nombres */}
+          <input
               type="text"
               name="nombre"
               value={form.nombre}
               onChange={handleChange}
-              className="input input-bordered"
+              placeholder="Nombre Proveedor"
+              required
+              className="input input-bordered w-full my-2"
             />
-          </div>
 
-          {/* nit */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Nit</span>
-            </label>
-            <input
-              type="text"
+           {/* NIT */}
+           <input
+              type="number"
               name="nit"
               value={form.nit}
               onChange={handleChange}
-              className="input input-bordered"
+              placeholder="Nit"
+              required
+              className="input input-bordered w-full my-2"
             />
           </div>
 
-          {/* direccion */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Dirección</span>
-            </label>
-            <input
+          <div className="flex gap-3">
+          {/* Direccion */}
+          <input
               type="text"
               name="direccion"
               value={form.direccion}
               onChange={handleChange}
-              className="input input-bordered"
+              placeholder="Ingrese Dirección"
+              required
+              className="input input-bordered w-full my-2"
             />
-          </div>
 
-          {/* telefono */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Teléfono</span>
-            </label>
-            <input
+           {/* Telefono */}
+           <input
               type="text"
               name="telefono"
               value={form.telefono}
               onChange={handleChange}
-              className="input input-bordered"
+              placeholder="No. De telefono"
+              required
+              className="input input-bordered w-full my-2"
             />
           </div>
 
           {/* estado */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Estado</span>
-            </label>
-            <input
-              type="text"
-              name="estado"
-              value={form.estado}
-              onChange={handleChange}
-              className="input input-bordered"
-            />
-          </div>
+          <select
+            name="estado"
+            value={form.estado}
+            onChange={handleChange}
+            required
+            className="input input-bordered w-full my-2"
+          >
+            <option defaultValue="0" selected disabled>
+              Seleccione un estado
+            </option>
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
 
           <div className="modal-action">
             <button type="submit" className="btn primary-theme">
               Guardar
             </button>
-            <button type="reset" onClick={handleReset} className="btn">
+            <button
+              type="button"
+              className="btn error-theme"
+              onClick={handleReset}
+            >
               Cancelar
             </button>
           </div>

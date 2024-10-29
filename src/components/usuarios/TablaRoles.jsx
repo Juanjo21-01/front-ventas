@@ -6,7 +6,7 @@ const TablaRoles = ({ eliminar, editar }) => {
   const { roles, obtener } = useRolesStore();
 
   useEffect(() => {
-    obtener(); // Obtener roles al montar el componente
+    obtener();
   }, [obtener]);
 
   return (

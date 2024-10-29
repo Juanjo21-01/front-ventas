@@ -43,7 +43,7 @@ const Roles = () => {
       <h1 className="title">Gestión de Roles</h1>
 
       {/* FORMULARIO */}
-      <form onSubmit={handleSubmit} className="flex justify-center gap-5">
+      <form onSubmit={handleSubmit} className="flex justify-center gap-5 mb-4">
         <label className="input input-bordered flex items-center gap-2">
           Nombre:
           <input
