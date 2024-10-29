@@ -1,45 +1,43 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useProductosStore } from '../../store/productos';
-import { useTiposProductosStore } from '../../store/tipoProductos';
 import { useProveedoresStore } from '../../store/proveedores';
-import { useAuthStore } from '../../store/auth';
-import { Edit, Trash2 } from 'lucide-react';
+import { useUsuariosStore } from '../../store/usuarios';
 import { MdMenu } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
+import { useComprasStore } from '../../store/compras';
+import { Edit } from 'lucide-react';
 
-const TablaProductos = ({ editar, eliminar }) => {
+export const TablaCompras = () => {
   // Variables de estado
-  const { obtener, productos, isLoading } = useProductosStore();
-  const { obtener: obtenerTipoProductos, tiposProductos } =
-    useTiposProductosStore();
-  const { obtener: obtenerProveedor, proveedores } = useProveedoresStore();
+  const { obtener, compras, isLoading, cambiarEstado } = useComprasStore();
+  const { obtener: obtenerProveedores, proveedores } = useProveedoresStore();
+  const { obtener: obtenerUsuarios, usuarios } = useUsuariosStore();
 
   // Variables de paginación
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5);
 
   useEffect(() => {
+    obtenerProveedores();
+    obtenerUsuarios();
     obtener();
-    obtenerProveedor();
-    obtenerTipoProductos();
-  }, [obtener, obtenerProveedor, obtenerTipoProductos]);
+  }, [obtener, obtenerProveedores, obtenerUsuarios]);
 
   // Paginación
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productos.slice(
+  const currentProducts = compras.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(productos.length / productsPerPage);
+
+  const totalPages = Math.ceil(compras.length / productsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // rol de usuario
-  const { rolId } = useAuthStore().profile;
-  let admin = true;
-  if (rolId === 2) admin = false;
+  // cambiar estado
+  const handleCambiar = async (id, estado) => {
+    await cambiarEstado(id, estado);
+  };
 
   // Loading
   if (isLoading) {
@@ -54,50 +52,52 @@ const TablaProductos = ({ editar, eliminar }) => {
   return (
     <div className="bg-theme text-theme">
       <div className="container mx-auto px-4">
-        {productos === undefined ? (
-          <p>No hay productos</p>
+        {compras === undefined ? (
+          <p>No hay compras</p>
         ) : (
           <div className="overflow-x-auto pb-24">
             <table className="table w-full">
               <thead>
                 <tr className="text-center">
                   <th className="w-1/12">No.</th>
-                  <th className="w-3/12">Nombre</th>
-                  <th className="w-1/12">Precio Unitario</th>
-                  <th className="w-1/12">Stock</th>
+                  <th className="w-2/12">Fecha</th>
+                  <th className="w-3/12">Proveedor</th>
+                  <th className="w-3/12">Usuario</th>
+                  <th className="w-1/12">Total</th>
                   <th className="w-1/12">Estado</th>
-                  <th className="w-2/12">Categoría</th>
-                  <th className="w-2/12">Proveedor</th>
                   <th className="w-1/12">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {currentProducts.map((producto) => (
-                  <tr key={producto.id} className="text-center">
-                    <td className="w-1/12">{producto.id}</td>
-                    <td className="w-3/12">{producto.nombre}</td>
-                    <td className="w-1/12">{producto.precioUnitario}</td>
-                    <td className="w-1/12">{producto.stock}</td>
+                {currentProducts.map((compra) => (
+                  <tr key={compra.id} className="text-center">
+                    <td className="w-1/12">{compra.id}</td>
+                    <td className="w-2/12">{compra.fechaCompra}</td>
+                    <td className="w-3/12">
+                      {
+                        proveedores.find(
+                          (proveedor) => proveedor.id === compra.proveedorId
+                        ).nombre
+                      }
+                    </td>
+                    <td className="w-3/12">
+                      {
+                        usuarios.find(
+                          (usuario) => usuario.id === compra.usuarioId
+                        ).nombres
+                      }
+                    </td>
+                    <td className="w-1/12">{compra.total}</td>
                     <td className="w-1/12">
-                      {producto.estado ? (
-                        <span className="badge badge-success">Activo</span>
-                      ) : (
-                        <span className="badge badge-error">Inactivo</span>
-                      )}
+                      <button
+                        onClick={() => handleCambiar(compra.id, !compra.estado)}
+                        className={`btn ${
+                          compra.estado ? 'btn-success' : 'btn-error'
+                        }`}
+                      >
+                        {compra.estado ? 'Activa' : 'Inactiva'}
+                      </button>
                     </td>
-                    <td className="w-2/12">
-                      {tiposProductos.map((tipo) =>
-                        tipo.id === producto.tipoProductoId ? tipo.nombre : ''
-                      )}
-                    </td>
-                    <td className="w-2/12">
-                      {proveedores.map((proveedor) =>
-                        proveedor.id === producto.proveedorId
-                          ? proveedor.nombre
-                          : ''
-                      )}
-                    </td>
-
                     <td className="w-1/12">
                       <div className="dropdown dropdown-left">
                         <label tabIndex={0} className="btn secondary-theme m-1">
@@ -109,31 +109,13 @@ const TablaProductos = ({ editar, eliminar }) => {
                         >
                           <li>
                             <NavLink
-                              to={`/productos/${producto.id}`}
+                              to={`/compras/${compra.id}`}
                               className="btn primary-theme w-full"
                             >
                               <Edit size={20} />
                               Ver
                             </NavLink>
                           </li>
-                          <li>
-                            <button
-                              className="btn primary-theme w-full"
-                              onClick={() => editar(producto)}
-                            >
-                              <Edit size={20} /> Editar
-                            </button>
-                          </li>
-                          {admin && (
-                            <li>
-                              <button
-                                className="btn error-theme w-full"
-                                onClick={() => eliminar(producto.id)}
-                              >
-                                <Trash2 size={20} /> Eliminar
-                              </button>
-                            </li>
-                          )}
                         </ul>
                       </div>
                     </td>
@@ -182,5 +164,3 @@ const TablaProductos = ({ editar, eliminar }) => {
     </div>
   );
 };
-
-export default TablaProductos;

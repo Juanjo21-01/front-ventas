@@ -1,15 +1,12 @@
-import { useState } from "react";
-import ModalUsuario from '../../../components/usuarios/ModalUsuario'; 
+import { useState } from 'react';
+import ModalUsuario from '../../../components/usuarios/ModalUsuario';
 import TablaUsuarios from '../../../components/usuarios/TablaUsuarios';
 import { useUsuariosStore } from '../../../store/usuarios';
-
 
 const Usuarios = () => {
   const [abrirModal, setAbrirModal] = useState(false);
   const [editarUsuarios, setEditarUsuario] = useState(null);
-  const { eliminar} = useUsuariosStore();
-
-
+  const { eliminar } = useUsuariosStore();
 
   const closeModal = () => {
     setAbrirModal(false);
@@ -27,7 +24,12 @@ const Usuarios = () => {
 
   return (
     <div>
-      <button className="btn primary-theme m-5" onClick={() => setAbrirModal(true)}>
+      <h2 className="title">Información Usuarios</h2>
+
+      <button
+        className="btn primary-theme m-5"
+        onClick={() => setAbrirModal(true)}
+      >
         Agregar Usuario
       </button>
 
@@ -42,6 +44,5 @@ const Usuarios = () => {
     </div>
   );
 };
-
 
 export default Usuarios;

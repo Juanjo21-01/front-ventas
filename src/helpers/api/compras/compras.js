@@ -71,7 +71,7 @@ export const cambiarEstadoCompra = async (id, estado) => {
     );
     return compraCambiarEstado.data;
   } catch (error) {
-    console.error('Error al crear la venta', error);
+    console.error('Error al cambiar el estado de la compra', error);
   }
 };
 

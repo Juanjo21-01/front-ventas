@@ -1,18 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useProveedoresStore } from '../../store/proveedores';
+import { useTiposProductosStore } from '../../../store/tipoProductos';
 
 const initialForm = {
   id: null,
   nombre: '',
-  nit: '',
-  direccion: '',
-  telefono: '',
   estado: null,
 };
 
-const ModalProveedores = ({ abrir, cerrar, editar }) => {
-  const { crear, actualizar } = useProveedoresStore();
+const ModalTipoProductos = ({ abrir, cerrar, editar }) => {
+  const { crear, actualizar } = useTiposProductosStore();
   const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
@@ -32,7 +29,8 @@ const ModalProveedores = ({ abrir, cerrar, editar }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(form);
+    
     if (form.id === null) {
       await crear(form);
     } else {
@@ -59,56 +57,19 @@ const ModalProveedores = ({ abrir, cerrar, editar }) => {
           ✕
         </button>
         <h3 className="text-lg font-bold ">
-          {form.id ? 'Editar Proveedor' : 'Agregar Proveedor'}
+          {form.id ? 'Editar Tipo de Producto' : 'Agregar Tipo de Producto'}
         </h3>
         <form onSubmit={handleSubmit}>
-          <div className="flex gap-3">
-            {/* nombres */}
-            <input
-              type="text"
-              name="nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              placeholder="Nombre Proveedor"
-              required
-              className="input input-bordered w-full my-2"
-            />
-
-            {/* NIT */}
-            <input
-              type="text"
-              name="nit"
-              value={form.nit}
-              onChange={handleChange}
-              placeholder="Nit"
-              required
-              className="input input-bordered w-full my-2"
-            />
-          </div>
-
-          <div className="flex gap-3">
-            {/* Direccion */}
-            <input
-              type="text"
-              name="direccion"
-              value={form.direccion}
-              onChange={handleChange}
-              placeholder="Ingrese Dirección"
-              required
-              className="input input-bordered w-full my-2"
-            />
-
-            {/* Telefono */}
-            <input
-              type="text"
-              name="telefono"
-              value={form.telefono}
-              onChange={handleChange}
-              placeholder="No. Teléfono"
-              required
-              className="input input-bordered w-full my-2"
-            />
-          </div>
+          {/* nombres */}
+          <input
+            type="text"
+            name="nombre"
+            value={form.nombre}
+            onChange={handleChange}
+            placeholder="Nombre del Tipo de Producto"
+            required
+            className="input input-bordered w-full my-2"
+          />
 
           {/* estado */}
           <select
@@ -143,4 +104,4 @@ const ModalProveedores = ({ abrir, cerrar, editar }) => {
   );
 };
 
-export default ModalProveedores;
+export default ModalTipoProductos;

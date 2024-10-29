@@ -8,7 +8,6 @@ const Proveedores = () => {
   const [editarProveedor, setEditarProveedor] = useState(null);
   const { eliminar } = useProveedoresStore();
 
-
   const closeModal = () => {
     setAbrirModal(false);
     setEditarProveedor(null); // Resetear el usuario a editar
@@ -35,8 +34,9 @@ const Proveedores = () => {
       </button>
 
       {/* Tabla de proveedores */}
-
       <TablaProveedores editar={editar} eliminar={eliminarProveedor} />
+
+      {/* Modal de proveedores */}
       {abrirModal && (
         <ModalProveedores
           abrir={abrirModal}

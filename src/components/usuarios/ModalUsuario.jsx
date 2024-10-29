@@ -44,7 +44,6 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
       delete form.id;
 
       await crear(form);
-      
     } else {
       await actualizar(editar.id, form);
     }

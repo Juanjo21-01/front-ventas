@@ -21,7 +21,7 @@ const DetallesProductos = () => {
         const data = await obtenerProductoId(id);
         setProduct(data);
       } catch (error) {
-        console.error("Error al obtener el producto:", error);
+        console.error('Error al obtener el producto:', error);
       }
     };
     fetchProduct();
@@ -43,14 +43,6 @@ const DetallesProductos = () => {
     setCantidad(value);
   };
 
-  const handleSubmit = () => {
-    if (!error && cantidad <= product.stock) {
-      console.log(
-        `Solicitando \nCantidad: ${cantidad}\nID: ${product.id}\nNombre: ${product.nombre}`
-      );
-    }
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -66,7 +58,8 @@ const DetallesProductos = () => {
           <h1 className="text-3xl font-bold">{product.nombre}</h1>
           <p className="text-lg text-gray-500">{product.descripcion}</p>
           <p className="text-2xl font-semibold">
-            {product.precioUnitario !== undefined && !isNaN(product.precioUnitario)
+            {product.precioUnitario !== undefined &&
+            !isNaN(product.precioUnitario)
               ? `Q ${product.precioUnitario.toFixed(2)}`
               : 'Precio no disponible'}
           </p>
@@ -91,15 +84,11 @@ const DetallesProductos = () => {
           {error && <p className="error-theme text-sm">{error}</p>}
 
           <div className="flex gap-4">
-            <button
-              onClick={handleSubmit}
-              disabled={error}
-              className="btn primary-theme"
-            >
-              Solicitar
-            </button>
-            <NavLink to="/productos" className="btn secondary-theme">
+            <NavLink to="/compras/crear" className="btn secondary-theme">
               Comprar
+            </NavLink>
+            <NavLink to="/ventas/crear" className="btn secondary-theme">
+              Vender
             </NavLink>
           </div>
         </div>

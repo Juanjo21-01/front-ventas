@@ -64,10 +64,10 @@ export const getProductoByProveedor = async (id) => {
 // POST - crear un producto
 export const saveProducto = async (producto) => {
   try {
-    const productoNuevo = await api.post('productos', producto);
+    const productoNuevo = await api.post('productos/guardar', producto);
     return productoNuevo.data;
   } catch (error) {
-    console.error('Error al crear el productos', error);
+    console.error('Error al crear el producto', error);
   }
 };
 
