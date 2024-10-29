@@ -14,6 +14,7 @@ const Header = () => {
   const logged = useAuthStore((state) => state.logged);
   const salir = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
+  const { id } = useAuthStore().profile;
 
   const cerrarSesion = () => {
     salir();
@@ -43,7 +44,7 @@ const Header = () => {
           <div className="flex-1 justify-center">
             <NavLink
               to="/"
-              className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer hover:border-b-2 rounded-md"
+              className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer"
             >
               TheFullStock
             </NavLink>
@@ -62,13 +63,12 @@ const Header = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow-sm shadow-white border primary-theme"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow-sm shadow-white border primary-theme flex gap-2"
               >
                 <li>
-                  <a className="justify-between secondary-theme secondary-theme-hover">
-                    Perfil
-                    <span className="badge primary-theme">New</span>
-                  </a>
+                  <NavLink to={`/usuarios/${id}`} className="justify-between secondary-theme secondary-theme-hover">
+                    <span>Perfil</span>
+                  </NavLink>
                 </li>
                 <li>
                   <NavLink onClick={cerrarSesion} to="/">
@@ -87,7 +87,7 @@ const Header = () => {
           <div className="flex-[2] justify-start sm:ml-16 ml-6">
             <NavLink
               to="/"
-              className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer hover:border-b-2 rounded-md"
+              className="text-[2rem] text-center primary-theme primary-theme-hover cursor-pointer"
             >
               TheFullStock
             </NavLink>
@@ -120,7 +120,6 @@ const Header = () => {
                     </span>
                   </NavLink>
                 </li>
-                <hr className="primary-theme" />
                 <li className="flex w-full">
                   <NavLink
                     className="flex w-full primary-theme primary-theme-hover"

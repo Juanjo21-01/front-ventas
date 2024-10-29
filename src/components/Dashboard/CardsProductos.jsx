@@ -1,53 +1,93 @@
 import { useEffect, useState } from 'react';
 import ProductModal from './DatosProductos';
 import { useProductosStore } from '../../store/productos';
+import { Search } from 'lucide-react';
 
-export const ListaProductos = () => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const { productos, obtener } = useProductosStore();
+export const CardsProductos = () => {
+  const { productos, obtener, isLoading } = useProductosStore();
 
   useEffect(() => {
     obtener();
   }, [obtener]);
 
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-  };
+  const products = productos.map((product) => ({
+    ...product,
+    image: `https://picsum.photos/200`,
+  }));
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const filteredProducts = products.filter((product) =>
+    product.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const closeModal = () => {
     setSelectedProduct(null);
   };
 
+  if(isLoading){
+    return <div className='min-h-[80vh] flex flex-col justify-center items-center'>
+      <span className="loading loading-infinity loading-lg"></span>
+      <span className='text-2xl'>Cargando...</span>
+    </div>;
+  }
+
   return (
-    <div className="container mx-auto p-5">
-      <h1 className="title">Lista de Productos</h1>
-      <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-5">
-        {productos.map((product) => (
+    <div className="container mx-auto px-4 pb-8 mb-12 bg-theme text-theme">
+      <h1 className="title">Catálogo De Productos</h1>
+      <div className="form-control mb-4">
+        <div className=" flex flex-col sm:flex-row input-group justify-center items-center gap-3">
+          <input
+            type="text"
+            placeholder="Buscando Productos..."
+            className="input input-bordered w-full bg-theme bg-theme-hover primary-theme placeholder: primary-theme max-w-xs"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button className="btn btn-square">
+            <Search className="h-6 w-6 primary-theme primary-theme-hover " />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+        {filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="card py-4 primary-theme border bg-theme-secondary text-theme shadow-xl hover:cursor-pointer hover:scale-105 bg-theme-hover grid grid-cols-2 gap-o items-center"
-            onClick={() => handleProductClick(product)}
+            className="card shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-theme-secondary bg-theme-hover border primary-theme gap-3 rounded-lg overflow-hidden"
           >
-            <div className="w-4/5 pl-4">
-              <img src="https://picsum.photos/400" alt="IMG Random" />
-            </div>
-            <div className="pr-4">
-              <h2 className="text-2xl font-bold text-center mb-3 primary-theme border-b pb-1">
+            <figure>
+              <img
+                src={product.image}
+                alt={product.nombre}
+                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </figure>
+            <div className="card-body gap-3 p-4">
+              <h2 className="card-title font-bold primary-theme border-b-2 pb-1 m-auto px-5 rounded">
                 {product.nombre}
               </h2>
-              <p className="text-theme">
-                Precio:{' '}
-                <span className="secondary-theme">
-                  Q{product.precioUnitario}
-                </span>
+              <p className="font-semibold text-xl flex items-center justify-center secondary-theme pt-2">
+                Q {product.precioUnitario.toFixed(2)}
               </p>
-              <p className="text-theme">
-                Stock: <span className="secondary-theme">{product.stock}</span>
-              </p>
+              <div className="card-actions flex flex-col sm:flex-row gap-2 mt-2 justify-around">
+                <button
+                  className="btn primary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-primary-theme focus:outline-none"
+                  onClick={() => setSelectedProduct(product)}
+                >
+                  Detalles
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
+
+      {filteredProducts.length === 0 && (
+        <p className="text-center text-lg mt-8">Producto no encontrado.</p>
+      )}
+
       {selectedProduct && (
         <ProductModal product={selectedProduct} onClose={closeModal} />
       )}

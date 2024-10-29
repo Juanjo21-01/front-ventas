@@ -1,84 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useVentasStore } from '../../../store/ventas';
 import { NavLink } from 'react-router-dom';
 
 const Ventas = () => {
-  const { ventas, isLoading, obtener, crear, cambiarEstado } = useVentasStore();
-
-  const [ventaForm, setVentaForm] = useState({
-    fechaVenta: '',
-    estado: true,
-    observaciones: '',
-    usuarioId: '',
-    detalles: [
-      {
-        cantidad: '',
-        precio: '',
-        productoId: '',
-      },
-    ],
-  });
+  const { ventas, isLoading, obtener, cambiarEstado } = useVentasStore();
 
   useEffect(() => {
     obtener();
   }, [obtener]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setVentaForm({ ...ventaForm, [name]: value });
-  };
-
-  const handleDetalleChange = (index, e) => {
-    const { name, value } = e.target;
-    const detalles = [...ventaForm.detalles];
-    detalles[index] = { ...detalles[index], [name]: value };
-    setVentaForm({ ...ventaForm, detalles });
-  };
-
-  const handleAddDetalle = () => {
-    setVentaForm({
-      ...ventaForm,
-      detalles: [
-        ...ventaForm.detalles,
-        { cantidad: '', precio: '', productoId: '' },
-      ],
-    });
-  };
-
-  const handleCrearVenta = async (e) => {
-    e.preventDefault();
-
-    console.log(ventaForm);
-    
-    await crear(ventaForm);
-    setVentaForm({
-      fechaVenta: '',
-      estado: true,
-      observaciones: '',
-      usuarioId: '',
-      detalles: [{ cantidad: '', precio: '', productoId: '' }],
-    });
-  };
 
   const handleCambiarEstado = async (id, nuevoEstado) => {
     await cambiarEstado(id, nuevoEstado);
   };
 
   return (
-    <div>
+    <div className="bg-theme text-theme">
       <h2 className="title">Lista de Ventas</h2>
-
+      <div className="container mx-auto px-4">
       <NavLink to="/ventas/crear" className="btn">
         Crear Venta
       </NavLink>
       <br />
 
       {isLoading ? (
-        <p>Cargando...</p>
+        <div className='h-full flex flex-col justify-center items-center primary-theme'>
+          <span className="loading loading-infinity loading-lg"></span>
+          <span className='text-2xl'>Cargando...</span>
+        </div>
       ) : ventas === undefined ? (
         <p>No hay ventas</p>
       ) : (
-        <table border="1" style={{ width: '100%', marginBottom: '20px' }}>
+        <table className="table w-full table-fixed">
           <thead>
             <tr>
               <th>ID</th>
@@ -110,78 +62,7 @@ const Ventas = () => {
           </tbody>
         </table>
       )}
-
-      {/* <h2>Crear Nueva Venta</h2>
-      <form onSubmit={handleCrearVenta}>
-        <div>
-          <label>Fecha de Venta:</label>
-          <input
-            type="text"
-            name="fechaVenta"
-            value={ventaForm.fechaVenta}
-            onChange={handleInputChange}
-            placeholder="YYYY-MM-DD"
-            required
-          />
-        </div>
-        <div>
-          <label>Observaciones:</label>
-          <input
-            type="text"
-            name="observaciones"
-            value={ventaForm.observaciones}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Usuario ID:</label>
-          <input
-            type="text"
-            name="usuarioId"
-            value={ventaForm.usuarioId}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <h3>Detalles de Venta</h3>
-        {ventaForm.detalles.map((detalle, index) => (
-          <div key={index}>
-            <label>Cantidad:</label>
-            <input
-              type="number"
-              name="cantidad"
-              value={detalle.cantidad}
-              onChange={(e) => handleDetalleChange(index, e)}
-              required
-            />
-            <label>Precio:</label>
-            <input
-              type="number"
-              name="precio"
-              value={detalle.precio}
-              onChange={(e) => handleDetalleChange(index, e)}
-              required
-            />
-            <label>Producto ID:</label>
-            <input
-              type="text"
-              name="productoId"
-              value={detalle.productoId}
-              onChange={(e) => handleDetalleChange(index, e)}
-              required
-            />
-          </div>
-        ))}
-        <button className="btn" type="button" onClick={handleAddDetalle}>
-          Añadir Detalle
-        </button>
-        <br />
-        <button className="btn" type="submit">
-          Crear Venta
-        </button>
-      </form> */}
-      
+      </div>
     </div>
     
   );

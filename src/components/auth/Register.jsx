@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { register } from '../../helpers/api/auth';
 import { useNavigate } from 'react-router-dom';
+
 const styleInput =
   'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
-
 const styleLabel = 'label label-text text-theme';
 
 const styleBtn = 'btn primary-theme w-full mt-4';
@@ -122,7 +122,7 @@ export const RegisterForm = () => {
               </label>
               <input
                 id="numberPhone"
-                type="tel"
+                type="number"
                 name="telefono"
                 placeholder="Teléfono"
                 className={styleInput}
