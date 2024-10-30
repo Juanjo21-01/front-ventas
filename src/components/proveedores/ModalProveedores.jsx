@@ -40,7 +40,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
     }
     handleReset();
     cerrar();
-    onGuardar(proveedor)
+    onGuardar(proveedor);
   };
 
   const handleReset = () => {

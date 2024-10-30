@@ -5,7 +5,7 @@ import { useTiposProductosStore } from '../../../store/tipoProductos';
 const initialForm = {
   id: null,
   nombre: '',
-  estado: null,
+  estado: '', // Cambiado de null a una cadena vacía
 };
 
 const ModalTipoProductos = ({ abrir, cerrar, editar }) => {
@@ -79,7 +79,7 @@ const ModalTipoProductos = ({ abrir, cerrar, editar }) => {
             required
             className="input input-bordered w-full my-2"
           >
-            <option defaultValue="0" selected disabled>
+            <option value="" disabled>
               Seleccione un estado
             </option>
             <option value="true">Activo</option>

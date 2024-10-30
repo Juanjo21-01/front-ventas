@@ -8,6 +8,10 @@ const TablaProveedores = ({ editar, eliminar }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [proveedorAEliminar, setProveedorAEliminar] = useState(null);
 
+  // Variables de estado para paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const [proveedoresPerPage] = useState(5); // Puedes cambiar esto según tus necesidades
+
   useEffect(() => {
     obtener();
   }, [obtener]);
@@ -23,6 +27,15 @@ const TablaProveedores = ({ editar, eliminar }) => {
     setIsOpen(false);
     setProveedorAEliminar(null);
   };
+
+  // Paginación
+  const indexOfLastProveedor = currentPage * proveedoresPerPage;
+  const indexOfFirstProveedor = indexOfLastProveedor - proveedoresPerPage;
+  const currentProveedores = proveedores.slice(indexOfFirstProveedor, indexOfLastProveedor);
+
+  const totalPages = Math.ceil(proveedores.length / proveedoresPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="container mx-auto p-4">
@@ -43,7 +56,7 @@ const TablaProveedores = ({ editar, eliminar }) => {
               </tr>
             </thead>
             <tbody>
-              {proveedores.map((proveedor) => (
+              {currentProveedores.map((proveedor) => (
                 <tr key={proveedor.id} className="text-center">
                   <td className="w-1/12">{proveedor.id}</td>
                   <td className="w-4/12">{proveedor.nombre}</td>
@@ -89,6 +102,35 @@ const TablaProveedores = ({ editar, eliminar }) => {
               ))}
             </tbody>
           </table>
+
+          {/* Paginación */}
+          <div className="flex justify-around mt-6">
+            <div className="btn-group">
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                disabled={currentPage === 1}
+              >
+                Anterior
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`btn mx-1 w-14 ${currentPage === index + 1 ? 'btn-active' : 'btn-outline'}`}
+                  onClick={() => paginate(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                disabled={currentPage === totalPages}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

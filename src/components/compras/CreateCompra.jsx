@@ -240,7 +240,7 @@ const CreateCompra = () => {
                   </td>
                   <td>{detalle.cantidad}</td>
                   <td>{detalle.precio}</td>
-                  <td>{detalle.totalAPagar}</td>
+                  <td>{(detalle.cantidad * detalle.precio).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

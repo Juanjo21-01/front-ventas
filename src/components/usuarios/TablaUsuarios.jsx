@@ -12,6 +12,10 @@ const TablaUsuarios = ({ eliminar, editar }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
 
+  // Variables de estado para paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usuariosPerPage] = useState(5); // Puedes cambiar esto según tus necesidades
+
   useEffect(() => {
     obtenerRoles();
     obtener();
@@ -27,6 +31,15 @@ const TablaUsuarios = ({ eliminar, editar }) => {
     setIsModalOpen(false);
     setUsuarioAEliminar(null);
   };
+
+  // Paginación
+  const indexOfLastUsuario = currentPage * usuariosPerPage;
+  const indexOfFirstUsuario = indexOfLastUsuario - usuariosPerPage;
+  const currentUsuarios = usuarios.slice(indexOfFirstUsuario, indexOfLastUsuario);
+
+  const totalPages = Math.ceil(usuarios.length / usuariosPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="bg-theme text-theme">
@@ -48,7 +61,7 @@ const TablaUsuarios = ({ eliminar, editar }) => {
               </tr>
             </thead>
             <tbody>
-              {usuarios.map((usuario) => (
+              {currentUsuarios.map((usuario) => (
                 <tr key={usuario.id}>
                   <td>{usuario.id}</td>
                   <td>
@@ -108,6 +121,35 @@ const TablaUsuarios = ({ eliminar, editar }) => {
               ))}
             </tbody>
           </table>
+
+          {/* Paginación */}
+          <div className="flex justify-around mt-6">
+            <div className="btn-group">
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                disabled={currentPage === 1}
+              >
+                Anterior
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`btn mx-1 w-14 ${currentPage === index + 1 ? 'btn-active' : 'btn-outline'}`}
+                  onClick={() => paginate(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                disabled={currentPage === totalPages}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
         </div>
       )}
       <AlertModal 

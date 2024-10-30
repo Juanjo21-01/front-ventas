@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ModalTipoProducto from '../../../components/productos/tipoProductos/ModalTipoProducto';
-import TablaTipoProducto from '../../../components/productos/tipoProductos/TablaTipoProducto';
+import TablaTipoProducto from '../../../components/productos/tipoProductos/TablatipoProducto';
 import AlertModal from '../../../components/alert/AlertModal'; // Asegúrate de que la ruta sea correcta
 import { useTiposProductosStore } from '../../../store/tipoProductos';
 

@@ -49,7 +49,7 @@ export const TablaVentas = () => {
   return (
     <div className="bg-theme text-theme">
       <div className="container mx-auto px-4">
-        {ventas.length === 0 ? (
+        {ventas === undefined ? (
           <p>No hay ventas</p>
         ) : (
           <div className="overflow-x-auto pb-24">
@@ -59,7 +59,6 @@ export const TablaVentas = () => {
                   <th className="w-1/12">No.</th>
                   <th className="w-2/12">Fecha</th>
                   <th className="w-3/12">Usuario</th>
-                  <th className="w-1/12">Total</th>
                   <th className="w-1/12">Estado</th>
                   <th className="w-1/12">Acciones</th>
                 </tr>
@@ -75,7 +74,6 @@ export const TablaVentas = () => {
                       <td className="w-1/12">{venta.id}</td>
                       <td className="w-2/12">{venta.fechaVenta}</td>
                       <td className="w-3/12">{usuario ? usuario.nombres : 'Usuario no encontrado'}</td>
-                      <td className="w-1/12">{venta.total}</td>
                       <td className="w-1/12">
                         <button
                           onClick={() => handleCambiar(venta.id, !venta.estado)}
