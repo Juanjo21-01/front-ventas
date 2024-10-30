@@ -1,6 +1,7 @@
+import { CompraDetalle } from "../../../components/compras/CompraDetalle";
+
 const ComprasDetalle = () => {
-  return <div>ComprasDetalle</div>;
+  return <CompraDetalle />;
 };
 
 export default ComprasDetalle;
-

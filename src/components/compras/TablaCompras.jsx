@@ -34,7 +34,7 @@ export const TablaCompras = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Cambiar estado
+  // cambiar estado
   const handleCambiar = async (id, estado) => {
     await cambiarEstado(id, estado);
   };
@@ -42,7 +42,7 @@ export const TablaCompras = () => {
   // Loading
   if (isLoading) {
     return (
-      <div className="h-full flex flex-col justify-center items-center">
+      <div className="h-screen w-full absolute top-0 left-0 flex flex-col justify-center items-center">
         <span className="loading loading-infinity loading-lg"></span>
         <span className="text-2xl">Cargando...</span>
       </div>
@@ -52,7 +52,7 @@ export const TablaCompras = () => {
   return (
     <div className="bg-theme text-theme">
       <div className="container mx-auto px-4">
-        {compras.length === 0 ? (
+        {compras === undefined ? (
           <p>No hay compras</p>
         ) : (
           <div className="overflow-x-auto pb-24">
@@ -69,59 +69,50 @@ export const TablaCompras = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentProducts.map((compra) => {
-                  const proveedor = proveedores.find(
-                    (p) => p.id === compra.proveedorId
-                  );
-                  const usuario = usuarios.find(
-                    (u) => u.id === compra.usuarioId
-                  );
-
-                  return (
-                    <tr key={compra.id} className="text-center">
-                      <td className="w-1/12">{compra.id}</td>
-                      <td className="w-2/12">{compra.fechaCompra}</td>
-                      <td className="w-3/12">
-                        {proveedor ? proveedor.nombre : 'Proveedor no encontrado'}
-                      </td>
-                      <td className="w-3/12">
-                        {usuario ? usuario.nombres : 'Usuario no encontrado'}
-                      </td>
-                      <td className="w-1/12">{compra.total}</td>
-                      <td className="w-1/12">
-                        <button
-                          onClick={() => handleCambiar(compra.id, !compra.estado)}
-                          className={`btn ${
-                            compra.estado ? 'btn-success' : 'btn-error'
-                          }`}
+                {currentProducts.map((compra) => (
+                  <tr key={compra.id} className="text-center">
+                    <td className="w-1/12">{compra.id}</td>
+                    <td className="w-2/12">{compra.fechaCompra}</td>
+                    <td className="w-3/12">
+                      {proveedores.find((proveedor) => proveedor.id === compra.proveedorId)?.nombre || 'Proveedor no encontrado'}
+                    </td>
+                    <td className="w-3/12">
+                      {usuarios.find((usuario) => usuario.id === compra.usuarioId)?.nombres || 'Usuario no encontrado'}
+                    </td>
+                    <td className="w-1/12">{compra.total}</td>
+                    <td className="w-1/12">
+                      <button
+                        onClick={() => handleCambiar(compra.id, !compra.estado)}
+                        className={`btn ${
+                          compra.estado ? 'btn-success' : 'btn-error'
+                        }`}
+                      >
+                        {compra.estado ? 'Activa' : 'Inactiva'}
+                      </button>
+                    </td>
+                    <td className="w-1/12">
+                      <div className="dropdown dropdown-left">
+                        <label tabIndex={0} className="btn secondary-theme m-1">
+                          <MdMenu />
+                        </label>
+                        <ul
+                          tabIndex={0}
+                          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 gap-4 bg-theme border primary-theme"
                         >
-                          {compra.estado ? 'Activa' : 'Inactiva'}
-                        </button>
-                      </td>
-                      <td className="w-1/12">
-                        <div className="dropdown dropdown-left">
-                          <label tabIndex={0} className="btn secondary-theme m-1">
-                            <MdMenu />
-                          </label>
-                          <ul
-                            tabIndex={0}
-                            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 gap-4 bg-theme border primary-theme"
-                          >
-                            <li>
-                              <NavLink
-                                to={`/compras/${compra.id}`}
-                                className="btn primary-theme w-full"
-                              >
-                                <Edit size={20} />
-                                Ver
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                          <li>
+                            <NavLink
+                              to={`/compras/${compra.id}`}
+                              className="btn primary-theme w-full"
+                            >
+                              <Edit size={20} />
+                              Ver
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
             <div className="flex justify-around mt-6">
