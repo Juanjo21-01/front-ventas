@@ -27,6 +27,7 @@ import VentasInicio from '../pages/private/ventas/VentasInicio';
 import VentasDetalle from '../pages/private/ventas/VentasDetalle';
 import VentasCrear from '../pages/private/ventas/VentasCrear';
 import Layout from '../pages/Layout';
+import ProductoComentario from '../pages/public/ProductoComentario';
 
 const Rutas = () => {
   return (
@@ -43,6 +44,9 @@ const Rutas = () => {
 
           {/* Ruta de registro */}
           <Route path="/registrarse" element={<Register />} />
+
+          {/* Ruta de los productos con comentarios */}
+          <Route path="/producto-comentarios/:id" element={<ProductoComentario />} />
         </Route>
 
         {/* RUTAS PRIVADAS */}

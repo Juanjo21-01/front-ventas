@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
-import CommentsSection from '../comentarios/ComentsSection';
 import { getProductoById } from '../../helpers/api/productos/productos';
+import { ComentariosSeccion } from '../comentarios/ComentariosSeccion';
+import { useAuthStore } from '../../store/auth';
 
 const image = `https://picsum.photos/200`;
 
@@ -14,6 +15,8 @@ const DetallesProductos = () => {
   const [product, setProduct] = useState(null);
   const [cantidad, setCantidad] = useState(1);
   const [error, setError] = useState('');
+
+  const { logged } = useAuthStore();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -45,6 +48,12 @@ const DetallesProductos = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {!logged && (
+        <NavLink to="/" className="btn secondary-theme">
+          Regresar
+        </NavLink>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex justify-center">
           <img
@@ -60,44 +69,48 @@ const DetallesProductos = () => {
           <p className="text-2xl font-semibold">
             {product.precioUnitario !== undefined &&
             !isNaN(product.precioUnitario)
-              ? `Q ${product.precioUnitario.toFixed(2)}`
+              ? `Q ${product.precioUnitario * (1.3).toFixed(2)}`
               : 'Precio no disponible'}
           </p>
-          <p className="text-sm text-gray-400">
-            Stock disponible: {product.stock}
-          </p>
+          {logged && (
+            <>
+              <p className="text-sm text-gray-400">
+                Stock disponible: {product.stock}
+              </p>
 
-          <div className="flex items-center gap-3">
-            <label htmlFor="cantidad" className="text-lg">
-              Cantidad:
-            </label>
-            <input
-              type="number"
-              id="cantidad"
-              value={cantidad}
-              onChange={handleQuantityChange}
-              min={1}
-              max={product.stock}
-              className="input input-bordered w-20"
-            />
-          </div>
-          {error && <p className="error-theme text-sm">{error}</p>}
+              <div className="flex items-center gap-3">
+                <label htmlFor="cantidad" className="text-lg">
+                  Cantidad:
+                </label>
+                <input
+                  type="number"
+                  id="cantidad"
+                  value={cantidad}
+                  onChange={handleQuantityChange}
+                  min={1}
+                  max={product.stock}
+                  className="input input-bordered w-20"
+                />
+              </div>
+              {error && <p className="error-theme text-sm">{error}</p>}
 
-          <div className="flex gap-4">
-            <NavLink to="/compras/crear" className="btn secondary-theme">
-              Comprar
-            </NavLink>
-            <NavLink to="/ventas/crear" className="btn secondary-theme">
-              Vender
-            </NavLink>
-          </div>
+              <div className="flex gap-4">
+                <NavLink to="/compras/crear" className="btn secondary-theme">
+                  Comprar
+                </NavLink>
+                <NavLink to="/ventas/crear" className="btn secondary-theme">
+                  Vender
+                </NavLink>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
       {/* Sección de comentarios */}
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Comentarios</h2>
-        <CommentsSection productId={product.id} />
+        <ComentariosSeccion productId={product.id} />
       </div>
     </div>
   );
