@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import ModalTipoProducto from '../../../components/productos/tipoProductos/ModalTipoProducto';
 import TablaTipoProducto from '../../../components/productos/tipoProductos/TablaTipoProducto';
+import AlertModal from '../../../components/alert/AlertModal'; // Asegúrate de que la ruta sea correcta
 import { useTiposProductosStore } from '../../../store/tipoProductos';
 
 const TipoProductos = () => {
-  const [abrirModal, setAbrirModal] = useState(null);
+  const [abrirModal, setAbrirModal] = useState(false);
   const [editarTipoProducto, setEditarTipoProducto] = useState(null);
-  const { eliminar } = useTiposProductosStore();
+  const [abrirAlerta, setAbrirAlerta] = useState(false);
+  const [tipoProductoAEliminar, setTipoProductoAEliminar] = useState(null);
+  const { eliminar, tiposProductos } = useTiposProductosStore();
 
   const closeModal = () => {
     setAbrirModal(false);
-    setEditarTipoProducto(null); // Resetear el usuario a editar
+    setEditarTipoProducto(null); // Resetear el tipo de producto a editar
   };
 
   const editar = (tipoProducto) => {
@@ -18,8 +21,15 @@ const TipoProductos = () => {
     setEditarTipoProducto(tipoProducto);
   };
 
+  const handleEliminar = (tipoProducto) => {
+    setTipoProductoAEliminar(tipoProducto);
+    setAbrirAlerta(true);
+  };
+
   const eliminarTipo = async (id) => {
     await eliminar(id);
+    setAbrirAlerta(false);
+    setTipoProductoAEliminar(null);
   };
 
   return (
@@ -34,14 +44,25 @@ const TipoProductos = () => {
       </button>
 
       {/* Tabla de tipo de productos */}
-      <TablaTipoProducto editar={editar} eliminar={eliminarTipo} />
+      <TablaTipoProducto editar={editar} eliminar={handleEliminar} />
 
-      {/* Modal */}
+      {/* Modal de Tipo de Producto */}
       {abrirModal && (
         <ModalTipoProducto
           abrir={abrirModal}
           cerrar={closeModal}
           editar={editarTipoProducto}
+        />
+      )}
+
+      {/* Alert Modal para Confirmar Eliminación */}
+      {tipoProductoAEliminar && (
+        <AlertModal
+          isOpen={abrirAlerta}
+          onClose={() => setAbrirAlerta(false)}
+          onConfirm={() => eliminarTipo(tipoProductoAEliminar.id)}
+          entity={tipoProductoAEliminar} // Asegúrate de que el tipo de producto tenga la propiedad 'nombre'
+          message="¿Estás seguro de que quieres eliminar este Tipo Producto"
         />
       )}
     </>

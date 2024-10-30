@@ -11,7 +11,7 @@ const initialForm = {
   estado: null,
 };
 
-const ModalProveedores = ({ abrir, cerrar, editar }) => {
+const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
   const { crear, actualizar } = useProveedoresStore();
   const [form, setForm] = useState(initialForm);
 
@@ -40,6 +40,7 @@ const ModalProveedores = ({ abrir, cerrar, editar }) => {
     }
     handleReset();
     cerrar();
+    onGuardar(proveedor)
   };
 
   const handleReset = () => {

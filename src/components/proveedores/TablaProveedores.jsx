@@ -1,17 +1,32 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useProveedoresStore } from '../../store/proveedores';
+import AlertModal from '../alert/AlertModal';
 
 const TablaProveedores = ({ editar, eliminar }) => {
   const { obtener, proveedores } = useProveedoresStore();
+  const [isOpen, setIsOpen] = useState(false);
+  const [proveedorAEliminar, setProveedorAEliminar] = useState(null);
 
   useEffect(() => {
     obtener();
   }, [obtener]);
 
+  const handleEliminar = (id) => {
+    const proveedor = proveedores.find(p => p.id === id);
+    setProveedorAEliminar(proveedor);
+    setIsOpen(true);
+  };
+
+  const confirmarEliminacion = (id) => {
+    eliminar(id);
+    setIsOpen(false);
+    setProveedorAEliminar(null);
+  };
+
   return (
     <div className="container mx-auto p-4">
-      {proveedores === undefined ? (
+      {proveedores === undefined || proveedores.length === 0 ? (
         <p>No hay proveedores</p>
       ) : (
         <div className="overflow-x-auto pb-24">
@@ -22,7 +37,7 @@ const TablaProveedores = ({ editar, eliminar }) => {
                 <th className="w-4/12">Nombre</th>
                 <th className="w-1/12">NIT</th>
                 <th className="w-3/12">Dirección</th>
-                <th className="w-1/12">Telefono</th>
+                <th className="w-1/12">Teléfono</th>
                 <th className="w-1/12">Estado</th>
                 <th className="w-1/12">Acciones</th>
               </tr>
@@ -62,7 +77,7 @@ const TablaProveedores = ({ editar, eliminar }) => {
                         <li>
                           <button
                             className="btn error-theme w-full"
-                            onClick={() => eliminar(proveedor.id)}
+                            onClick={() => handleEliminar(proveedor.id)}
                           >
                             Eliminar
                           </button>
@@ -75,6 +90,16 @@ const TablaProveedores = ({ editar, eliminar }) => {
             </tbody>
           </table>
         </div>
+      )}
+
+      {proveedorAEliminar && (
+        <AlertModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onConfirm={confirmarEliminacion}
+          entity={proveedorAEliminar}
+          message="¿Estás seguro de que quieres eliminar a"
+        />
       )}
     </div>
   );
