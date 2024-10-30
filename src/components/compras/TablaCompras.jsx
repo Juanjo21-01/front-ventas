@@ -60,10 +60,9 @@ export const TablaCompras = () => {
               <thead>
                 <tr className="text-center">
                   <th className="w-1/12">No.</th>
-                  <th className="w-2/12">Fecha</th>
+                  <th className="w-3/12">Fecha</th>
                   <th className="w-3/12">Proveedor</th>
                   <th className="w-3/12">Usuario</th>
-                  <th className="w-1/12">Total</th>
                   <th className="w-1/12">Estado</th>
                   <th className="w-1/12">Acciones</th>
                 </tr>
@@ -72,14 +71,17 @@ export const TablaCompras = () => {
                 {currentProducts.map((compra) => (
                   <tr key={compra.id} className="text-center">
                     <td className="w-1/12">{compra.id}</td>
-                    <td className="w-2/12">{compra.fechaCompra}</td>
+                    <td className="w-3/12">{compra.fechaCompra}</td>
                     <td className="w-3/12">
-                      {proveedores.find((proveedor) => proveedor.id === compra.proveedorId)?.nombre || 'Proveedor no encontrado'}
+                      {proveedores.find(
+                        (proveedor) => proveedor.id === compra.proveedorId
+                      )?.nombre || 'Proveedor no encontrado'}
                     </td>
                     <td className="w-3/12">
-                      {usuarios.find((usuario) => usuario.id === compra.usuarioId)?.nombres || 'Usuario no encontrado'}
+                      {usuarios.find(
+                        (usuario) => usuario.id === compra.usuarioId
+                      )?.nombres || 'Usuario no encontrado'}
                     </td>
-                    <td className="w-1/12">{compra.total}</td>
                     <td className="w-1/12">
                       <button
                         onClick={() => handleCambiar(compra.id, !compra.estado)}
