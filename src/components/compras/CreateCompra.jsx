@@ -20,8 +20,7 @@ const CreateCompra = () => {
     obtenerUsuarios();
     obtenerProductos();
     obtenerProveedores();
-    }, [obtenerUsuarios, obtenerProductos, obtenerProveedores]); 
-  
+  }, [obtenerUsuarios, obtenerProductos, obtenerProveedores]);
 
   const [nuevaCompra, setNuevaCompra] = useState({
     id: '',
@@ -31,9 +30,10 @@ const CreateCompra = () => {
     proveedorId: '',
     cantidad: '',
     precio: '',
-    productoId: '',
-    rolId: '',
+    productoId: ''
   });
+
+  const [detallesCompra, setDetallesCompra] = useState([]);
 
   const manejarCambio = (e) => {
     setNuevaCompra({
@@ -44,7 +44,6 @@ const CreateCompra = () => {
 
   const manejarEnvio = async (e) => {
     e.preventDefault();
-    console.log(nuevaCompra);
     await crear(nuevaCompra);
     setNuevaCompra({
       fechaCompra: '',
@@ -55,7 +54,38 @@ const CreateCompra = () => {
       precio: '',
       productoId: ''
     });
-    navigate('/compras'); 
+    setDetallesCompra([]);
+    navigate('/compras');
+  };
+
+  const agregarProducto = () => {
+    const productoId = parseInt(nuevaCompra.productoId, 10);
+    const productoSeleccionado = productos.find(producto => producto.id === productoId);
+
+    if (productoSeleccionado && nuevaCompra.cantidad && nuevaCompra.precio) {
+      const totalAPagar = nuevaCompra.cantidad * nuevaCompra.precio;
+      const nuevoDetalle = {
+        id: productoSeleccionado.id,
+        nombre: productoSeleccionado.nombre,
+        cantidad: nuevaCompra.cantidad,
+        precio: nuevaCompra.precio,
+        totalAPagar: totalAPagar.toFixed(2)
+      };
+      setDetallesCompra([...detallesCompra, nuevoDetalle]);
+
+      setNuevaCompra({
+        ...nuevaCompra,
+        cantidad: '',
+        precio: '',
+        productoId: ''
+      });
+    } else {
+      alert('Por favor selecciona un producto válido y asegúrate de ingresar cantidad y precio.');
+    }
+  };
+
+  const eliminarDetalle = (index) => {
+    setDetallesCompra(detallesCompra.filter((_, i) => i !== index));
   };
 
   return (
@@ -63,177 +93,167 @@ const CreateCompra = () => {
       <h1 className="title">Registrar Compra</h1>
 
       <form onSubmit={manejarEnvio}>
-
         <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-
           {/* Fecha */}
           <div>
-          <label className={styleLabel}>Fecha de compra</label>
-          <input
-            type="date"
-            name="fechaCompra"
-            value={nuevaCompra.fechaCompra}
-            onChange={manejarCambio}
-            className={styleInput}
-            placeholder="YYYY-MM-DD"
-            required
-          />
+            <label className={styleLabel}>Fecha de compra</label>
+            <input
+              type="date"
+              name="fechaCompra"
+              value={nuevaCompra.fechaCompra}
+              onChange={manejarCambio}
+              className={styleInput}
+              required
+            />
           </div>
 
           {/* Proveedor ID */}
-        {nuevaCompra.proveedorId !== 1 && (
-          <select 
-          name="proveedorId"
-          value={nuevaCompra.proveedorId}
-          onChange={manejarCambio}
-          required 
-          className={styleInput + "input input-bordered w-100 my-9"}
+          <select
+            name="proveedorId"
+            value={nuevaCompra.proveedorId}
+            onChange={manejarCambio}
+            required
+            className={`${styleInput} w-100 my-9`}
           >
-            <option defaultValue="0">
-              Selecione un Proveedor
-            </option>
-            {proveedores.map (
-              (proveedor) =>
-                // quitar el proveedor administrador
-              proveedor.rolId !== 1 && (
+            <option value="0">Seleccione un Proveedor</option>
+            {proveedores.map(
+              (proveedor) => proveedor.rolId !== 1 && (
                 <option key={proveedor.id} value={proveedor.id}>
-                {proveedor.nombre}
+                  {proveedor.nombre}
                 </option>
               )
             )}
           </select>
-        )}
-        
 
-        {/* Usuario ID */}
-        {nuevaCompra.usuarioId !== 1 && (
-          <select 
-          name="usuarioId"
-          value={nuevaCompra.usuarioId}
-          onChange={manejarCambio}
-          required 
-          className={styleInput + "input input-bordered w-100 my-9"}
-          >
-            <option defaultValue="0">
-              Selecione un Usuario
-            </option>
-            {usuarios.map (
-              (usuario) =>
-                // quitar el usuario administrador
-              usuario.rolId === 2 && (
-                <option key={usuario.id} value={usuario.id}>
-                {usuario.nombres} {usuario.apellidos}
-                </option>
-              )
-            )}
-          </select>
-        )}
-        {/* <div>
-          <label className={styleLabel}>Usuario ID</label>
-          <input
-            type="text"
+          {/* Usuario ID */}
+          <select
             name="usuarioId"
             value={nuevaCompra.usuarioId}
             onChange={manejarCambio}
-            className={styleInput}
-            placeholder="Ingresar Usuario ID"
             required
-          />
-        </div> */}
+            className={`${styleInput} w-100 my-9`}
+          >
+            <option value="0">Seleccione un Usuario</option>
+            {usuarios.map(
+              (usuario) => usuario.rolId === 2 && (
+                <option key={usuario.id} value={usuario.id}>
+                  {usuario.nombres} {usuario.apellidos}
+                </option>
+              )
+            )}
+          </select>
 
           {/* Observaciones */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-3">
-          <label className={styleLabel}>Observaciones</label>
-          <textarea
-              className={styleInput + " textarea textarea-bordered"}
+          <div className="col-span-1 md:col-span-2 lg:col-span-3">
+            <label className={styleLabel}>Observaciones</label>
+            <textarea
+              className={`${styleInput} textarea textarea-bordered`}
               name="observaciones"
               maxLength={100}
               value={nuevaCompra.observaciones}
               placeholder="Sin Observaciones"
               onChange={manejarCambio}
             />
+          </div>
         </div>
-        </div>
-            <br />
-            <br />
-        <h3 className="text-xl font-bold mt-6">Detalles de Compra</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
 
-        {/* Producto ID */}
-        {nuevaCompra.productoId !== 1 && (
-          <select 
-          name="productoId"
-          value={nuevaCompra.productoId}
-          onChange={manejarCambio}
-          required 
-          className={styleInput + "input input-bordered w-100 my-9"}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          {/* Producto ID */}
+          <select
+            name="productoId"
+            value={nuevaCompra.productoId}
+            onChange={manejarCambio}
+            required
+            className={`${styleInput} w-100 my-9`}
           >
-            <option defaultValue="0">
-              Selecione un producto
-            </option>
-            {productos.map (
-              (producto) =>
-                // quitar el producto administrador
-              producto.rolId !== 2 && (
+            <option value="0">Seleccione un producto</option>
+            {productos.map(
+              (producto) => producto.rolId !== 2 && (
                 <option key={producto.id} value={producto.id}>
-                {producto.nombre}
+                  {producto.nombre}
                 </option>
               )
             )}
           </select>
-        )}
 
+          {/* Cantidad */}
+          <div>
+            <label className={styleLabel}>Cantidad</label>
+            <input
+              type="number"
+              name="cantidad"
+              value={nuevaCompra.cantidad}
+              onChange={manejarCambio}
+              className={styleInput}
+              required
+              placeholder="0"
+            />
+          </div>
 
-        {/* <div>
-          <label className={styleLabel}>Producto ID</label>
-          <input
-            type="number"
-            name="productoId"
-            value={nuevaCompra.productoId}
-            onChange={manejarCambio}
-            className={styleInput}
-            placeholder="Producto ID"
-            required
-          />
-        </div> */}
-        
-        {/* Cantidad */}
-        <div>
-          <label className={styleLabel}>Cantidad</label>
-          <input
-            type="number"
-            name="cantidad"
-            value={nuevaCompra.cantidad}
-            onChange={manejarCambio}
-            className={styleInput}
-            required
-            placeholder="0"
-          />
+          {/* Precio */}
+          <div>
+            <label className={styleLabel}>Precio</label>
+            <input
+              type="number"
+              step="0.01"
+              name="precio"
+              value={nuevaCompra.precio}
+              onChange={manejarCambio}
+              className={styleInput}
+              placeholder="Q 00.00"
+              required
+            />
+          </div>
+
+          <button 
+            type="button" 
+            onClick={agregarProducto} 
+            className={`${styleBtn} md:max-w-[48%] text-center mx-auto`}>
+            Agregar producto
+          </button>
         </div>
 
-        {/* Precio */}
-        <div className="form-control mb-4">
-          <label className={styleLabel}>Precio</label>
-          <input
-            type="number"
-            step="0.01"
-            name="precio"
-            value={nuevaCompra.precio}
-            onChange={manejarCambio}
-            className={styleInput}
-            placeholder="Q 00.00"
-            required
-          />
+        {/* Tabla de detalles de compra */}
+        <div className="mt-6">
+          <h2 className="title">Detalles de compra</h2>
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>Eliminar</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Q. Precio</th>
+                <th>Q. Total a pagar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {detallesCompra.map((detalle, index) => (
+                <tr key={index}>
+                  <td>
+                    <button 
+                      className="btn btn-error" 
+                      type="button" 
+                      onClick={() => eliminarDetalle(index)}>
+                      Eliminar
+                    </button>
+                  </td>
+                  <td>{detalle.nombre}</td>
+                  <td>{detalle.cantidad}</td>
+                  <td>{detalle.precio}</td>
+                  <td>{detalle.totalAPagar}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        </div>
-    
+
         <div className="flex flex-col md:flex-row justify-around mt-6 gap-4">
-        <button className={styleBtn + " md:max-w-[48%] error-theme"} type="button">
-          Cancelar
-        </button>
-        <button type="submit" className={styleBtn + " md:max-w-[48%] primary-theme"}>
-          Registrar compra
-        </button>
+          <button className={`${styleBtn} md:max-w-[48%]`} type="button">
+            Cancelar
+          </button>
+          <button type="submit" className={`${styleBtn} md:max-w-[48%]`}>
+            Registrar compra
+          </button>
         </div>
       </form>
     </div>

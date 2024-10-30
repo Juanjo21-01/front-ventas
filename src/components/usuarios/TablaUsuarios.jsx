@@ -1,18 +1,32 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MdMenu } from 'react-icons/md';
 import { Edit, Trash2 } from 'lucide-react';
 import { useUsuariosStore } from '../../store/usuarios';
 import { useRolesStore } from '../../store/roles';
+import AlertModal from '../alert/AlertModal';
 
 const TablaUsuarios = ({ eliminar, editar }) => {
   const { obtener, usuarios } = useUsuariosStore();
   const { obtener: obtenerRoles, roles } = useRolesStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
 
   useEffect(() => {
     obtenerRoles();
     obtener();
   }, [obtener, obtenerRoles]);
+
+  const handleEliminar = (usuario) => {
+    setUsuarioAEliminar(usuario);
+    setIsModalOpen(true);
+  };
+
+  const confirmarEliminacion = (id) => {
+    eliminar(id);
+    setIsModalOpen(false);
+    setUsuarioAEliminar(null);
+  };
 
   return (
     <div className="bg-theme text-theme">
@@ -80,7 +94,7 @@ const TablaUsuarios = ({ eliminar, editar }) => {
                         </li>
                         <li>
                           <button
-                            onClick={() => eliminar(usuario.id)}
+                            onClick={() => handleEliminar(usuario)}
                             className="btn error-theme w-full btn-sm"
                             disabled={usuario.rolId === 1}
                           >
@@ -96,6 +110,13 @@ const TablaUsuarios = ({ eliminar, editar }) => {
           </table>
         </div>
       )}
+      <AlertModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onConfirm={confirmarEliminacion} 
+        entity={usuarioAEliminar} 
+        message="¿Estás seguro de que quieres eliminar a"
+      />
     </div>
   );
 };

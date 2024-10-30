@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useProveedoresStore } from '../../store/proveedores';
 import { useUsuariosStore } from '../../store/usuarios';
 import { MdMenu } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
-import { useComprasStore } from '../../store/compras';
+import { useVentasStore } from '../../store/ventas';
 import { Edit } from 'lucide-react';
 
-export const TablaCompras = () => {
+export const TablaVentas = () => {
   // Variables de estado
-  const { obtener, compras, isLoading, cambiarEstado } = useComprasStore();
-  const { obtener: obtenerProveedores, proveedores } = useProveedoresStore();
+  const { obtener, ventas, isLoading, cambiarEstado } = useVentasStore();
   const { obtener: obtenerUsuarios, usuarios } = useUsuariosStore();
 
   // Variables de paginación
@@ -17,24 +15,23 @@ export const TablaCompras = () => {
   const [productsPerPage] = useState(5);
 
   useEffect(() => {
-    obtenerProveedores();
     obtenerUsuarios();
     obtener();
-  }, [obtener, obtenerProveedores, obtenerUsuarios]);
+  }, [obtener, obtenerUsuarios]);
 
   // Paginación
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = compras.slice(
+  const currentProducts = ventas.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
 
-  const totalPages = Math.ceil(compras.length / productsPerPage);
+  const totalPages = Math.ceil(ventas.length / productsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // cambiar estado
+  // Cambiar estado
   const handleCambiar = async (id, estado) => {
     await cambiarEstado(id, estado);
   };
@@ -42,7 +39,7 @@ export const TablaCompras = () => {
   // Loading
   if (isLoading) {
     return (
-      <div className="h-screen w-full absolute top-0 left-0 flex flex-col justify-center items-center">
+      <div className="h-full flex flex-col justify-center items-center">
         <span className="loading loading-infinity loading-lg"></span>
         <span className="text-2xl">Cargando...</span>
       </div>
@@ -52,8 +49,8 @@ export const TablaCompras = () => {
   return (
     <div className="bg-theme text-theme">
       <div className="container mx-auto px-4">
-        {compras === undefined ? (
-          <p>No hay compras</p>
+        {ventas.length === 0 ? (
+          <p>No hay ventas</p>
         ) : (
           <div className="overflow-x-auto pb-24">
             <table className="table w-full">
@@ -61,7 +58,6 @@ export const TablaCompras = () => {
                 <tr className="text-center">
                   <th className="w-1/12">No.</th>
                   <th className="w-2/12">Fecha</th>
-                  <th className="w-3/12">Proveedor</th>
                   <th className="w-3/12">Usuario</th>
                   <th className="w-1/12">Total</th>
                   <th className="w-1/12">Estado</th>
@@ -69,50 +65,51 @@ export const TablaCompras = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentProducts.map((compra) => (
-                  <tr key={compra.id} className="text-center">
-                    <td className="w-1/12">{compra.id}</td>
-                    <td className="w-2/12">{compra.fechaCompra}</td>
-                    <td className="w-3/12">
-                      {proveedores.find((proveedor) => proveedor.id === compra.proveedorId)?.nombre || 'Proveedor no encontrado'}
-                    </td>
-                    <td className="w-3/12">
-                      {usuarios.find((usuario) => usuario.id === compra.usuarioId)?.nombres || 'Usuario no encontrado'}
-                    </td>
-                    <td className="w-1/12">{compra.total}</td>
-                    <td className="w-1/12">
-                      <button
-                        onClick={() => handleCambiar(compra.id, !compra.estado)}
-                        className={`btn ${
-                          compra.estado ? 'btn-success' : 'btn-error'
-                        }`}
-                      >
-                        {compra.estado ? 'Activa' : 'Inactiva'}
-                      </button>
-                    </td>
-                    <td className="w-1/12">
-                      <div className="dropdown dropdown-left">
-                        <label tabIndex={0} className="btn secondary-theme m-1">
-                          <MdMenu />
-                        </label>
-                        <ul
-                          tabIndex={0}
-                          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 gap-4 bg-theme border primary-theme"
+                {currentProducts.map((venta) => {
+                  const usuario = usuarios.find(
+                    (u) => u.id === venta.usuarioId
+                  );
+
+                  return (
+                    <tr key={venta.id} className="text-center">
+                      <td className="w-1/12">{venta.id}</td>
+                      <td className="w-2/12">{venta.fechaVenta}</td>
+                      <td className="w-3/12">{usuario ? usuario.nombres : 'Usuario no encontrado'}</td>
+                      <td className="w-1/12">{venta.total}</td>
+                      <td className="w-1/12">
+                        <button
+                          onClick={() => handleCambiar(venta.id, !venta.estado)}
+                          className={`btn ${
+                            venta.estado ? 'btn-success' : 'btn-error'
+                          }`}
                         >
-                          <li>
-                            <NavLink
-                              to={`/compras/${compra.id}`}
-                              className="btn primary-theme w-full"
-                            >
-                              <Edit size={20} />
-                              Ver
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                          {venta.estado ? 'Activa' : 'Inactiva'}
+                        </button>
+                      </td>
+                      <td className="w-1/12">
+                        <div className="dropdown dropdown-left">
+                          <label tabIndex={0} className="btn secondary-theme m-1">
+                            <MdMenu />
+                          </label>
+                          <ul
+                            tabIndex={0}
+                            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 gap-4 bg-theme border primary-theme"
+                          >
+                            <li>
+                              <NavLink
+                                to={`/ventas/${venta.id}`}
+                                className="btn primary-theme w-full"
+                              >
+                                <Edit size={20} />
+                                Ver
+                              </NavLink>
+                            </li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             <div className="flex justify-around mt-6">
