@@ -1,26 +1,35 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { MdClose } from "react-icons/md";
-import { NavLink } from "react-router-dom";
-import { useProveedoresStore } from "../../store/proveedores";
-import { useTiposProductosStore } from "../../store/tipoProductos";
-
-const span = "font-bold secondary-theme flex-1";
+import { MdClose } from 'react-icons/md';
+import { NavLink } from 'react-router-dom';
+import { useProveedoresStore } from '../../store/proveedores';
+import { useTiposProductosStore } from '../../store/tipoProductos';
+import { useAuthStore } from '../../store/auth';
+const span = 'font-bold secondary-theme flex-1';
 
 const ProductModal = ({ product, onClose }) => {
-  const { proveedores = [], obtener: obtenerProveedores } = useProveedoresStore();
-  const { tipoProductos = [], obtener: obtenerTipoProductos } = useTiposProductosStore();
+  const { proveedores = [], obtener: obtenerProveedores } =
+    useProveedoresStore();
+  const { tiposProductos = [], obtener: obtenerTipoProductos } =
+    useTiposProductosStore();
+  const { logged } = useAuthStore();
 
   useEffect(() => {
-    obtenerProveedores();
-    obtenerTipoProductos();
-  }, [obtenerProveedores, obtenerTipoProductos]);
+    if (logged === true) {
+      obtenerProveedores();
+      obtenerTipoProductos();
+    }
+  }, [obtenerProveedores, obtenerTipoProductos, logged]);
 
   if (!product) return null;
 
-  const proveedorNombre = proveedores.find((proveedor) => proveedor.id === product.proveedorId)?.nombre || "No disponible";
+  const proveedorNombre =
+    proveedores.find((proveedor) => proveedor.id === product.proveedorId)
+      ?.nombre || 'No disponible';
 
-  const tipoProductoNombre = tipoProductos.find((tipo) => tipo.id === product.tipoProductoId)?.nombre || "No disponible";
+  const tipoProductoNombre =
+    tiposProductos.find((tipo) => tipo.id === product.tipoProductoId)?.nombre ||
+    'No disponible';
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-20 modal-open m-auto">
@@ -38,9 +47,10 @@ const ProductModal = ({ product, onClose }) => {
           <p className="flex">
             <span className={span}>Precio Unitario: </span>
             <span className="flex-1 overflow-auto">
-              {product.precioUnitario !== undefined && !isNaN(product.precioUnitario)
-                ? `Q. ${product.precioUnitario.toFixed(2)}`
-                : "No disponible"}
+              {product.precioUnitario !== undefined &&
+              !isNaN(product.precioUnitario)
+                ? `Q. ${(product.precioUnitario * 1.3).toFixed(2)}`
+                : 'No disponible'}
             </span>
           </p>
           <p className="flex">
@@ -49,19 +59,29 @@ const ProductModal = ({ product, onClose }) => {
           </p>
           <p className="flex">
             <span className={span}>Estado: </span>
-            <span className="flex-1 overflow-auto">{product.estado ? "Activo" : "Inactivo"}</span>
+            <span className="flex-1 overflow-auto">
+              {product.estado ? 'Activo' : 'Inactivo'}
+            </span>
           </p>
-          <p className="flex">
-            <span className={span}>Tipo de Producto: </span>
-            <span className="flex-1 overflow-auto">{tipoProductoNombre}</span>
-
-          </p>
-          <p className="flex">
-            <span className={span}>Proveedor: </span>
-            <span className="flex-1 overflow-auto">{proveedorNombre}</span>
-          </p>
+          {logged === true && (
+            <>
+              <p className="flex">
+                <span className={span}>Tipo de Producto: </span>
+                <span className="flex-1 overflow-auto">
+                  {tipoProductoNombre}
+                </span>
+              </p>
+              <p className="flex">
+                <span className={span}>Proveedor: </span>
+                <span className="flex-1 overflow-auto">{proveedorNombre}</span>
+              </p>
+            </>
+          )}
         </div>
-        <NavLink to={`/productos/${product.id}`} className="btn btn-block primary-theme mt-4">
+        <NavLink
+          to={`/productos/${product.id}`}
+          className="btn btn-block primary-theme mt-4"
+        >
           Comprar
         </NavLink>
       </div>

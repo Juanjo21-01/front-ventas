@@ -26,11 +26,13 @@ export const CardsProductos = () => {
     setSelectedProduct(null);
   };
 
-  if(isLoading){
-    return <div className='min-h-[80vh] flex flex-col justify-center items-center'>
-      <span className="loading loading-infinity loading-lg"></span>
-      <span className='text-2xl'>Cargando...</span>
-    </div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-[80vh] flex flex-col justify-center items-center">
+        <span className="loading loading-infinity loading-lg"></span>
+        <span className="text-2xl">Cargando...</span>
+      </div>
+    );
   }
 
   return (
@@ -69,7 +71,7 @@ export const CardsProductos = () => {
                 {product.nombre}
               </h2>
               <p className="font-semibold text-xl flex items-center justify-center secondary-theme pt-2">
-                Q {product.precioUnitario.toFixed(2)}
+                Q {(product.precioUnitario * 1.3).toFixed(2)}
               </p>
               <div className="card-actions flex flex-col sm:flex-row gap-2 mt-2 justify-around">
                 <button

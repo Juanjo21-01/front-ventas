@@ -1,5 +1,5 @@
 import api from '../../libs/axios';
-
+import { toast } from 'sonner';
 // PETICIONES DE LOS ROLES
 
 // GET - obtener todos los roles
@@ -36,9 +36,11 @@ export const getRolByNombre = async (nombre) => {
 export const saveRol = async (rol) => {
   try {
     const rolNuevo = await api.post('roles', rol);
+    // Mostrar notificación de éxito
+    toast.success(`Rol: ${rolNuevo.data.nombre}, creado con éxito`);
     return rolNuevo.data;
   } catch (error) {
-    console.error('Error al crear el rol', error);
+    toast.error('Error al crear el rol: ', error);
   }
 };
 
@@ -46,9 +48,11 @@ export const saveRol = async (rol) => {
 export const updateRol = async (id, rol) => {
   try {
     const rolActualizado = await api.put(`roles/${id}`, rol);
+    // Mostrar notificación de éxito
+    toast.info(`Rol: ${rolActualizado.data.nombre}, actualizado con éxito`);
     return rolActualizado.data;
   } catch (error) {
-    console.error('Error al actualizar el rol', error);
+    toast.error('Error al actualizar el rol: ', error);
   }
 };
 
@@ -56,8 +60,10 @@ export const updateRol = async (id, rol) => {
 export const deleteRol = async (id) => {
   try {
     const rolEliminado = await api.delete(`roles/${id}`);
+    // Mostrar notificación de éxito
+    toast.success(`Rol eliminado con éxito`);
     return rolEliminado.data;
   } catch (error) {
-    console.error('Error al eliminar el rol', error);
+    toast.error('Error al eliminar el rol: ', error);
   }
 };

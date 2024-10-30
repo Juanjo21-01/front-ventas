@@ -3,6 +3,7 @@ import Aside from '../components/Aside';
 import Header from '../components/Header';
 import { MenuContext, MenuProvider } from '../components/context/MenuContext';
 import { useContext } from 'react';
+import { Toaster } from 'sonner';
 
 const Layout = () => {
   return (
@@ -21,7 +22,6 @@ const LayoutContent = () => {
         isMobileOpen ? 'grid-cols-[auto_1fr]' : 'grid-cols-[0_1fr]'
       }`}
     >
-
       <Aside />
 
       <div className="flex flex-col h-screen">
@@ -31,6 +31,14 @@ const LayoutContent = () => {
           <Outlet />
         </div>
       </div>
+
+      <Toaster
+        visibleToasts={8}
+        closeButton
+        expand
+        position="bottom-right"
+        richColors
+      />
     </div>
   );
 };

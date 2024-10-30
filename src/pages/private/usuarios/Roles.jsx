@@ -20,14 +20,20 @@ const Roles = () => {
     e.preventDefault();
     if (rolEnEdicion) {
       actualizar(rolEnEdicion.id, nuevoRol);
-      setNotificacion({ mensaje: 'Rol actualizado correctamente', tipo: 'success' });
+      setNotificacion({
+        mensaje: 'Rol actualizado correctamente',
+        tipo: 'success',
+      });
       setRolEnEdicion(null);
     } else {
       crear(nuevoRol);
-      setNotificacion({ mensaje: 'Rol agregado correctamente', tipo: 'success' });
+      setNotificacion({
+        mensaje: 'Rol agregado correctamente',
+        tipo: 'success',
+      });
     }
     setNuevoRol({ nombre: '' });
-    
+
     // Limpiar la notificación después de 3 segundos
     setTimeout(() => setNotificacion({ mensaje: '', tipo: '' }), 3000);
   };
@@ -39,7 +45,10 @@ const Roles = () => {
 
   const manejarConfirmacionEliminar = (id) => {
     eliminar(id);
-    setNotificacion({ mensaje: 'Rol eliminado correctamente', tipo: 'success' });
+    setNotificacion({
+      mensaje: 'Rol eliminado correctamente',
+      tipo: 'success',
+    });
     setRolAEliminar(null); // Limpiar el rol a eliminar
 
     // Limpiar la notificación después de 3 segundos
@@ -64,7 +73,9 @@ const Roles = () => {
       {notificacion.mensaje && (
         <div
           role="alert"
-          className={`absolute top-15 right-5 mb-10 p-4 max-w-xs flex items-center text-white rounded ${notificacion.tipo === 'success' ? 'bg-green-500' : 'bg-red-500'}`}
+          className={`absolute top-15 right-5 mb-10 p-4 max-w-xs flex items-center text-white rounded ${
+            notificacion.tipo === 'success' ? 'bg-green-500' : 'bg-red-500'
+          }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

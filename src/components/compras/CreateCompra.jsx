@@ -1,98 +1,106 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useComprasStore } from '../../store/compras';
-import { useUsuariosStore } from '../../store/usuarios';
 import { useProductosStore } from '../../store/productos';
-import { useProveedoresStore } from "../../store/proveedores";
+import { useProveedoresStore } from '../../store/proveedores';
+import { useAuthStore } from '../../store/auth';
+const styleInput =
+  'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
+const styleLabel = 'label label-text text-theme label';
+const styleBtn = 'btn primary-theme w-full mt-4';
 
-const styleInput = "input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme";
-const styleLabel = "label label-text text-theme label";
-const styleBtn = "btn primary-theme w-full mt-4";
-
+const initialForm = {
+  fechaCompra: '',
+  observaciones: '',
+  usuarioId: '',
+  proveedorId: '',
+  detalles: [],
+  productoId: '',
+  cantidad: 0,
+  precio: 0,
+};
 const CreateCompra = () => {
   const navigate = useNavigate();
-  const { usuarios, obtener: obtenerUsuarios } = useUsuariosStore();
   const { crear } = useComprasStore();
   const { productos, obtener: obtenerProductos } = useProductosStore();
   const { proveedores, obtener: obtenerProveedores } = useProveedoresStore();
+  const { profile } = useAuthStore();
 
   useEffect(() => {
-    obtenerUsuarios();
     obtenerProductos();
     obtenerProveedores();
-  }, [obtenerUsuarios, obtenerProductos, obtenerProveedores]);
+  }, [obtenerProductos, obtenerProveedores]);
 
-  const [nuevaCompra, setNuevaCompra] = useState({
-    id: '',
-    fechaCompra: '',
-    observaciones: '',
-    usuarioId: '',
-    proveedorId: '',
-    cantidad: '',
-    precio: '',
-    productoId: ''
-  });
+  const [form, setForm] = useState(initialForm);
 
   const [detallesCompra, setDetallesCompra] = useState([]);
 
-  const manejarCambio = (e) => {
-    setNuevaCompra({
-      ...nuevaCompra,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const manejarEnvio = async (e) => {
-    e.preventDefault();
-    await crear(nuevaCompra);
-    setNuevaCompra({
-      fechaCompra: '',
-      observaciones: '',
-      usuarioId: '',
-      proveedorId: '',
-      cantidad: '',
-      precio: '',
-      productoId: ''
-    });
-    setDetallesCompra([]);
-    navigate('/compras');
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const agregarProducto = () => {
-    const productoId = parseInt(nuevaCompra.productoId, 10);
-    const productoSeleccionado = productos.find(producto => producto.id === productoId);
+    console.log('Agregar al detalle de compra');
 
-    if (productoSeleccionado && nuevaCompra.cantidad && nuevaCompra.precio) {
-      const totalAPagar = nuevaCompra.cantidad * nuevaCompra.precio;
-      const nuevoDetalle = {
-        id: productoSeleccionado.id,
-        nombre: productoSeleccionado.nombre,
-        cantidad: nuevaCompra.cantidad,
-        precio: nuevaCompra.precio,
-        totalAPagar: totalAPagar.toFixed(2)
-      };
-      setDetallesCompra([...detallesCompra, nuevoDetalle]);
-
-      setNuevaCompra({
-        ...nuevaCompra,
-        cantidad: '',
-        precio: '',
-        productoId: ''
-      });
-    } else {
-      alert('Por favor selecciona un producto válido y asegúrate de ingresar cantidad y precio.');
+    if (form.productoId == '' || form.cantidad == 0 || form.precio == 0) {
+      alert('Debe seleccionar un producto, cantidad y precio');
+      return;
     }
+
+    const detalle = {
+      productoId: form.productoId,
+      cantidad: form.cantidad,
+      precio: form.precio,
+    };
+
+    setDetallesCompra([...detallesCompra, detalle]);
+
+    setForm({
+      ...form,
+      detalles: [...detallesCompra, detalle],
+      productoId: 0,
+      cantidad: 0,
+      precio: 0,
+    });
   };
 
-  const eliminarDetalle = (index) => {
-    setDetallesCompra(detallesCompra.filter((_, i) => i !== index));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const compra = {
+      fechaCompra: form.fechaCompra,
+      observaciones: form.observaciones,
+      usuarioId: profile.id,
+      proveedorId: form.proveedorId,
+      detalles: detallesCompra,
+    };
+    await crear(compra);
+    navigate('/compras');
+
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setForm(initialForm);
+    setDetallesCompra([]);
+  };
+
+  const quitarElemento = (detalle) => {
+    const detallesFiltrados = detallesCompra.filter((item) => item !== detalle);
+
+    setDetallesCompra(detallesFiltrados);
+
+    setForm({
+      ...form,
+      detalles: detallesFiltrados,
+    });
   };
 
   return (
     <div className="px-4 pb-4 md:px-6 bg-base-200">
       <h1 className="title">Registrar Compra</h1>
 
-      <form onSubmit={manejarEnvio}>
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Fecha */}
           <div>
@@ -100,8 +108,8 @@ const CreateCompra = () => {
             <input
               type="date"
               name="fechaCompra"
-              value={nuevaCompra.fechaCompra}
-              onChange={manejarCambio}
+              value={form.fechaCompra}
+              onChange={handleChange}
               className={styleInput}
               required
             />
@@ -110,36 +118,19 @@ const CreateCompra = () => {
           {/* Proveedor ID */}
           <select
             name="proveedorId"
-            value={nuevaCompra.proveedorId}
-            onChange={manejarCambio}
+            value={form.proveedorId}
+            onChange={handleChange}
             required
             className={`${styleInput} w-100 my-9`}
           >
             <option value="0">Seleccione un Proveedor</option>
             {proveedores.map(
-              (proveedor) => proveedor.rolId !== 1 && (
-                <option key={proveedor.id} value={proveedor.id}>
-                  {proveedor.nombre}
-                </option>
-              )
-            )}
-          </select>
-
-          {/* Usuario ID */}
-          <select
-            name="usuarioId"
-            value={nuevaCompra.usuarioId}
-            onChange={manejarCambio}
-            required
-            className={`${styleInput} w-100 my-9`}
-          >
-            <option value="0">Seleccione un Usuario</option>
-            {usuarios.map(
-              (usuario) => usuario.rolId === 2 && (
-                <option key={usuario.id} value={usuario.id}>
-                  {usuario.nombres} {usuario.apellidos}
-                </option>
-              )
+              (proveedor) =>
+                proveedor.rolId !== 1 && (
+                  <option key={proveedor.id} value={proveedor.id}>
+                    {proveedor.nombre}
+                  </option>
+                )
             )}
           </select>
 
@@ -150,9 +141,9 @@ const CreateCompra = () => {
               className={`${styleInput} textarea textarea-bordered`}
               name="observaciones"
               maxLength={100}
-              value={nuevaCompra.observaciones}
+              value={form.observaciones}
               placeholder="Sin Observaciones"
-              onChange={manejarCambio}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -161,18 +152,19 @@ const CreateCompra = () => {
           {/* Producto ID */}
           <select
             name="productoId"
-            value={nuevaCompra.productoId}
-            onChange={manejarCambio}
+            value={form.productoId}
+            onChange={handleChange}
             required
             className={`${styleInput} w-100 my-9`}
           >
             <option value="0">Seleccione un producto</option>
             {productos.map(
-              (producto) => producto.rolId !== 2 && (
-                <option key={producto.id} value={producto.id}>
-                  {producto.nombre}
-                </option>
-              )
+              (producto) =>
+                producto.rolId !== 2 && (
+                  <option key={producto.id} value={producto.id}>
+                    {producto.nombre}
+                  </option>
+                )
             )}
           </select>
 
@@ -182,8 +174,8 @@ const CreateCompra = () => {
             <input
               type="number"
               name="cantidad"
-              value={nuevaCompra.cantidad}
-              onChange={manejarCambio}
+              value={form.cantidad}
+              onChange={handleChange}
               className={styleInput}
               required
               placeholder="0"
@@ -197,18 +189,19 @@ const CreateCompra = () => {
               type="number"
               step="0.01"
               name="precio"
-              value={nuevaCompra.precio}
-              onChange={manejarCambio}
+              value={form.precio}
+              onChange={handleChange}
               className={styleInput}
               placeholder="Q 00.00"
               required
             />
           </div>
 
-          <button 
-            type="button" 
-            onClick={agregarProducto} 
-            className={`${styleBtn} md:max-w-[48%] text-center mx-auto`}>
+          <button
+            type="button"
+            onClick={agregarProducto}
+            className={`${styleBtn} md:max-w-[48%] text-center mx-auto`}
+          >
             Agregar producto
           </button>
         </div>
@@ -230,14 +223,21 @@ const CreateCompra = () => {
               {detallesCompra.map((detalle, index) => (
                 <tr key={index}>
                   <td>
-                    <button 
-                      className="btn btn-error" 
-                      type="button" 
-                      onClick={() => eliminarDetalle(index)}>
+                    <button
+                      className="btn btn-error"
+                      type="button"
+                      onClick={() => quitarElemento(detalle)}
+                    >
                       Eliminar
                     </button>
                   </td>
-                  <td>{detalle.nombre}</td>
+                  <td>
+                    {productos.map((producto) => {
+                      if (detalle.productoId == producto.id) {
+                        return producto.nombre;
+                      }
+                    })}
+                  </td>
                   <td>{detalle.cantidad}</td>
                   <td>{detalle.precio}</td>
                   <td>{detalle.totalAPagar}</td>
@@ -248,9 +248,9 @@ const CreateCompra = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-around mt-6 gap-4">
-          <button className={`${styleBtn} md:max-w-[48%]`} type="button">
+          <NavLink className={`${styleBtn} md:max-w-[48%]`} to="/compras">
             Cancelar
-          </button>
+          </NavLink>
           <button type="submit" className={`${styleBtn} md:max-w-[48%]`}>
             Registrar compra
           </button>
