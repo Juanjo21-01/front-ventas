@@ -7,10 +7,8 @@ const TablaProveedores = ({ editar, eliminar }) => {
   const { obtener, proveedores } = useProveedoresStore();
   const [isOpen, setIsOpen] = useState(false);
   const [proveedorAEliminar, setProveedorAEliminar] = useState(null);
-
-  // Variables de estado para paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const [proveedoresPerPage] = useState(5); // Puedes cambiar esto según tus necesidades
+  const proveedoresPerPage = 5;
 
   useEffect(() => {
     obtener();
@@ -22,24 +20,25 @@ const TablaProveedores = ({ editar, eliminar }) => {
     setIsOpen(true);
   };
 
-  const confirmarEliminacion = (id) => {
-    eliminar(id);
-    setIsOpen(false);
-    setProveedorAEliminar(null);
+  const confirmarEliminacion = async () => {
+    if (proveedorAEliminar) {
+      await eliminar(proveedorAEliminar.id);
+      setIsOpen(false);
+      setProveedorAEliminar(null);
+      obtener();
+    }
   };
 
-  // Paginación
   const indexOfLastProveedor = currentPage * proveedoresPerPage;
   const indexOfFirstProveedor = indexOfLastProveedor - proveedoresPerPage;
   const currentProveedores = proveedores.slice(indexOfFirstProveedor, indexOfLastProveedor);
-
   const totalPages = Math.ceil(proveedores.length / proveedoresPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="container mx-auto p-4">
-      {proveedores === undefined || proveedores.length === 0 ? (
+      {proveedores.length === 0 ? (
         <p>No hay proveedores</p>
       ) : (
         <div className="overflow-x-auto pb-24">
@@ -140,7 +139,7 @@ const TablaProveedores = ({ editar, eliminar }) => {
           onClose={() => setIsOpen(false)}
           onConfirm={confirmarEliminacion}
           entity={proveedorAEliminar}
-          message="¿Estás seguro de que quieres eliminar a"
+          message={`¿Estás seguro de que quieres eliminar a ${proveedorAEliminar.nombre}?`}
         />
       )}
     </div>

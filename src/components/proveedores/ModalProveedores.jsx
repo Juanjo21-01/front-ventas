@@ -8,7 +8,7 @@ const initialForm = {
   nit: '',
   direccion: '',
   telefono: '',
-  estado: null,
+  estado: '',
 };
 
 const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
@@ -24,23 +24,27 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
   }, [editar]);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: name === 'estado' ? value === 'true' : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Evita la recarga de la página
 
-    if (form.id === null) {
-      await crear(form);
-    } else {
-      await actualizar(editar.id, form);
+    try {
+      if (form.id === null) {
+        await crear(form);
+      } else {
+        await actualizar(form.id, form);
+      }
+      onGuardar(); // Notifica que se guardó el proveedor
+      handleReset(); // Resetea el formulario
+    } catch (error) {
+      console.error("Error al guardar el proveedor:", error);
     }
-    handleReset();
-    cerrar();
-    onGuardar(proveedor);
   };
 
   const handleReset = () => {
@@ -59,12 +63,12 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
         >
           ✕
         </button>
-        <h3 className="text-lg font-bold ">
+        <h3 className="text-lg font-bold">
           {form.id ? 'Editar Proveedor' : 'Agregar Proveedor'}
         </h3>
         <form onSubmit={handleSubmit}>
           <div className="flex gap-3">
-            {/* nombres */}
+            {/* Nombre */}
             <input
               type="text"
               name="nombre"
@@ -88,7 +92,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
           </div>
 
           <div className="flex gap-3">
-            {/* Direccion */}
+            {/* Dirección */}
             <input
               type="text"
               name="direccion"
@@ -99,7 +103,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
               className="input input-bordered w-full my-2"
             />
 
-            {/* Telefono */}
+            {/* Teléfono */}
             <input
               type="text"
               name="telefono"
@@ -111,7 +115,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
             />
           </div>
 
-          {/* estado */}
+          {/* Estado */}
           <select
             name="estado"
             value={form.estado}
@@ -119,7 +123,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
             required
             className="input input-bordered w-full my-2"
           >
-            <option defaultValue="0" selected disabled>
+            <option value="" disabled>
               Seleccione un estado
             </option>
             <option value="true">Activo</option>
