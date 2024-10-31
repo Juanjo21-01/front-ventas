@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUsuariosStore } from '../../store/usuarios';
 import { getUsuarioById } from '../../helpers/api/usuarios/usuarios';
+import { Loader } from '../Loader';
 
 export const DetallesUsuario = () => {
   const { id } = useParams();
@@ -68,10 +69,9 @@ export const DetallesUsuario = () => {
   const isEditing = (field) => editMode[field];
 
   if (!usuario) {
-    return <div className='h-full flex flex-col justify-center items-center'>
-      <span className="loading loading-infinity loading-lg"></span>
-      <span className='text-2xl'>Cargando...</span>
-    </div>;
+    return (
+      <Loader />
+    );
   }
 
   const styleInput = 'input input-bordered bg-theme bg-theme-hover primary-theme placeholder:primary-theme';

@@ -200,6 +200,16 @@ const Aside = () => {
           />
         </NavLink>
 
+        {!admin && (
+          <NavLink to={`/usuarios/${id}`}>
+            <SimpleMenuItem
+              title="Perfil"
+              icon={<FaUser className={colorIcon} />}
+              isExpanded={isExpanded}
+            />
+          </NavLink>
+        )}
+
         {admin && (
           <>
             <MenuItem
@@ -226,7 +236,7 @@ const Aside = () => {
               </NavLink>
               <NavLink to={`/usuarios/${id}`}>
                 <SimpleMenuItem
-                  title="Detalles Usuario"
+                  title="Perfil"
                   icon={<FaUser className={colorIcon} />}
                   isExpanded={isExpanded}
                 />

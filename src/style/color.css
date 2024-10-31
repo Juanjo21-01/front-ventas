@@ -6,14 +6,14 @@
   --secondary-dark: #00E5FF;
   --accent-dark: #FF00E5;
   --text-dark: #FFFFFF;
-  --error-dark: #ee4444;
+  --error-dark: #e93838;
 
   --background-dark-hover: #2d2c3b;
   --primary-dark-hover: #00C16D;
   --secondary-dark-hover: #00C0E0;
   --accent-dark-hover: #CC00B5;
   --text-dark-hover: #E0E0E0;
-  --error-dark-hover: #de2222;
+  --error-dark-hover: #d41a1a;
 
   /* Paleta - (Modo Claro) */
   --background-light: #dce4e8;

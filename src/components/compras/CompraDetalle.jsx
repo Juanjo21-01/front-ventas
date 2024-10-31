@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useComprasStore } from '../../store/compras';
 import { getProductoById } from '../../helpers/api/productos/productos';
 import { getCompraById } from '../../helpers/api/compras/compras';
+import { Loader } from '../Loader';
 
 export const CompraDetalle = () => {
   const { id } = useParams(); // El ID de la compra
@@ -55,10 +56,7 @@ export const CompraDetalle = () => {
 
   if (isLoading) {
     return (
-      <div className="h-full flex flex-col justify-center items-center">
-        <span className="loading loading-infinity loading-lg"></span>
-        <span className="text-2xl">Cargando...</span>
-      </div>
+      <Loader />
     );
   }
 

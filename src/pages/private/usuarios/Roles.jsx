@@ -58,7 +58,7 @@ const Roles = () => {
 
       {/* FORMULARIO */}
       <form onSubmit={manejarEnvio} className="flex justify-center gap-5 mb-4">
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 primary-theme">
           Nombre:
           <input
             type="text"

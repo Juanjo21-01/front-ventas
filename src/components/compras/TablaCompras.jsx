@@ -5,6 +5,7 @@ import { MdMenu } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import { useComprasStore } from '../../store/compras';
 import { Edit } from 'lucide-react';
+import { Loader } from '../Loader';
 
 export const TablaCompras = () => {
   // Variables de estado
@@ -42,10 +43,7 @@ export const TablaCompras = () => {
   // Loading
   if (isLoading) {
     return (
-      <div className="h-screen w-full absolute top-0 left-0 flex flex-col justify-center items-center">
-        <span className="loading loading-infinity loading-lg"></span>
-        <span className="text-2xl">Cargando...</span>
-      </div>
+      <Loader />
     );
   }
 
@@ -86,7 +84,7 @@ export const TablaCompras = () => {
                       <button
                         onClick={() => handleCambiar(compra.id, !compra.estado)}
                         className={`btn ${
-                          compra.estado ? 'primary-theme' : 'btn-error'
+                          compra.estado ? 'primary-theme' : 'error-theme'
                         }`}
                       >
                         {compra.estado ? 'Activa' : 'Inactiva'}

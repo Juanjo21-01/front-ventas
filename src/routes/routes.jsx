@@ -28,6 +28,7 @@ import VentasDetalle from '../pages/private/ventas/VentasDetalle';
 import VentasCrear from '../pages/private/ventas/VentasCrear';
 import Layout from '../pages/Layout';
 import ProductoComentario from '../pages/public/ProductoComentario';
+import NotFoundPage from '../components/NotFoundPage';
 
 const Rutas = () => {
   return (
@@ -100,7 +101,7 @@ const Rutas = () => {
         </Route>
 
         {/* Ruta de error */}
-        <Route path="*" element={<h1 className='text-center text-9xl'>404</h1>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
