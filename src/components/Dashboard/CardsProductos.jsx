@@ -4,7 +4,7 @@ import { useProductosStore } from '../../store/productos';
 import { Search } from 'lucide-react';
 import { useAuthStore } from '../../store/auth';
 import { NavLink } from 'react-router-dom';
-
+import { Loader } from '../loader';
 export const CardsProductos = () => {
   const { productos, obtener, isLoading } = useProductosStore();
   const { logged, profile } = useAuthStore();
@@ -115,7 +115,12 @@ export const CardsProductos = () => {
       </div>
 
       {filteredProducts.length === 0 && (
-        <p className="text-center text-lg mt-8">Producto no encontrado.</p>
+        <div className="flex flex-col justify-center items-center gap-5">
+          <p className="text-center text-lg mt-8">Productos no disponibles.</p>
+
+          {/* animación */}
+          <Loader />
+        </div>
       )}
 
       {selectedProduct && (

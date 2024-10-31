@@ -29,8 +29,6 @@ const ModalTipoProductos = ({ abrir, cerrar, editar }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
-    
     if (form.id === null) {
       await crear(form);
     } else {

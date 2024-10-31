@@ -43,8 +43,6 @@ const CreateCompra = () => {
   };
 
   const agregarProducto = () => {
-    console.log('Agregar al detalle de compra');
-
     if (form.productoId == '' || form.cantidad == 0 || form.precio == 0) {
       toast.warning('Debe seleccionar un producto, cantidad y precio');
       return;

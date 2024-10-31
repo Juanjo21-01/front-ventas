@@ -33,6 +33,8 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
 
   const handleReset = () => {
     setForm(initialForm);
+
+    cerrar();
   };
 
   if (!abrir) return null;
@@ -62,7 +64,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
               required
               className="input input-bordered w-full secondary-theme"
             />
-  
+
             {/* NIT */}
             <input
               type="text"
@@ -73,7 +75,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
               required
               className="input input-bordered w-full secondary-theme"
             />
-  
+
             {/* Dirección */}
             <input
               type="text"
@@ -84,7 +86,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
               required
               className="input input-bordered w-full secondary-theme"
             />
-  
+
             {/* Teléfono */}
             <input
               type="text"
@@ -96,7 +98,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
               className="input input-bordered w-full secondary-theme"
             />
           </div>
-  
+
           {/* Estado */}
           <div className="mt-4">
             <select
@@ -114,7 +116,7 @@ const ModalProveedores = ({ abrir, cerrar, editar, onGuardar }) => {
               <option value="false">Inactivo</option>
             </select>
           </div>
-  
+
           {/* Acciones */}
           <div className="modal-action flex justify-end gap-2 mt-4">
             <button type="submit" className="btn primary-theme">
