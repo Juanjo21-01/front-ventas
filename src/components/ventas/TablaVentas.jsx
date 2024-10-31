@@ -22,10 +22,7 @@ export const TablaVentas = () => {
   // Paginación
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = ventas.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const currentProducts = ventas.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const totalPages = Math.ceil(ventas.length / productsPerPage);
 
@@ -73,7 +70,11 @@ export const TablaVentas = () => {
                     <tr key={venta.id} className="text-center">
                       <td className="w-1/12">{venta.id}</td>
                       <td className="w-2/12">{venta.fechaVenta}</td>
-                      <td className="w-3/12">{usuario ? usuario.nombres : 'Usuario no encontrado'}</td>
+                      <td className="w-3/12">
+                        {usuario
+                          ? `${usuario.nombres} ${usuario.apellidos}`
+                          : 'Usuario no encontrado'}
+                      </td>
                       <td className="w-1/12">
                         <button
                           onClick={() => handleCambiar(venta.id, !venta.estado)}
@@ -86,7 +87,10 @@ export const TablaVentas = () => {
                       </td>
                       <td className="w-1/12">
                         <div className="dropdown dropdown-left">
-                          <label tabIndex={0} className="btn secondary-theme m-1">
+                          <label
+                            tabIndex={0}
+                            className="btn secondary-theme m-1"
+                          >
                             <MdMenu />
                           </label>
                           <ul

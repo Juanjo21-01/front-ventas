@@ -7,7 +7,10 @@ import { NavLink } from 'react-router-dom';
 
 export const CardsProductos = () => {
   const { productos, obtener, isLoading } = useProductosStore();
-  const { logged } = useAuthStore();
+  const { logged, profile } = useAuthStore();
+
+  let validar = false;
+  if (logged && profile.rolId !== 2) validar = true;
 
   useEffect(() => {
     obtener();
@@ -77,7 +80,7 @@ export const CardsProductos = () => {
                 Q {(product.precioUnitario * 1.3).toFixed(2)}
               </p>
               <div className="card-actions flex flex-col sm:flex-row gap-2 mt-2 justify-around">
-                {logged ? (
+                {validar ? (
                   <button
                     className="btn primary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-primary-theme focus:outline-none"
                     onClick={() => setSelectedProduct(product)}
@@ -85,12 +88,25 @@ export const CardsProductos = () => {
                     Detalles
                   </button>
                 ) : (
-                  <NavLink
-                    to={`/producto-comentarios/${product.id}`}
-                    className="btn primary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-primary-theme focus:outline-none"
-                  >
-                    Ver Comentarios
-                  </NavLink>
+                  <>
+                    {logged && (
+                      <NavLink
+                        to={`/productos/${product.id}`}
+                        className="btn primary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-primary-theme focus:outline-none"
+                      >
+                        Detalles
+                      </NavLink>
+                    )}
+
+                    {!logged && (
+                      <NavLink
+                        to={`/producto-comentarios/${product.id}`}
+                        className="btn primary-theme w-full sm:w-auto transition-all duration-300 hover:bg-opacity-80 focus:ring-2 focus:ring-primary-theme focus:outline-none"
+                      >
+                        Detalles
+                      </NavLink>
+                    )}
+                  </>
                 )}
               </div>
             </div>

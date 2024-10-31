@@ -11,7 +11,22 @@ export const ComentariosSeccion = ({ productId }) => {
     obtener();
   }, [obtener]);
 
-  console.log(productId);
+  const comentariosFiltrados = [];
+
+  if (comentarios == undefined) {
+    return;
+  } else {
+    comentarios.forEach((comentario) => {
+      if (comentario == undefined) {
+        return;
+      }
+
+      if (comentario.productoId === productId) {
+        comentariosFiltrados.push(comentario);
+        return comentario;
+      }
+    });
+  }
 
   if (isLoading) {
     return (
@@ -30,17 +45,22 @@ export const ComentariosSeccion = ({ productId }) => {
     );
   }
 
-  if (!Array.isArray(comentarios) || comentarios.length === 0) {
+  if (
+    !Array.isArray(comentariosFiltrados) ||
+    comentariosFiltrados.length === 0
+  ) {
     return (
       <div className="p-4 rounded-lg shadow-lg">
         <p>No hay comentarios disponibles.</p>
+
+        <p>¡Sé el primero en dejar un comentario!</p>
       </div>
     );
   }
 
   return (
     <div className="p-4 rounded-lg shadow-lg">
-      {comentarios.map((comentario) => (
+      {comentariosFiltrados.map((comentario) => (
         <Comentario key={comentario.id} comentario={comentario} />
       ))}
     </div>

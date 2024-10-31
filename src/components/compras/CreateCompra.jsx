@@ -4,6 +4,8 @@ import { useComprasStore } from '../../store/compras';
 import { useProductosStore } from '../../store/productos';
 import { useProveedoresStore } from '../../store/proveedores';
 import { useAuthStore } from '../../store/auth';
+import { toast } from 'sonner';
+
 const styleInput =
   'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
 const styleLabel = 'label label-text text-theme label';
@@ -44,7 +46,14 @@ const CreateCompra = () => {
     console.log('Agregar al detalle de compra');
 
     if (form.productoId == '' || form.cantidad == 0 || form.precio == 0) {
-      alert('Debe seleccionar un producto, cantidad y precio');
+      toast.warning('Debe seleccionar un producto, cantidad y precio');
+      return;
+    }
+
+    if (
+      detallesCompra.find((detalle) => detalle.productoId === form.productoId)
+    ) {
+      toast.warning('El producto ya fue agregado');
       return;
     }
 

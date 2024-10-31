@@ -3,6 +3,7 @@ import { useParams, NavLink } from 'react-router-dom';
 import { getProductoById } from '../../helpers/api/productos/productos';
 import { ComentariosSeccion } from '../comentarios/ComentariosSeccion';
 import { useAuthStore } from '../../store/auth';
+import { CrearComentario } from '../comentarios/CrearComentario';
 
 const image = `https://picsum.photos/200`;
 
@@ -16,7 +17,10 @@ const DetallesProductos = () => {
   const [cantidad, setCantidad] = useState(1);
   const [error, setError] = useState('');
 
-  const { logged } = useAuthStore();
+  const { logged, profile } = useAuthStore();
+
+  let validar = false;
+  if (logged && profile.rolId !== 2) validar = true;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -69,10 +73,10 @@ const DetallesProductos = () => {
           <p className="text-2xl font-semibold">
             {product.precioUnitario !== undefined &&
             !isNaN(product.precioUnitario)
-              ? `Q ${product.precioUnitario * (1.3).toFixed(2)}`
+              ? `Q ${(product.precioUnitario * 1.3).toFixed(2)}`
               : 'Precio no disponible'}
           </p>
-          {logged && (
+          {validar && (
             <>
               <p className="text-sm text-gray-400">
                 Stock disponible: {product.stock}
@@ -109,7 +113,11 @@ const DetallesProductos = () => {
 
       {/* Sección de comentarios */}
       <div className="mt-8">
+
         <h2 className="text-2xl font-bold mb-4">Comentarios</h2>
+
+        <CrearComentario productId={product.id} />
+        
         <ComentariosSeccion productId={product.id} />
       </div>
     </div>

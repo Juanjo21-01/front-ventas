@@ -48,7 +48,11 @@ const MenuItem = ({
   isExpanded,
 }) => (
   <div className="flex flex-col gap-3">
-    <button className={styleBtnAside} onClick={handleClick} aria-expanded={isOpen}>
+    <button
+      className={styleBtnAside}
+      onClick={handleClick}
+      aria-expanded={isOpen}
+    >
       {icon}
       {isExpanded && <span className="ml-2">{title}</span>}
       {children && (
@@ -302,39 +306,6 @@ const Aside = () => {
                 />
               </NavLink>
             </MenuItem>
-          </>
-        )}
-        {!admin && (
-          <>
-            <MenuItem
-              title="Productos"
-              icon={<FaBoxesStacked className={colorIcon} />}
-              isOpen={openMenu === 'productos'}
-              isExpanded={isExpanded}
-              handleClick={() => handleMenuClick('productos')}
-            >
-              <NavLink to="/productos">
-                <SimpleMenuItem
-                  title="Inventario"
-                  icon={<FaBoxOpen className={colorIcon} />}
-                  isExpanded={isExpanded}
-                />
-              </NavLink>
-              <NavLink to="/tipo-productos">
-                <SimpleMenuItem
-                  title="Categorías"
-                  icon={<MdCategory className={colorIcon} />}
-                  isExpanded={isExpanded}
-                />
-              </NavLink>
-            </MenuItem>
-            <NavLink to="/compras">
-              <SimpleMenuItem
-                title="Compras"
-                icon={<FaShoppingCart className={colorIcon} />}
-                isExpanded={isExpanded}
-              />
-            </NavLink>
           </>
         )}
 

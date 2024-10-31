@@ -4,8 +4,9 @@ import { useVentasStore } from '../../store/ventas';
 import { useUsuariosStore } from '../../store/usuarios';
 import { useProductosStore } from '../../store/productos';
 import { useAuthStore } from '../../store/auth';
-
-const styleInput = 'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
+import { toast } from 'sonner';
+const styleInput =
+  'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
 const styleLabel = 'label label-text text-theme label';
 const styleBtn = 'btn primary-theme w-full mt-4';
 
@@ -38,11 +39,15 @@ const CrearVenta = () => {
     const { name, value } = e.target;
 
     if (name === 'productoId') {
-      const productoSeleccionado = productos.find((producto) => producto.id === parseInt(value));
+      const productoSeleccionado = productos.find(
+        (producto) => producto.id === parseInt(value)
+      );
       setForm({
         ...form,
         [name]: value,
-        precio: productoSeleccionado ? productoSeleccionado.precioUnitario * 1.3 : 0,
+        precio: productoSeleccionado
+          ? (productoSeleccionado.precioUnitario * 1.3).toFixed(2)
+          : 0,
       });
     } else {
       setForm({ ...form, [name]: value });
@@ -51,7 +56,23 @@ const CrearVenta = () => {
 
   const agregarProducto = () => {
     if (form.productoId == '' || form.cantidad == 0 || form.precio == 0) {
-      alert('Debe seleccionar un producto, cantidad y precio');
+      toast.warning('Debe seleccionar un producto, cantidad y precio');
+      return;
+    }
+
+    if (
+      detallesVenta.find((detalle) => detalle.productoId == form.productoId)
+    ) {
+      toast.warning('El producto ya fue agregado');
+      return;
+    }
+
+    const productoSeleccionado = productos.find(
+      (producto) => producto.id === parseInt(form.productoId)
+    );
+
+    if (form.cantidad > productoSeleccionado.stock) {
+      toast.warning('La cantidad supera el stock del producto');
       return;
     }
 
@@ -77,7 +98,7 @@ const CrearVenta = () => {
     const venta = {
       fechaVenta: form.fechaVenta,
       observaciones: form.observaciones,
-      usuarioId: profile.id,
+      usuarioId: form.usuarioId,
       detalles: detallesVenta,
     };
     await crear(venta);
@@ -121,7 +142,7 @@ const CrearVenta = () => {
             required
             className={`${styleInput} w-100 my-9`}
           >
-            <option value="">Seleccione un Usuario</option>
+            <option value="">Seleccione un Cliente</option>
             {usuarios.map((usuario) => (
               <option key={usuario.id} value={usuario.id}>
                 {usuario.nombres} {usuario.apellidos}
@@ -154,10 +175,11 @@ const CrearVenta = () => {
             {productos.map(
               (producto) =>
                 producto.rolId !== 2 && (
-              <option key={producto.id} value={producto.id}>
-                {producto.nombre}
-              </option>
-            ))}
+                  <option key={producto.id} value={producto.id}>
+                    {producto.nombre} - Stock: {producto.stock}
+                  </option>
+                )
+            )}
           </select>
 
           <div>
@@ -222,7 +244,7 @@ const CrearVenta = () => {
                     </button>
                   </td>
                   <td>
-                  {productos.map((producto) => {
+                    {productos.map((producto) => {
                       if (detalle.productoId == producto.id) {
                         return producto.nombre;
                       }
