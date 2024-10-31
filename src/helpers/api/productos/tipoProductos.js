@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import api from '../../libs/axios';
 
 // PETICIONES DE LOS TIPO PRODUCTO
@@ -8,7 +9,11 @@ export const getTipoProducto = async () => {
     const tipoProducto = await api.get('tipo-productos');
     return tipoProducto.data;
   } catch (error) {
-    console.error('Error al obtener los tipos de productos', error);
+    toast.error('Tipos de Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener los tipos de productos: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -18,7 +23,11 @@ export const getTipoProductoById = async (id) => {
     const tipoProductoId = await api.get(`tipo-productos/${id}`);
     return tipoProductoId.data;
   } catch (error) {
-    console.error('Error al obtener el tipo de producto por id', error);
+    toast.error('Tipos de Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el tipo de producto por ID: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -28,7 +37,11 @@ export const getTipoProductoByNombre = async (nombre) => {
     const tipoProductoNombre = await api.get(`tipo-productos/nombre/${nombre}`);
     return tipoProductoNombre.data;
   } catch (error) {
-    console.error('Error al obtener el tipo de producto por nombre', error);
+    toast.error('Tipos de Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el tipo de producto por nombre: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -38,7 +51,11 @@ export const getTipoProductoByEstado = async (estado) => {
     const tipoProductoEstado = await api.get(`tipo-productos/estado/${estado}`);
     return tipoProductoEstado.data;
   } catch (error) {
-    console.error('Error al obtener el tipo de producto por nit', error);
+    toast.error('Tipos de Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el tipo de producto por estado: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -46,22 +63,37 @@ export const getTipoProductoByEstado = async (estado) => {
 export const saveTipoProducto = async (tipoProducto) => {
   try {
     const tipoProductoNuevo = await api.post('tipo-productos', tipoProducto);
+    toast.success('Tipos de Productos', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: `Tipo de producto creado con éxito`,
+      duration: 3000,
+    });
     return tipoProductoNuevo.data;
   } catch (error) {
-    console.error('Error al crear el tipo de producto', error);
+    toast.error('Tipos de Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al crear el tipo de producto: " + error,
+      duration: 3000,
+    });
   }
 };
 
 // PUT - actualizar un tipo de producto
 export const updateTipoProducto = async (id, tipoProducto) => {
   try {
-    const tipoProductoActualizado = await api.put(
-      `tipo-productos/${id}`,
-      tipoProducto
-    );
+    const tipoProductoActualizado = await api.put(`tipo-productos/${id}`, tipoProducto);
+    toast.info('Tipos de Productos', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: `Tipo de producto actualizado con éxito`,
+      duration: 3000,
+    });
     return tipoProductoActualizado.data;
   } catch (error) {
-    console.error('Error al actualizar el tipo de producto', error);
+    toast.error('Tipos de Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al actualizar el tipo de producto: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -69,8 +101,17 @@ export const updateTipoProducto = async (id, tipoProducto) => {
 export const deleteTipoProducto = async (id) => {
   try {
     const tipoProductoEliminado = await api.delete(`tipo-productos/${id}`);
+    toast.success('Tipos de Productos', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: `Tipo de producto eliminado con éxito`,
+      duration: 3000,
+    });
     return tipoProductoEliminado.data;
   } catch (error) {
-    console.error('Error al eliminar el tipo de producto', error);
+    toast.error('Tipos de Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al eliminar el tipo de producto: " + error,
+      duration: 3000,
+    });
   }
 };

@@ -65,7 +65,7 @@ export const CompraDetalle = () => {
   return (
     <div className="bg-theme text-theme">
       <div className="container mx-auto px-4">
-        <NavLink to="/compras" className="btn btn-success my-4">
+        <NavLink to="/compras" className="btn primary-theme my-4">
           Regresar
         </NavLink>
 

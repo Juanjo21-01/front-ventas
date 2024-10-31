@@ -1,13 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTiposProductosStore } from '../../../store/tipoProductos';
 
 // Componente que muestra la tabla de tipo de productos
 const TablaTipoProducto = ({ editar, eliminar }) => {
   const { obtener, tiposProductos } = useTiposProductosStore();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [tiposProductosPerPage] = useState(5); // Cambia este valor según tus necesidades
 
   useEffect(() => {
     obtener(); // Llamamos a la API cuando el componente se monta
   }, [obtener]);
+
+  // Paginación
+  const indexOfLastTipoProducto = currentPage * tiposProductosPerPage;
+  const indexOfFirstTipoProducto = indexOfLastTipoProducto - tiposProductosPerPage;
+  const currentTiposProductos = tiposProductos.slice(indexOfFirstTipoProducto, indexOfLastTipoProducto);
+
+  const totalPages = Math.ceil(tiposProductos.length / tiposProductosPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="container mx-auto p-4">
@@ -25,7 +36,7 @@ const TablaTipoProducto = ({ editar, eliminar }) => {
               </tr>
             </thead>
             <tbody>
-              {tiposProductos.map((tipoProducto) => (
+              {currentTiposProductos.map((tipoProducto) => (
                 <tr key={tipoProducto.id} className="text-center">
                   <td className="w-2/12">{tipoProducto.id}</td>
                   <td className="w-5/12">{tipoProducto.nombre}</td>
@@ -68,6 +79,35 @@ const TablaTipoProducto = ({ editar, eliminar }) => {
               ))}
             </tbody>
           </table>
+
+          {/* Paginación */}
+          <div className="flex justify-around mt-6">
+            <div className="btn-group">
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                disabled={currentPage === 1}
+              >
+                Anterior
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`btn mx-1 w-14 ${currentPage === index + 1 ? 'btn-active' : 'btn-outline'}`}
+                  onClick={() => paginate(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                disabled={currentPage === totalPages}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

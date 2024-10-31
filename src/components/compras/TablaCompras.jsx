@@ -86,7 +86,7 @@ export const TablaCompras = () => {
                       <button
                         onClick={() => handleCambiar(compra.id, !compra.estado)}
                         className={`btn ${
-                          compra.estado ? 'btn-success' : 'btn-error'
+                          compra.estado ? 'primary-theme' : 'btn-error'
                         }`}
                       >
                         {compra.estado ? 'Activa' : 'Inactiva'}

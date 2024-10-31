@@ -32,6 +32,7 @@ export const useProveedoresStore = create((set) => ({
       }));
     } catch (error) {
       console.error('Error al crear el proveedor', error);
+      set({error});
     }
   },
 

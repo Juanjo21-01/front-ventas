@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import api from '../../libs/axios';
 
 // PETICIONES DE LOS PRODUCTOS
@@ -8,7 +9,11 @@ export const getProductos = async () => {
     const productos = await api.get('productos');
     return productos.data;
   } catch (error) {
-    console.error('Error al obtener los productos', error);
+    toast.error('Productos', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener los productos: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -18,7 +23,11 @@ export const getProductoById = async (id) => {
     const productoId = await api.get(`productos/${id}`);
     return productoId.data;
   } catch (error) {
-    console.error('Error al obtener el productos por id', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el producto por id: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -28,7 +37,11 @@ export const getProductoByNombre = async (nombre) => {
     const productoNombre = await api.get(`productos/nombre/${nombre}`);
     return productoNombre.data;
   } catch (error) {
-    console.error('Error al obtener el producto por nombre', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el producto por nombre: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -38,7 +51,11 @@ export const getProductoByEstado = async (estado) => {
     const productoEstado = await api.get(`productos/estado/${estado}`);
     return productoEstado.data;
   } catch (error) {
-    console.error('Error al obtener el producto por estado', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el producto por estado: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -48,16 +65,25 @@ export const getProductoByTipo = async (tipo) => {
     const productoTipo = await api.get(`productos/tipo/${tipo}`);
     return productoTipo.data;
   } catch (error) {
-    console.error('Error al obtener el producto por tipo', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el producto por tipo: " + error,
+      duration: 3000,
+    });
   }
 };
+
 // GET - obtener un producto por producto
 export const getProductoByProveedor = async (id) => {
   try {
     const productoByProveedor = await api.get(`productos/proveedor/${id}`);
     return productoByProveedor.data;
   } catch (error) {
-    console.error('Error al obtener el producto por proveedor', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el producto por proveedor: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -65,9 +91,18 @@ export const getProductoByProveedor = async (id) => {
 export const saveProducto = async (producto) => {
   try {
     const productoNuevo = await api.post('productos/guardar', producto);
+    toast.success('Producto', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Producto creado con éxito',
+      duration: 3000,
+    });
     return productoNuevo.data;
   } catch (error) {
-    console.error('Error al crear el producto', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al crear el producto: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -75,9 +110,18 @@ export const saveProducto = async (producto) => {
 export const updateProducto = async (id, producto) => {
   try {
     const productoActualizado = await api.put(`productos/${id}`, producto);
+    toast.success('Producto', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Producto actualizado con éxito',
+      duration: 3000,
+    });
     return productoActualizado.data;
   } catch (error) {
-    console.error('Error al actualizar el producto', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al actualizar el producto: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -85,8 +129,17 @@ export const updateProducto = async (id, producto) => {
 export const deleteProducto = async (id) => {
   try {
     const productoEliminado = await api.delete(`productos/${id}`);
+    toast.success('Producto', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Producto eliminado con éxito',
+      duration: 3000,
+    });
     return productoEliminado.data;
   } catch (error) {
-    console.error('Error al eliminar el producto', error);
+    toast.error('Producto', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al eliminar el producto: " + error,
+      duration: 3000,
+    });
   }
 };

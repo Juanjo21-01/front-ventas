@@ -6,23 +6,37 @@ import AlertModal from '../alert/AlertModal';
 const TablaProveedores = ({ editar, eliminar }) => {
   const { obtener, proveedores } = useProveedoresStore();
   const [isOpen, setIsOpen] = useState(false);
-  const [proveedorAEliminar, setProveedorAEliminar] = useState(null);
+  const [proveedorAEliminar, setProveedorAEliminar] = useState(null); // Ahora es solo el ID
+
+  // Variables de estado para paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const [proveedoresPerPage] = useState(5);
 
   useEffect(() => {
     obtener();
   }, [obtener]);
 
   const handleEliminar = (id) => {
-    const proveedor = proveedores.find(p => p.id === id);
-    setProveedorAEliminar(proveedor);
+    setProveedorAEliminar(id); // Guardamos solo el ID
     setIsOpen(true);
   };
 
-  const confirmarEliminacion = (id) => {
-    eliminar(id);
+  const confirmarEliminacion = () => {
+    eliminar(proveedorAEliminar); // Usamos el ID para eliminar
     setIsOpen(false);
     setProveedorAEliminar(null);
   };
+
+  // Paginación
+  const indexOfLastProveedor = currentPage * proveedoresPerPage;
+  const indexOfFirstProveedor = indexOfLastProveedor - proveedoresPerPage;
+  const currentProveedores = proveedores.slice(indexOfFirstProveedor, indexOfLastProveedor);
+
+  const totalPages = Math.ceil(proveedores.length / proveedoresPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const proveedorNombre = proveedores.find(p => p.id === proveedorAEliminar)?.nombre || '';
 
   return (
     <div className="container mx-auto p-4">
@@ -43,7 +57,7 @@ const TablaProveedores = ({ editar, eliminar }) => {
               </tr>
             </thead>
             <tbody>
-              {proveedores.map((proveedor) => (
+              {currentProveedores.map((proveedor) => (
                 <tr key={proveedor.id} className="text-center">
                   <td className="w-1/12">{proveedor.id}</td>
                   <td className="w-4/12">{proveedor.nombre}</td>
@@ -89,15 +103,44 @@ const TablaProveedores = ({ editar, eliminar }) => {
               ))}
             </tbody>
           </table>
+
+          {/* Paginación */}
+          <div className="flex justify-around mt-6">
+            <div className="btn-group">
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                disabled={currentPage === 1}
+              >
+                Anterior
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`btn mx-1 w-14 ${currentPage === index + 1 ? 'btn-active' : 'btn-outline'}`}
+                  onClick={() => paginate(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className="btn btn-outline"
+                onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                disabled={currentPage === totalPages}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
-      {proveedorAEliminar && (
+      {isOpen && (
         <AlertModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           onConfirm={confirmarEliminacion}
-          entity={proveedorAEliminar}
+          entityDisplayName={proveedorNombre}
           message="¿Estás seguro de que quieres eliminar a"
         />
       )}

@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import api from '../../libs/axios';
 
 // PETICIONES DE LOS COMPRAS
@@ -8,7 +9,11 @@ export const getCompras = async () => {
     const compras = await api.get('compras');
     return compras.data;
   } catch (error) {
-    console.error('Error al obtener las compras', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las compras: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -18,7 +23,11 @@ export const getCompraById = async (id) => {
     const compraId = await api.get(`compras/${id}`);
     return compraId.data;
   } catch (error) {
-    console.error('Error al obtener la compra por id', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener la compra por ID: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -28,7 +37,11 @@ export const getComprasByFecha = async (fecha) => {
     const comprasFecha = await api.get(`compras/fecha/${fecha}`);
     return comprasFecha.data;
   } catch (error) {
-    console.error('Error al obtener la compra por fecha', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las compras por fecha: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -38,7 +51,11 @@ export const getComprasByEstado = async (estado) => {
     const compraEstado = await api.get(`compras/estado/${estado}`);
     return compraEstado.data;
   } catch (error) {
-    console.error('Error al obtener la compra por estado', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las compras por estado: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -48,7 +65,11 @@ export const getComprasByProveedor = async (proveedor) => {
     const compraProveedor = await api.get(`compras/proveedor/${proveedor}`);
     return compraProveedor.data;
   } catch (error) {
-    console.error('Error al obtener la compra por proveedor', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las compras por proveedor: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -58,7 +79,11 @@ export const getComprasByUsuario = async (usuario) => {
     const compraUsuario = await api.get(`compras/usuario/${usuario}`);
     return compraUsuario.data;
   } catch (error) {
-    console.error('Error al obtener la compra por usuario', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las compras por usuario: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -69,9 +94,18 @@ export const cambiarEstadoCompra = async (id, estado) => {
       `compras/cambiarEstado/${id}`,
       estado
     );
+    toast.info('Compras', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: `Estado de la compra actualizado con éxito`,
+      duration: 3000,
+    });
     return compraCambiarEstado.data;
   } catch (error) {
-    console.error('Error al cambiar el estado de la compra', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al cambiar el estado de la compra: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -79,8 +113,17 @@ export const cambiarEstadoCompra = async (id, estado) => {
 export const saveCompra = async (compra) => {
   try {
     const compraNueva = await api.post('compras', compra);
+    toast.success('Compras', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: `Compra creada con éxito`,
+      duration: 3000,
+    });
     return compraNueva.data;
   } catch (error) {
-    console.error('Error al crear la compra', error);
+    toast.error('Compras', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al crear la compra: " + error,
+      duration: 3000,
+    });
   }
 };

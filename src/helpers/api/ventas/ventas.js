@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import api from '../../libs/axios';
 
 // PETICIONES DE LOS VENTAS
@@ -8,7 +9,11 @@ export const getVentas = async () => {
     const ventas = await api.get('ventas');
     return ventas.data;
   } catch (error) {
-    console.error('Error al obtener las ventas', error);
+    toast.error('Ventas', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las ventas: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -18,7 +23,11 @@ export const getVentaById = async (id) => {
     const ventaId = await api.get(`ventas/${id}`);
     return ventaId.data;
   } catch (error) {
-    console.error('Error al obtener la venta por id', error);
+    toast.error('Ventas', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener la venta por ID: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -28,7 +37,11 @@ export const getVentasByFecha = async (fecha) => {
     const ventasFecha = await api.get(`ventas/fecha/${fecha}`);
     return ventasFecha.data;
   } catch (error) {
-    console.error('Error al obtener las ventas por fecha', error);
+    toast.error('Ventas', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las ventas por fecha: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -38,7 +51,11 @@ export const getVentasByEstado = async (estado) => {
     const ventasEstado = await api.get(`ventas/estado/${estado}`);
     return ventasEstado.data;
   } catch (error) {
-    console.error('Error al obtener la ventas por estado', error);
+    toast.error('Ventas', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las ventas por estado: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -48,7 +65,11 @@ export const getVentasByUsuario = async (usuario) => {
     const ventasUsuario = await api.get(`ventas/usuario/${usuario}`);
     return ventasUsuario.data;
   } catch (error) {
-    console.error('Error al obtener la ventas por usuario', error);
+    toast.error('Ventas', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener las ventas por usuario: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -59,9 +80,18 @@ export const cambiarEstadoVenta = async (id, estado) => {
       `ventas/cambiarEstado/${id}`,
       estado
     );
+    toast.info('Ventas', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: `Estado de la venta actualizado con éxito`,
+      duration: 3000,
+    });
     return ventaCambiarEstado.data;
   } catch (error) {
-    console.error('Error al crear la venta', error);
+    toast.error('Ventas', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al cambiar el estado de la venta: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -69,8 +99,17 @@ export const cambiarEstadoVenta = async (id, estado) => {
 export const saveVenta = async (venta) => {
   try {
     const ventaNueva = await api.post('ventas', venta);
+    toast.success('Ventas', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: `Venta creada con éxito`,
+      duration: 3000,
+    });
     return ventaNueva.data;
   } catch (error) {
-    console.error('Error al crear la venta', error);
+    toast.error('Ventas', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al crear la venta: " + error,
+      duration: 3000,
+    });
   }
 };

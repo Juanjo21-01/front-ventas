@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import api from '../libs/axios';
 
 // PETICIONES DE AUTENTICACIÓN
@@ -11,7 +12,17 @@ export const login = async (data) => {
     if (typeof error === 'object' && error !== null && 'message' in error) {
       const e = error;
       if (e.message === 'Network Error') {
-        console.error('Error de conexión con el servidor');
+        toast.error('Iniciar Sesión', {
+          className: 'bg-theme-secondary error-theme',
+          description: 'Error de conexión con el servidor',
+          duration: 3000,
+        });
+      } else {
+        toast.error('Iniciar Sesión', {
+          className: 'bg-theme-secondary error-theme',
+          description: `Error al iniciar sesión: ${e.message}`,
+          duration: 3000,
+        });
       }
     }
   }
@@ -32,8 +43,17 @@ export const register = async (data) => {
 
   try {
     const register = await api.post('usuarios/register', nuevoUsuario);
+    toast.success('Registro', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Usuario registrado con éxito',
+      duration: 3000,
+    });
     return register.data;
   } catch (error) {
-    console.error('Error al registrar usuario', error);
+    toast.error('Registro', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al registrar usuario: " + error,
+      duration: 3000,
+    });
   }
 };

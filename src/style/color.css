@@ -67,7 +67,7 @@
 /* Reset Básico de Color */
 body{
   background-color: var(--background);
-  color: var(--text);
+  color: var(--text-color);
 }
 a{
   color: var(--accent-color);
@@ -81,6 +81,16 @@ button{
 }
 button:hover{
   background-color: var(--primary-color-hover);
+}
+
+li[aria-live="polite"]{
+  border: 2px solid;
+
+}
+
+button[aria-label="Close toast"]{
+  background-color: var(--background);
+  border: 2px solid;
 }
 
 .bg-theme {

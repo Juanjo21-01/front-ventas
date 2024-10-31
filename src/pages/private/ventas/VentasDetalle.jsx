@@ -1,5 +1,8 @@
+import { VentaDetalle } from "../../../components/ventas/VentaDetalle";
+
+
 const VentasDetalle = () => {
-  return <div>VentasDetalle</div>;
+  return <VentaDetalle />;
 };
 
 export default VentasDetalle;

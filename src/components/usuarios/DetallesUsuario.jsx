@@ -76,8 +76,6 @@ export const DetallesUsuario = () => {
 
   const styleInput = 'input input-bordered bg-theme bg-theme-hover primary-theme placeholder:primary-theme';
   const styleLabel = 'label label-text secondary-theme text-xl';
-  const styleBtn = 'btn primary-theme';
-  const styleCancelBtn = 'btn error-theme';
 
   const styleGridContainer = `grid grid-cols-1 gap-4 items-center`;
   
@@ -104,14 +102,14 @@ export const DetallesUsuario = () => {
         </div>
         <div className={`${isEditing('nombres') ? 'md:grid-cols-2' : 'md:grid-cols-1'} ${styleGridContainer}`}>
           <button
-            className={`${styleBtn} mt-1 md:mt-0`}
+            className={`btn primary-theme mt-1 md:mt-0`}
             onClick={() => editMode.nombres ? handleSave('nombres') : setEditMode({ ...editMode, nombres: true })}
           >
             {editMode.nombres ? 'Guardar' : 'Editar'}
           </button>
           {editMode.nombres && (
             <button
-              className={styleCancelBtn}
+              className="btn error-theme"
               onClick={() => handleCancel('nombres')}
             >
               Cancelar
@@ -137,14 +135,14 @@ export const DetallesUsuario = () => {
         </div>
         <div className={`${styleGridContainer}  ${editMode.apellidos ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
           <button
-            className={`${styleBtn} mt-1 md:mt-0`}
+            className={`btn primary-theme mt-1 md:mt-0`}
             onClick={() => editMode.apellidos ? handleSave('apellidos') : setEditMode({ ...editMode, apellidos: true })}
           >
             {editMode.apellidos ? 'Guardar' : 'Editar'}
           </button>
           {editMode.apellidos && (
             <button
-              className={styleCancelBtn}
+              className="btn error-theme"
               onClick={() => handleCancel('apellidos')}
             >
               Cancelar
@@ -170,14 +168,14 @@ export const DetallesUsuario = () => {
         </div>
         <div className={`${styleGridContainer}  ${editMode.email ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
           <button
-            className={`${styleBtn} mt-1 md:mt-0`}
+            className={`btn primary-theme mt-1 md:mt-0`}
             onClick={() => editMode.email ? handleSave('email') : setEditMode({ ...editMode, email: true })}
           >
             {editMode.email ? 'Guardar' : 'Editar'}
           </button>
           {editMode.email && (
             <button
-              className={styleCancelBtn}
+              className="btn error-theme"
               onClick={() => handleCancel('email')}
             >
               Cancelar
@@ -203,14 +201,14 @@ export const DetallesUsuario = () => {
         </div>
         <div className={`${styleGridContainer}  ${editMode.password ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
           <button
-            className={`${styleBtn} mt-1 md:mt-0`}
+            className={`btn primary-theme mt-1 md:mt-0`}
             onClick={() => editMode.password ? handleSave('password') : setEditMode({ ...editMode, password: true })}
           >
             {editMode.password ? 'Guardar' : 'Editar'}
           </button>
           {editMode.password && (
             <button
-              className={styleCancelBtn}
+              className="btn error-theme"
               onClick={() => handleCancel('password')}
             >
               Cancelar
@@ -236,14 +234,14 @@ export const DetallesUsuario = () => {
         </div>
         <div className={`${styleGridContainer}  ${editMode.direccion ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
           <button
-            className={`${styleBtn} mt-1 md:mt-0`}
+            className={`btn primary-theme mt-1 md:mt-0`}
             onClick={() => editMode.direccion ? handleSave('direccion') : setEditMode({ ...editMode, direccion: true })}
           >
             {editMode.direccion ? 'Guardar' : 'Editar'}
           </button>
           {editMode.direccion && (
             <button
-              className={styleCancelBtn}
+              className="btn error-theme"
               onClick={() => handleCancel('direccion')}
             >
               Cancelar
@@ -269,14 +267,14 @@ export const DetallesUsuario = () => {
         </div>
         <div className={`${styleGridContainer}  ${editMode.telefono ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
           <button
-            className={`${styleBtn} mt-1 md:mt-0`}
+            className={`btn primary-theme mt-1 md:mt-0`}
             onClick={() => editMode.telefono ? handleSave('telefono') : setEditMode({ ...editMode, telefono: true })}
           >
             {editMode.telefono ? 'Guardar' : 'Editar'}
           </button>
           {editMode.telefono && (
             <button
-              className={styleCancelBtn}
+              className="btn error-theme"
               onClick={() => handleCancel('telefono')}
             >
               Cancelar
