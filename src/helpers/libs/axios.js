@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '../../store/auth';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: 'https://api-ventas-intecap-production.up.railway.app/',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
