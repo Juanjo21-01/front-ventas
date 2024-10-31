@@ -4,7 +4,7 @@ import { useProductosStore } from '../../store/productos';
 import { Search } from 'lucide-react';
 import { useAuthStore } from '../../store/auth';
 import { NavLink } from 'react-router-dom';
-import { Loader } from '../loader';
+import { Loader } from '../Loader';
 export const CardsProductos = () => {
   const { productos, obtener, isLoading } = useProductosStore();
   const { logged, profile } = useAuthStore();
