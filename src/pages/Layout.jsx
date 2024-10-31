@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { MenuContext, MenuProvider } from '../components/context/MenuContext';
 import { useContext } from 'react';
 import { Toaster } from 'sonner';
+import { useModeTheme } from '../components/theme/toogleTheme';
 
 const Layout = () => {
   return (
@@ -15,6 +16,7 @@ const Layout = () => {
 
 const LayoutContent = () => {
   const { isMobileOpen } = useContext(MenuContext);
+  const { theme } = useModeTheme();
 
   return (
     <div
@@ -37,7 +39,7 @@ const LayoutContent = () => {
         closeButton
         expand
         position="bottom-right"
-        richColors
+        theme={theme}
       />
     </div>
   );

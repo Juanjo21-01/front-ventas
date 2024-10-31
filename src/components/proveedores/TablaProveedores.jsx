@@ -6,24 +6,23 @@ import AlertModal from '../alert/AlertModal';
 const TablaProveedores = ({ editar, eliminar }) => {
   const { obtener, proveedores } = useProveedoresStore();
   const [isOpen, setIsOpen] = useState(false);
-  const [proveedorAEliminar, setProveedorAEliminar] = useState(null);
+  const [proveedorAEliminar, setProveedorAEliminar] = useState(null); // Ahora es solo el ID
 
   // Variables de estado para paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const [proveedoresPerPage] = useState(5); // Puedes cambiar esto según tus necesidades
+  const [proveedoresPerPage] = useState(5);
 
   useEffect(() => {
     obtener();
   }, [obtener]);
 
   const handleEliminar = (id) => {
-    const proveedor = proveedores.find(p => p.id === id);
-    setProveedorAEliminar(proveedor);
+    setProveedorAEliminar(id); // Guardamos solo el ID
     setIsOpen(true);
   };
 
-  const confirmarEliminacion = (id) => {
-    eliminar(id);
+  const confirmarEliminacion = () => {
+    eliminar(proveedorAEliminar); // Usamos el ID para eliminar
     setIsOpen(false);
     setProveedorAEliminar(null);
   };
@@ -36,6 +35,8 @@ const TablaProveedores = ({ editar, eliminar }) => {
   const totalPages = Math.ceil(proveedores.length / proveedoresPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const proveedorNombre = proveedores.find(p => p.id === proveedorAEliminar)?.nombre || '';
 
   return (
     <div className="container mx-auto p-4">
@@ -134,12 +135,12 @@ const TablaProveedores = ({ editar, eliminar }) => {
         </div>
       )}
 
-      {proveedorAEliminar && (
+      {isOpen && (
         <AlertModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           onConfirm={confirmarEliminacion}
-          entity={proveedorAEliminar}
+          entityDisplayName={proveedorNombre}
           message="¿Estás seguro de que quieres eliminar a"
         />
       )}

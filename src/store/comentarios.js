@@ -11,13 +11,13 @@ export const useComentariosStore = create((set) => ({
 
   // Obtener todos los comentarios
   obtener: async () => {
-    set({ isLoading: true });
+    set({ isLoading: true, error: null });
     try {
       const comentarios = await getComentarios();
       set({ comentarios, isLoading: false });
     } catch (error) {
       console.error('Error al obtener los comentarios', error);
-      set({ isLoading: false });
+      set({ error, isLoading: false });
     }
   },
 

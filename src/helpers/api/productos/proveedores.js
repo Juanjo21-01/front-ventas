@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import api from '../../libs/axios';
 
 // PETICIONES DE LOS PROVEEDORES
@@ -8,7 +9,11 @@ export const getProveedores = async () => {
     const proveedores = await api.get('proveedores');
     return proveedores.data;
   } catch (error) {
-    console.error('Error al obtener los proveedores', error);
+    toast.error('Proveedores', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener los proveedores: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -18,7 +23,11 @@ export const getProveedorById = async (id) => {
     const proveedorId = await api.get(`proveedores/${id}`);
     return proveedorId.data;
   } catch (error) {
-    console.error('Error al obtener el proveedor por id', error);
+    toast.error('Proveedor', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el proveedor por id: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -28,7 +37,11 @@ export const getProveedorByNombre = async (nombre) => {
     const proveedorNombre = await api.get(`proveedores/nombre/${nombre}`);
     return proveedorNombre.data;
   } catch (error) {
-    console.error('Error al obtener el proveedor por nombre', error);
+    toast.error('Proveedor', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el proveedor por nombre: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -38,7 +51,11 @@ export const getProveedorByNit = async (nit) => {
     const proveedorNit = await api.get(`proveedores/nit/${nit}`);
     return proveedorNit.data;
   } catch (error) {
-    console.error('Error al obtener el proveedor por nit', error);
+    toast.error('Proveedor', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el proveedor por NIT: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -48,7 +65,11 @@ export const getProveedorByEstado = async (estado) => {
     const proveedorEstado = await api.get(`proveedores/estado/${estado}`);
     return proveedorEstado.data;
   } catch (error) {
-    console.error('Error al obtener el proveedor por estado', error);
+    toast.error('Proveedor', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener el proveedor por estado: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -56,9 +77,18 @@ export const getProveedorByEstado = async (estado) => {
 export const saveProveedor = async (proveedor) => {
   try {
     const proveedorNuevo = await api.post('proveedores', proveedor);
+    toast.success('Proveedor', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Proveedor creado con éxito',
+      duration: 3000,
+    });
     return proveedorNuevo.data;
   } catch (error) {
-    console.error('Error al crear el proveedor', error);
+    toast.error('Proveedor', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al crear el proveedor: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -66,9 +96,18 @@ export const saveProveedor = async (proveedor) => {
 export const updateProveedor = async (id, proveedor) => {
   try {
     const proveedorActualizado = await api.put(`proveedores/${id}`, proveedor);
+    toast.success('Proveedor', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Proveedor actualizado con éxito',
+      duration: 3000,
+    });
     return proveedorActualizado.data;
   } catch (error) {
-    console.error('Error al actualizar el proveedor', error);
+    toast.error('Proveedor', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al actualizar el proveedor: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -76,8 +115,17 @@ export const updateProveedor = async (id, proveedor) => {
 export const deleteProveedor = async (id) => {
   try {
     const proveedorEliminado = await api.delete(`proveedores/${id}`);
+    toast.success('Proveedor', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Proveedor eliminado con éxito',
+      duration: 3000,
+    });
     return proveedorEliminado.data;
   } catch (error) {
-    console.error('Error al eliminar el proveedor', error);
+    toast.error('Proveedor', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al eliminar el proveedor: " + error,
+      duration: 3000,
+    });
   }
 };

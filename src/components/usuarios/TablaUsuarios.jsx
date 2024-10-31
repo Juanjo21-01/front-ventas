@@ -26,11 +26,13 @@ const TablaUsuarios = ({ eliminar, editar }) => {
     setIsModalOpen(true);
   };
 
-  const confirmarEliminacion = (id) => {
-    eliminar(id);
+  const confirmarEliminacion = () => {
+    if( usuarioAEliminar && usuarioAEliminar.id){
+      eliminar(usuarioAEliminar.id);
+    }
     setIsModalOpen(false);
     setUsuarioAEliminar(null);
-  };
+  }
 
   // Paginación
   const indexOfLastUsuario = currentPage * usuariosPerPage;
@@ -156,7 +158,7 @@ const TablaUsuarios = ({ eliminar, editar }) => {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         onConfirm={confirmarEliminacion} 
-        entity={usuarioAEliminar} 
+        entityDisplayName={usuarioAEliminar?.nombres || " este Usuario"} 
         message="¿Estás seguro de que quieres eliminar a"
       />
     </div>

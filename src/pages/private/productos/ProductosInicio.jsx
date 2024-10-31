@@ -8,12 +8,12 @@ const Productos = () => {
   const [abrirModal, setAbrirModal] = useState(false);
   const [editarProducto, setEditarProducto] = useState(null);
   const [abrirAlerta, setAbrirAlerta] = useState(false);
-  const [productoAEliminar, setProductoAEliminar] = useState(null);
-  const { eliminar } = useProductosStore();
+  const [productoAEliminar, setProductoAEliminar] = useState(null); // Este ahora es el ID
+  const { eliminar, productos } = useProductosStore();
 
   const closeModal = () => {
     setAbrirModal(false);
-    setEditarProducto(null); // Resetear el producto a editar
+    setEditarProducto(null);
   };
 
   const editar = (producto) => {
@@ -21,23 +21,27 @@ const Productos = () => {
     setEditarProducto(producto);
   };
 
-  const handleEliminar = (producto) => {
-    setProductoAEliminar(producto);
+  const handleEliminar = (productoId) => {
+    setProductoAEliminar(productoId); // Guardamos el ID del producto a eliminar
     setAbrirAlerta(true);
   };
 
-  const eliminarProducto = async (id) => {
-    await eliminar(id);
+  const eliminarProducto = async () => {
+    if (productoAEliminar) {
+      await eliminar(productoAEliminar); // Eliminamos el producto por su ID
+    }
     setAbrirAlerta(false);
     setProductoAEliminar(null);
   };
+
+  const productoNombre = productos.find(p => p.id === productoAEliminar)?.nombre || '';
 
   return (
     <>
       <h1 className="title">Catálogo de los Productos</h1>
 
       <button
-        className="btn btn-success m-5"
+        className="btn primary-theme m-5"
         onClick={() => setAbrirModal(true)}
       >
         Agregar Producto
@@ -56,13 +60,14 @@ const Productos = () => {
       )}
 
       {/* Alert Modal para Confirmar Eliminación */}
-      {productoAEliminar && (
+      {abrirAlerta && (
         <AlertModal
           isOpen={abrirAlerta}
           onClose={() => setAbrirAlerta(false)}
-          onConfirm={() => eliminarProducto(productoAEliminar.id)}
-          entity={productoAEliminar}
-          message="¿Estás seguro de que quieres eliminar este producto"/>
+          onConfirm={eliminarProducto}
+          entityDisplayName={productoNombre}
+          message="¿Estás seguro de que quieres eliminar este producto"
+        />
       )}
     </>
   );

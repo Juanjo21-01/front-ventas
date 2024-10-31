@@ -78,7 +78,7 @@ export const TablaVentas = () => {
                         <button
                           onClick={() => handleCambiar(venta.id, !venta.estado)}
                           className={`btn ${
-                            venta.estado ? 'btn-success' : 'btn-error'
+                            venta.estado ? 'primary-theme' : 'btn-error'
                           }`}
                         >
                           {venta.estado ? 'Activa' : 'Inactiva'}

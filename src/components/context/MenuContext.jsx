@@ -13,8 +13,18 @@ export const MenuProvider = ({ children }) => {
   });
 
   return (
-    <MenuContext.Provider value={{ isExpanded, setIsExpanded, isMobileOpen, setIsMobileOpen,  openMenu, setOpenMenu, openSubmenu, setOpenSubmenu }}>
-
+    <MenuContext.Provider
+      value={{
+        isExpanded,
+        setIsExpanded,
+        isMobileOpen,
+        setIsMobileOpen,
+        openMenu,
+        setOpenMenu,
+        openSubmenu,
+        setOpenSubmenu,
+      }}
+    >
       {children}
     </MenuContext.Provider>
   );

@@ -8,10 +8,13 @@ export const getComentarios = async () => {
   try {
     const comentarios = await api.get('comentarios');
     console.log(comentarios.data);
-
     return comentarios.data;
   } catch (error) {
-    toast.error('Error al obtener los comentarios', error);
+    toast.error('Comentarios', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al obtener los comentarios: " + error,
+      duration: 3000,
+    });
   }
 };
 
@@ -22,9 +25,18 @@ export const postComentario = async (usuarioId, productoId, comentario) => {
       `comentarios/guardar?usuarioId=${usuarioId}&productoId=${productoId}`,
       comentario
     );
-    toast.success('Comentario creado correctamente');
+    toast.success('Comentarios', {
+      className: 'bg-theme-secondary secondary-theme',
+      description: 'Comentario enviado con éxito',
+
+      duration: 3000,
+    });
     return comentarioCreado.data;
   } catch (error) {
-    toast.error('Error al crear el comentario', error);
+    toast.error('Comentarios', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Error al crear el comentario: " + error,
+      duration: 3000,
+    });
   }
 };

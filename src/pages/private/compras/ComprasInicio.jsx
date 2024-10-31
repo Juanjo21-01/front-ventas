@@ -6,7 +6,7 @@ const Compras = () => {
     <>
       <h2 className="title">Lista de Compras</h2>
 
-      <NavLink to="/compras/crear" className="btn btn-success m-5">
+      <NavLink to="/compras/crear" className="btn primary-theme m-5">
         Crear Compra
       </NavLink>
       <br />

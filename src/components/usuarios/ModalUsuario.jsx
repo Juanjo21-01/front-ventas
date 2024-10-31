@@ -137,7 +137,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
           {form.id !== 1 && (
             <select
               name="rolId"
-              value={form.rolId}
+              value={form.rolId || ""}
               onChange={handleChange}
               required
               className="input input-bordered w-full my-2"
@@ -160,7 +160,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
           {/* estado */}
           <select
             name="estado"
-            value={form.estado}
+            value={form.estado || ""}
             onChange={handleChange}
             required
             className="input input-bordered w-full my-2"

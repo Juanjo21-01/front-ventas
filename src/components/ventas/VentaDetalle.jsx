@@ -65,7 +65,7 @@ export const VentaDetalle = () => {
     return (
         <div className="bg-theme text-theme">
             <div className="container mx-auto px-4">
-                <NavLink to="/ventas" className="btn btn-success my-4">
+                <NavLink to="/ventas" className="btn primary-theme my-4">
                     Regresar
                 </NavLink>
 
