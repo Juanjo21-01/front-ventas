@@ -34,10 +34,7 @@ export const CardsProductos = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-[80vh] flex flex-col justify-center items-center">
-        <span className="loading loading-infinity loading-lg"></span>
-        <span className="text-2xl">Cargando...</span>
-      </div>
+      <Loader />
     );
   }
 

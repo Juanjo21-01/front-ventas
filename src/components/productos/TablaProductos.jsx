@@ -7,6 +7,7 @@ import { useAuthStore } from '../../store/auth';
 import { Edit, Trash2 } from 'lucide-react';
 import { MdMenu } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
+import { Loader } from '../Loader';
 
 const TablaProductos = ({ editar, eliminar }) => {
   // Variables de estado
@@ -44,10 +45,7 @@ const TablaProductos = ({ editar, eliminar }) => {
   // Loading
   if (isLoading) {
     return (
-      <div className="h-full flex flex-col justify-center items-center">
-        <span className="loading loading-infinity loading-lg"></span>
-        <span className="text-2xl">Cargando...</span>
-      </div>
+      <Loader />
     );
   }
 

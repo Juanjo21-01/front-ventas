@@ -4,6 +4,7 @@ import { getProductoById } from '../../helpers/api/productos/productos';
 import { ComentariosSeccion } from '../comentarios/ComentariosSeccion';
 import { useAuthStore } from '../../store/auth';
 import { CrearComentario } from '../comentarios/CrearComentario';
+import { Loader } from '../Loader';
 
 const image = `https://picsum.photos/200`;
 
@@ -35,7 +36,7 @@ const DetallesProductos = () => {
   }, [id]);
 
   if (!product) {
-    return <p>Producto no encontrado.</p>;
+    return <Loader />;
   }
 
   const handleQuantityChange = (e) => {

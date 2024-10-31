@@ -6,6 +6,7 @@ import { useTiposProductosStore } from '../../store/tipoProductos';
 import { useProveedoresStore } from '../../store/proveedores';
 import CrearProducto from './ModalProductos';
 import { useAuthStore } from '../../store/auth';
+import { Loader } from '../Loader';
 
 export default function InicioProductos() {
   const { productos, obtener, isLoading } = useProductosStore();
@@ -43,10 +44,7 @@ export default function InicioProductos() {
 
   if (isLoading) {
     return (
-      <div className="h-full flex flex-col justify-center items-center">
-        <span className="loading loading-infinity loading-lg"></span>
-        <span className="text-2xl">Cargando...</span>
-      </div>
+      <Loader />
     );
   }
 

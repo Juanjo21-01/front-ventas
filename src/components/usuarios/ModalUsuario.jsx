@@ -60,12 +60,10 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
 
   return (
     <div className="modal modal-open">
-      <div className="modal-box">
-        <h3 className="font-bold text-lg">
+      <div className="modal-box bg-theme-secondary border primary-theme text-center">
+        <h3 className="font-bold text-2xl border-b-2 primary-theme pb-2 mb-2">
           {form.id ? 'Editar Usuario' : 'Agregar Usuario'}
         </h3>
-        <hr className="my-2" />
-
         <form onSubmit={handleSubmit}>
           <div className="flex gap-3">
             {/* nombres */}
@@ -76,7 +74,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
               onChange={handleChange}
               placeholder="Nombres"
               required
-              className="input input-bordered w-full my-2"
+              className="input primary-theme input-bordered w-full my-2"
             />
             {/* apellidos */}
             <input
@@ -86,7 +84,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
               onChange={handleChange}
               placeholder="Apellidos"
               required
-              className="input input-bordered w-full my-2"
+              className="input primary-theme input-bordered w-full my-2"
             />
           </div>
           <div className="flex gap-3">
@@ -98,7 +96,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
               onChange={handleChange}
               placeholder="Email"
               required
-              className="input input-bordered w-full my-2"
+              className="input primary-theme input-bordered w-full my-2"
             />
             {/* password */}
             <input
@@ -108,7 +106,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
               onChange={handleChange}
               placeholder="Password"
               required
-              className="input input-bordered w-full my-2"
+              className="input primary-theme input-bordered w-full my-2"
             />
           </div>
           <div className="flex gap-3">
@@ -120,7 +118,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
               onChange={handleChange}
               placeholder="Dirección"
               required
-              className="input input-bordered w-full my-2"
+              className="input primary-theme input-bordered w-full my-2"
             />
             {/* telefono */}
             <input
@@ -130,7 +128,7 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
               onChange={handleChange}
               placeholder="Teléfono"
               required
-              className="input input-bordered w-full my-2"
+              className="input primary-theme input-bordered w-full my-2"
             />
           </div>
           {/* rolId */}
@@ -139,8 +137,9 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
               name="rolId"
               value={form.rolId || ''}
               onChange={handleChange}
+              placeholder="..."
               required
-              className="input input-bordered w-full my-2"
+              className="input primary-theme input-bordered w-full my-2"
             >
               <option value="" disabled>
                 Seleccione un rol
@@ -162,8 +161,9 @@ const ModalUsuario = ({ abrir, cerrar, editar }) => {
             name="estado"
             value={form.estado || ''}
             onChange={handleChange}
+            placeholder="..."
             required
-            className="input input-bordered w-full my-2"
+            className="input primary-theme input-bordered w-full my-2"
           >
             <option value="" disabled>
               Seleccione un estado

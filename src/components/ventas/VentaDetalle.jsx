@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useVentasStore } from '../../store/ventas'; // Asegúrate de que tienes un store para ventas
 import { getProductoById } from '../../helpers/api/productos/productos';
 import { getVentaById } from '../../helpers/api/ventas/ventas'; // Asumiendo que tienes una función para obtener ventas
+import { Loader } from '../Loader';
 
 export const VentaDetalle = () => {
     const { id } = useParams(); // El ID de la venta
@@ -55,10 +56,7 @@ export const VentaDetalle = () => {
 
     if (isLoading) {
         return (
-            <div className="h-full flex flex-col justify-center items-center">
-                <span className="loading loading-infinity loading-lg"></span>
-                <span className="text-2xl">Cargando...</span>
-            </div>
+            <Loader />
         );
     }
 

@@ -4,6 +4,7 @@ import { MdMenu } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import { useVentasStore } from '../../store/ventas';
 import { Edit } from 'lucide-react';
+import { Loader } from '../Loader';
 
 export const TablaVentas = () => {
   // Variables de estado
@@ -36,10 +37,7 @@ export const TablaVentas = () => {
   // Loading
   if (isLoading) {
     return (
-      <div className="h-full flex flex-col justify-center items-center">
-        <span className="loading loading-infinity loading-lg"></span>
-        <span className="text-2xl">Cargando...</span>
-      </div>
+      <Loader />
     );
   }
 
@@ -79,7 +77,7 @@ export const TablaVentas = () => {
                         <button
                           onClick={() => handleCambiar(venta.id, !venta.estado)}
                           className={`btn ${
-                            venta.estado ? 'primary-theme' : 'btn-error'
+                            venta.estado ? 'primary-theme' : 'error-theme'
                           }`}
                         >
                           {venta.estado ? 'Activa' : 'Inactiva'}

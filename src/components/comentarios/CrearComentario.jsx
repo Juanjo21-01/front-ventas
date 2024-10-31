@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useComentariosStore } from '../../store/comentarios';
 import { useAuthStore } from '../../store/auth';
+import { AiOutlineClose, AiOutlineSend } from 'react-icons/ai';
+import { toast } from 'sonner';
 
 export const CrearComentario = ({ productId }) => {
   // VARIABLES DE ESTADO
@@ -11,30 +13,34 @@ export const CrearComentario = ({ productId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validar que el comentario no esté vacío
     if (comentario.trim() === '') {
-      alert('El comentario no puede estar vacío.');
-      return;
-    }
+      toast.error('Mensaje Vacío', {
+        className: 'bg-theme-secondary error-theme',
+        description: 'No puede dejar el campo vacío.',
 
-    // Validar que el usuario esté logueado
-    if (!logged) {
-      alert('Debes iniciar sesión para dejar un comentario.');
-      return;
-    }
-
-    try {
-      // Crear el comentario
-      await crear(profile.id, productId, {
-        comentario,
+        duration: 3000,
       });
+      return;
+    }
+    if (!logged) {
+      toast.error('Iniciar Sesión', {
+        className: 'bg-theme-secondary error-theme',
+        description: 'Debes Iniciar Sesión para Comentar.',
+        duration: 3000,
+      });
+      return;
+    }
+    try {
+      await crear(profile.id, productId, { comentario });
       await obtener();
     } catch (error) {
       console.error(error);
-      alert('Error al crear el comentario');
+      toast.error('Error Comentario', {
+        className: 'bg-theme-secondary error-theme',
+        description: 'Error al crear el Comentario.',
+        duration: 3000,
+      });
     }
-
     handleReset();
   };
 
@@ -43,33 +49,25 @@ export const CrearComentario = ({ productId }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex justify-evenly items-center">
-        <div className="flex flex-col space-y-4 w-9/12">
-          <label htmlFor="comentario" className="text-lg">
-            Comentario:
-          </label>
-          <textarea
-            id="comentario"
-            className="textarea textarea-bordered"
-            value={comentario}
-            onChange={(e) => setComentario(e.target.value)}
-          ></textarea>
-        </div>
-
-        <div className="flex justify-center items-center w-3/12 space-x-4">
-          <button
-            type="reset"
-            className="btn secondary-theme "
-            onClick={handleReset}
-          >
-            Limpiar
-          </button>
-          <button type="submit" className="btn primary-theme">
-            Enviar
-          </button>
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} className="flex items-center space-x-2 p-3 rounded-lg shadow-sm bg-transparent">
+      <input
+        type="text"
+        id="comentario"
+        className="input input-bordered w-full p-2 primary-theme rounded-lg"
+        value={comentario}
+        onChange={(e) => setComentario(e.target.value)}
+        placeholder="Escribe un comentario..."
+      />
+      <button
+        type="reset"
+        className="btn btn-circle error-theme"
+        onClick={handleReset}
+      >
+        <AiOutlineClose className="text-lg" />
+      </button>
+      <button type="submit" className="btn btn-circle secondary-theme">
+        <AiOutlineSend className="text-lg" />
+      </button>
     </form>
   );
 };

@@ -9,7 +9,6 @@ import { toast } from 'sonner';
 const styleInput =
   'input input-bordered w-full bg-theme bg-theme-hover secondary-theme placeholder: primary-theme';
 const styleLabel = 'label label-text text-theme label';
-const styleBtn = 'btn primary-theme w-full mt-4';
 
 const initialForm = {
   fechaCompra: '',
@@ -44,14 +43,22 @@ const CreateCompra = () => {
 
   const agregarProducto = () => {
     if (form.productoId == '' || form.cantidad == 0 || form.precio == 0) {
-      toast.warning('Debe seleccionar un producto, cantidad y precio');
+      toast.warning('Campos vacíos', {
+        className: 'bg-theme-secondary primary-theme',
+        description: 'Debe seleccionar un producto, cantidad y precio',
+        duration: 3000,
+      });
       return;
     }
 
     if (
       detallesCompra.find((detalle) => detalle.productoId === form.productoId)
     ) {
-      toast.warning('El producto ya fue agregado');
+      toast.warning('Producto Repetido', {
+        className: 'bg-theme-secondary primary-theme',
+        description: 'El Producto ya fue agregado',
+        duration: 3000,
+      });
       return;
     }
 
@@ -95,6 +102,12 @@ const CreateCompra = () => {
   const quitarElemento = (detalle) => {
     const detallesFiltrados = detallesCompra.filter((item) => item !== detalle);
 
+    toast.error('Detalle Eliminado', {
+      className: 'bg-theme-secondary error-theme',
+      description: "Se elimino un detalle de la compra",
+      duration: 3000,
+    });
+
     setDetallesCompra(detallesFiltrados);
 
     setForm({
@@ -104,7 +117,7 @@ const CreateCompra = () => {
   };
 
   return (
-    <div className="px-4 pb-4 md:px-6 bg-base-200">
+    <div className="px-4 pb-4 md:px-6">
       <h1 className="title">Registrar Compra</h1>
 
       <form onSubmit={handleSubmit}>
@@ -116,6 +129,7 @@ const CreateCompra = () => {
               type="date"
               name="fechaCompra"
               value={form.fechaCompra}
+              placeholder='...'
               onChange={handleChange}
               className={styleInput}
               required
@@ -126,6 +140,7 @@ const CreateCompra = () => {
           <select
             name="proveedorId"
             value={form.proveedorId}
+            placeholder="..."
             onChange={handleChange}
             required
             className={`${styleInput} w-100 my-9`}
@@ -160,6 +175,7 @@ const CreateCompra = () => {
           <select
             name="productoId"
             value={form.productoId}
+            placeholder="..."
             onChange={handleChange}
             required
             className={`${styleInput} w-100 my-9`}
@@ -207,7 +223,7 @@ const CreateCompra = () => {
           <button
             type="button"
             onClick={agregarProducto}
-            className={`${styleBtn} md:max-w-[48%] text-center mx-auto`}
+            className={`btn primary-theme w-full mt-4 md:max-w-[48%] text-center mx-auto`}
           >
             Agregar producto
           </button>
@@ -231,7 +247,7 @@ const CreateCompra = () => {
                 <tr key={index}>
                   <td>
                     <button
-                      className="btn btn-error"
+                      className="btn error-theme"
                       type="button"
                       onClick={() => quitarElemento(detalle)}
                     >
@@ -255,10 +271,10 @@ const CreateCompra = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-around mt-6 gap-4">
-          <NavLink className={`${styleBtn} md:max-w-[48%]`} to="/compras">
+          <NavLink className={`btn error-theme w-full mt-4 md:max-w-[48%]`} to="/compras">
             Cancelar
           </NavLink>
-          <button type="submit" className={`${styleBtn} md:max-w-[48%]`}>
+          <button type="submit" className={`btn secondary-theme w-full mt-4 md:max-w-[48%]`}>
             Registrar compra
           </button>
         </div>
